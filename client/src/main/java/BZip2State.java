@@ -1,0 +1,65 @@
+public final class BZip2State {
+	final int field4642;
+	final int field4621;
+	final int field4631;
+	final int field4623;
+	final int field4622;
+	final int field4625;
+	byte[] inputArray;
+	int nextByte;
+	int nextBit_unused;
+	byte[] outputArray;
+	int next_out;
+	int outputLength;
+	int field4635;
+	byte out_char;
+	int su_rNToGo;
+	int bsBuff;
+	int bsLive;
+	int blockSize100k;
+	int originalPointer;
+	int field4638;
+	int su_ch2;
+	int[] unzftab;
+	int nblocks_used;
+	int[] cftab;
+	int nInUse;
+	boolean[] inUse;
+	boolean[] inUse16;
+	byte[] seqToUnseq;
+	byte[] ll8;
+	int[] getAndMoveToFrontDecode_yy;
+	byte[] selector;
+	byte[] selectorMtf;
+	byte[][] temp_charArray2d;
+	int[][] limit;
+	int[][] base;
+	int[][] perm;
+	int[] minLens;
+	int field4657;
+
+	BZip2State() {
+		this.field4642 = 4096;
+		this.field4621 = 16;
+		this.field4631 = 258;
+		this.field4623 = 6;
+		this.field4622 = 50;
+		this.field4625 = 18002;
+		this.nextByte = 0;
+		this.next_out = 0;
+		this.unzftab = new int[256];
+		this.cftab = new int[257];
+		this.inUse = new boolean[256];
+		this.inUse16 = new boolean[16];
+		this.seqToUnseq = new byte[256];
+		this.ll8 = new byte[4096];
+		this.getAndMoveToFrontDecode_yy = new int[16];
+		this.selector = new byte[18002];
+		this.selectorMtf = new byte[18002];
+		this.temp_charArray2d = new byte[6][258];
+		this.limit = new int[6][258];
+		this.base = new int[6][258];
+		this.perm = new int[6][258];
+		this.minLens = new int[6];
+	}
+}

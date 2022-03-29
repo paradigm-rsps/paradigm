@@ -8,8 +8,6 @@ rootProject.name = "paradigm"
  * ===== CLIENT MODULES =====
  */
 include(":client")
-include(":client:launcher")
-include(":client:core")
 
 /*
  * ===== SERVER MODULES =====
