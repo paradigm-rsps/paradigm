@@ -50,10 +50,10 @@ public class class194 {
 
 			if (Client.gameState != 5) {
 				if (-1L == Login.field911) {
-					Login.field911 = WorldMapSprite.method4989() + 1000L;
+					Login.field911 = WorldMapSprite.cycleTimer() + 1000L;
 				}
 
-				long var21 = WorldMapSprite.method4989();
+				long var21 = WorldMapSprite.cycleTimer();
 				if (class149.method3079() && Login.field912 == -1L) {
 					Login.field912 = var21;
 					if (Login.field912 > Login.field911) {

@@ -12,7 +12,7 @@ object Launcher {
     /**
      * Client Constants
      */
-    val CODEBASE = "127.0.0.1"
+    val CODEBASE = "127.0.0.1-"
 
     // Private Server Modulus
     val MODULUS = ""

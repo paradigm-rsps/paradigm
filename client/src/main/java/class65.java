@@ -11,9 +11,9 @@ public class class65 {
 	}
 
 	public static boolean method1875() {
-		long var0 = WorldMapSprite.method4989();
-		int var2 = (int)(var0 - NetCache.field3976);
-		NetCache.field3976 = var0;
+		long var0 = WorldMapSprite.cycleTimer();
+		int var2 = (int)(var0 - NetCache.idleNetTime);
+		NetCache.idleNetTime = var0;
 		if (var2 > 200) {
 			var2 = 200;
 		}

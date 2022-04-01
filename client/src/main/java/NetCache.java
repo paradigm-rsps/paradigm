@@ -6,7 +6,7 @@ import java.util.zip.CRC32;
 public class NetCache {
 	public static AbstractSocket NetCache_socket;
 	public static int NetCache_loadTime;
-	public static long field3976;
+	public static long idleNetTime;
 	public static NodeHashTable NetCache_pendingPriorityWrites;
 	public static int NetCache_pendingPriorityWritesCount;
 	public static NodeHashTable NetCache_pendingPriorityResponses;
@@ -71,7 +71,7 @@ public class NetCache {
 		}
 
 		if (PendingSpawn.garbageCollector != null) {
-			long var9 = WorldMapSprite.method4989();
+			long var9 = WorldMapSprite.cycleTimer();
 			long var3 = PendingSpawn.garbageCollector.getCollectionTime();
 			if (GameEngine.garbageCollectorLastCollectionTime != -1L) {
 				long var5 = var3 - GameEngine.garbageCollectorLastCollectionTime;

@@ -24,25 +24,25 @@ public class Timer {
 	}
 
 	public void method6594() {
-		this.field4185 = WorldMapSprite.method4989();
+		this.field4185 = WorldMapSprite.cycleTimer();
 	}
 
 	public void method6595() {
 		if (this.field4185 != -1L) {
-			this.field4186 = WorldMapSprite.method4989() - this.field4185;
+			this.field4186 = WorldMapSprite.cycleTimer() - this.field4185;
 			this.field4185 = -1L;
 		}
 
 	}
 
 	public void method6596(int var1) {
-		this.field4183 = WorldMapSprite.method4989();
+		this.field4183 = WorldMapSprite.cycleTimer();
 		this.field4188 = var1;
 	}
 
 	public void method6597() {
 		if (this.field4183 != -1L) {
-			this.field4189 = WorldMapSprite.method4989() - this.field4183;
+			this.field4189 = WorldMapSprite.cycleTimer() - this.field4183;
 			this.field4183 = -1L;
 		}
 

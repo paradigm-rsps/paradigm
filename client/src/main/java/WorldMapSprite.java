@@ -13,7 +13,7 @@ public final class WorldMapSprite {
 		return this.tileColors[var2 * 64 + var1];
 	}
 
-	public static final synchronized long method4989() {
+	public static final synchronized long cycleTimer() {
 		long var0 = System.currentTimeMillis();
 		if (var0 < class269.field3153) {
 			class269.field3154 += class269.field3153 - var0;

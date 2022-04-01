@@ -176,7 +176,7 @@ public class WorldMap {
 	}
 
 	public void method7305(int var1, int var2, boolean var3, boolean var4) {
-		long var5 = WorldMapSprite.method4989();
+		long var5 = WorldMapSprite.cycleTimer();
 		this.method7315(var1, var2, var4, var5);
 		if (this.hasTarget() || !var4 && !var3) {
 			this.method7499();
@@ -275,7 +275,7 @@ public class WorldMap {
 	final void setWorldMapPosition(int var1, int var2, boolean var3) {
 		this.centerTileX = var1;
 		this.centerTileY = var2;
-		WorldMapSprite.method4989();
+		WorldMapSprite.cycleTimer();
 		if (var3) {
 			this.method7499();
 		}

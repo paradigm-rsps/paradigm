@@ -21,7 +21,7 @@ public class PcmPlayer {
 
 	protected PcmPlayer() {
 		this.field289 = 32;
-		this.timeMs = WorldMapSprite.method4989();
+		this.timeMs = WorldMapSprite.cycleTimer();
 		this.field287 = 0L;
 		this.field288 = 0;
 		this.field285 = 0;
@@ -58,7 +58,7 @@ public class PcmPlayer {
 
 	public final synchronized void run() {
 		if (this.samples != null) {
-			long var1 = WorldMapSprite.method4989();
+			long var1 = WorldMapSprite.cycleTimer();
 
 			try {
 				if (this.field287 != 0L) {
@@ -154,7 +154,7 @@ public class PcmPlayer {
 			this.discard();
 		} catch (Exception var2) {
 			this.close();
-			this.field287 = WorldMapSprite.method4989() + 2000L;
+			this.field287 = WorldMapSprite.cycleTimer() + 2000L;
 		}
 
 	}
@@ -305,7 +305,7 @@ public class PcmPlayer {
 			this.stream.fill(var1, 0, var2);
 		}
 
-		this.timeMs = WorldMapSprite.method4989();
+		this.timeMs = WorldMapSprite.cycleTimer();
 	}
 
 	final void method727(PcmStream var1, int var2) {

@@ -205,7 +205,7 @@ public class Varcs {
 		}
 
 		this.unwrittenChanges = false;
-		this.field1307 = WorldMapSprite.method4989();
+		this.field1307 = WorldMapSprite.cycleTimer();
 	}
 
 	void read() {
@@ -296,7 +296,7 @@ public class Varcs {
 	}
 
 	void tryWrite() {
-		if (this.unwrittenChanges && this.field1307 < WorldMapSprite.method4989() - 60000L) {
+		if (this.unwrittenChanges && this.field1307 < WorldMapSprite.cycleTimer() - 60000L) {
 			this.write();
 		}
 

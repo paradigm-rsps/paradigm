@@ -86,18 +86,6 @@ public class Reflection
 
 	public static Class<?> findClass(String name) throws ClassNotFoundException
 	{
-		Class<?> clazz = classes.get(name);
-
-		if (clazz != null)
-		{
-			return clazz;
-		}
-
-		if (PRINT_DEBUG_MESSAGES)
-		{
-			System.out.println("Server requested dummy class " + name);
-		}
-
 		return Class.forName(name);
 	}
 

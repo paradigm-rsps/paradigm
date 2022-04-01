@@ -9,15 +9,15 @@ public abstract class RouteStrategy {
 
 	protected abstract boolean hasArrived(int var1, int var2, int var3, CollisionMap var4);
 
-	static void method3873(Archive var0, int var1) {
+	static void getIndex(Archive archive, int index) {
 		if (class122.NetCache_reference != null) {
-			class122.NetCache_reference.offset = var1 * 8 + 5;
+			class122.NetCache_reference.offset = index * 8 + 5;
 			int var2 = class122.NetCache_reference.readInt();
 			int var3 = class122.NetCache_reference.readInt();
-			var0.loadIndex(var2, var3);
+			archive.loadIndex(var2, var3);
 		} else {
 			TriBool.requestNetFile(null, 255, 255, 0, (byte)0, true);
-			NetCache.NetCache_archives[var1] = var0;
+			NetCache.NetCache_archives[index] = archive;
 		}
 	}
 

@@ -25,7 +25,7 @@ public class Archive extends AbstractArchive {
 		this.masterDisk = var2;
 		this.index = var3;
 		this.field3950 = var6;
-		RouteStrategy.method3873(this, this.index);
+		RouteStrategy.getIndex(this, this.index);
 	}
 
 	public boolean method5819() {

@@ -1,10 +1,8 @@
 import java.applet.Applet;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
-import java.awt.image.ImageObserver;
 import java.net.URL;
 
 public abstract class GameEngine extends Applet implements Runnable, FocusListener, WindowListener {
@@ -324,7 +322,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 		}
 
 		this.isCanvasInvalid = false;
-		this.field197 = WorldMapSprite.method4989();
+		this.field197 = WorldMapSprite.cycleTimer();
 	}
 
 	protected final boolean checkHost() {
@@ -354,7 +352,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 	}
 
 	void clientTick() {
-		long var1 = WorldMapSprite.method4989();
+		long var1 = WorldMapSprite.cycleTimer();
 		long var3 = clientTickTimes[class82.field1071];
 		clientTickTimes[class82.field1071] = var1;
 		class82.field1071 = class82.field1071 + 1 & 31;
@@ -370,7 +368,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 
 	void graphicsTick() {
 		Container var1 = this.container();
-		long var2 = WorldMapSprite.method4989();
+		long var2 = WorldMapSprite.cycleTimer();
 		long var4 = graphicsTickTimes[BufferedNetSocket.field4286];
 		graphicsTickTimes[BufferedNetSocket.field4286] = var2;
 		BufferedNetSocket.field4286 = BufferedNetSocket.field4286 + 1 & 31;
@@ -553,7 +551,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 	public final synchronized void paint(Graphics var1) {
 		if (this == gameEngine && !isKilled) {
 			this.fullRedraw = true;
-			if (WorldMapSprite.method4989() - this.field197 > 1000L) {
+			if (WorldMapSprite.cycleTimer() - this.field197 > 1000L) {
 				Rectangle var2 = var1.getClipBounds();
 				if (var2 == null || var2.width >= class4.canvasWidth && var2.height >= class309.canvasHeight) {
 					this.isCanvasInvalid = true;
@@ -565,7 +563,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 
 	public final void destroy() {
 		if (this == gameEngine && !isKilled) {
-			stopTimeMs = WorldMapSprite.method4989();
+			stopTimeMs = WorldMapSprite.cycleTimer();
 			GrandExchangeOfferTotalQuantityComparator.method6007(5000L);
 			this.kill();
 		}
@@ -603,7 +601,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 			this.setUp();
 			class4.clock = UserComparator5.method2592();
 
-			while (stopTimeMs == 0L || WorldMapSprite.method4989() < stopTimeMs) {
+			while (stopTimeMs == 0L || WorldMapSprite.cycleTimer() < stopTimeMs) {
 				class134.gameCyclesToDo = class4.clock.wait(cycleDurationMillis, fiveOrOne);
 
 				for (int var5 = 0; var5 < class134.gameCyclesToDo; ++var5) {
@@ -636,7 +634,7 @@ public abstract class GameEngine extends Applet implements Runnable, FocusListen
 
 	public final void stop() {
 		if (this == gameEngine && !isKilled) {
-			stopTimeMs = WorldMapSprite.method4989() + 4000L;
+			stopTimeMs = WorldMapSprite.cycleTimer() + 4000L;
 		}
 	}
 

@@ -11,7 +11,7 @@ public class MilliClock extends Clock {
 		this.field1784 = 256;
 		this.field1785 = 1;
 		this.field1787 = 0;
-		this.field1786 = WorldMapSprite.method4989();
+		this.field1786 = WorldMapSprite.cycleTimer();
 
 		for (int var1 = 0; var1 < 10; ++var1) {
 			this.field1788[var1] = this.field1786;
@@ -31,7 +31,7 @@ public class MilliClock extends Clock {
 		int var4 = this.field1785;
 		this.field1784 = 300;
 		this.field1785 = 1;
-		this.field1786 = WorldMapSprite.method4989();
+		this.field1786 = WorldMapSprite.cycleTimer();
 		if (this.field1788[this.field1783] == 0L) {
 			this.field1784 = var3;
 			this.field1785 = var4;
