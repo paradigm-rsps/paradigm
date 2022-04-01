@@ -2,6 +2,8 @@ package org.paradigm.launcher
 
 import org.koin.core.context.startKoin
 import org.paradigm.common.inject
+import org.paradigm.config.CONFIG_MODULE
+import org.paradigm.config.ServerConfig
 import org.paradigm.engine.ENGINE_MODULE
 import org.paradigm.engine.Engine
 import org.tinylog.kotlin.Logger
@@ -10,9 +12,11 @@ import java.io.File
 object Launcher {
 
     private val engine: Engine by inject()
+    private val serverConfig: ServerConfig by inject()
 
     private val DI_MODULES = listOf(
-        ENGINE_MODULE
+        ENGINE_MODULE,
+        CONFIG_MODULE
     )
 
     @JvmStatic
@@ -24,12 +28,13 @@ object Launcher {
     private fun init() {
         Logger.info("Initializing...")
 
-        this.checkDirs()
+        startKoin { modules(DI_MODULES) }
 
         /*
-         * Start dependency injector.
+         * Execute all initialization logics.
          */
-        startKoin { modules(DI_MODULES) }
+        this.checkDirs()
+        this.loadConfigs()
     }
 
     private fun launch() {
@@ -55,5 +60,11 @@ object Launcher {
                 dir.mkdirs()
             }
         }
+    }
+
+    private fun loadConfigs() {
+        Logger.info("Loading configurations files.")
+
+        serverConfig.load()
     }
 }
