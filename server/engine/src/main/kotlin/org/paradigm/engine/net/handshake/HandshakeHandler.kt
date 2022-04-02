@@ -4,6 +4,9 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import org.paradigm.config.ServerConfig
 import org.paradigm.engine.net.StatusResponse
+import org.paradigm.engine.net.js5.JS5Decoder
+import org.paradigm.engine.net.js5.JS5Encoder
+import org.paradigm.engine.net.js5.JS5Handler
 import org.tinylog.kotlin.Logger
 
 class HandshakeHandler : SimpleChannelInboundHandler<HandshakeRequest>() {
@@ -26,8 +29,16 @@ class HandshakeHandler : SimpleChannelInboundHandler<HandshakeRequest>() {
             return
         }
 
-        ctx.write(StatusResponse.SUCCESSFUL)
-        Logger.info("Switch to js5 protocol.")
+        ctx.writeAndFlush(StatusResponse.SUCCESSFUL)
+
+        /*
+         * Switch pipeline to JS5 codecs
+         */
+        val p = ctx.pipeline()
+
+        p.addAfter("status-encoder", "js5-encoder", JS5Encoder())
+        p.replace("handshake-handler", "js5-handler", JS5Handler())
+        p.replace("handshake-decoder", "js5-decoder", JS5Decoder())
     }
 
     private fun HandshakeRequest.Login.handle(ctx: ChannelHandlerContext) {

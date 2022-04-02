@@ -62,7 +62,7 @@ class NetworkServer {
 
         override fun initChannel(ch: SocketChannel) {
             ch.pipeline()
-                .addLast("status-response-encoder", StatusResponse.Encoder())
+                .addLast("status-encoder", StatusResponse.Encoder())
                 .addLast("handshake-decoder", HandshakeDecoder())
                 .addLast("handshake-handler", HandshakeHandler())
         }
