@@ -7,6 +7,8 @@ import io.netty.channel.nio.NioEventLoopGroup
 import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import org.paradigm.config.ServerConfig
+import org.paradigm.engine.net.handshake.HandshakeDecoder
+import org.paradigm.engine.net.handshake.HandshakeHandler
 import org.tinylog.kotlin.Logger
 import java.net.InetSocketAddress
 import kotlin.system.exitProcess
@@ -57,8 +59,12 @@ class NetworkServer {
     }
 
     class NetworkChannelInitializer : ChannelInitializer<SocketChannel>() {
-        override fun initChannel(ch: SocketChannel) {
 
+        override fun initChannel(ch: SocketChannel) {
+            ch.pipeline()
+                .addLast("status-response-encoder", StatusResponse.Encoder())
+                .addLast("handshake-decoder", HandshakeDecoder())
+                .addLast("handshake-handler", HandshakeHandler())
         }
     }
 }

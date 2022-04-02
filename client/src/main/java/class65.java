@@ -28,84 +28,84 @@ public class class65 {
 				if (NetCache.NetCache_loadTime > 30000) {
 					throw new IOException();
 				} else {
-					NetFileRequest var3;
-					Buffer var4;
+					NetFileRequest js5ResponseMsg;
+					Buffer responseBuf;
 					while (NetCache.NetCache_pendingPriorityResponsesCount < 200 && NetCache.NetCache_pendingPriorityWritesCount > 0) {
-						var3 = (NetFileRequest)NetCache.NetCache_pendingPriorityWrites.first();
-						var4 = new Buffer(4);
-						var4.writeByte(1);
-						var4.writeMedium((int)var3.key);
-						NetCache.NetCache_socket.write(var4.array, 0, 4);
-						NetCache.NetCache_pendingPriorityResponses.put(var3, var3.key);
+						js5ResponseMsg = (NetFileRequest)NetCache.NetCache_pendingPriorityWrites.first();
+						responseBuf = new Buffer(4);
+						responseBuf.writeByte(1);
+						responseBuf.writeMedium((int)js5ResponseMsg.key);
+						NetCache.NetCache_socket.write(responseBuf.array, 0, 4);
+						NetCache.NetCache_pendingPriorityResponses.put(js5ResponseMsg, js5ResponseMsg.key);
 						--NetCache.NetCache_pendingPriorityWritesCount;
 						++NetCache.NetCache_pendingPriorityResponsesCount;
 					}
 
 					while (NetCache.NetCache_pendingResponsesCount < 200 && NetCache.NetCache_pendingWritesCount > 0) {
-						var3 = (NetFileRequest)NetCache.NetCache_pendingWritesQueue.removeLast();
-						var4 = new Buffer(4);
-						var4.writeByte(0);
-						var4.writeMedium((int)var3.key);
-						NetCache.NetCache_socket.write(var4.array, 0, 4);
-						var3.removeDual();
-						NetCache.NetCache_pendingResponses.put(var3, var3.key);
+						js5ResponseMsg = (NetFileRequest)NetCache.NetCache_pendingWritesQueue.removeLast();
+						responseBuf = new Buffer(4);
+						responseBuf.writeByte(0);
+						responseBuf.writeMedium((int)js5ResponseMsg.key);
+						NetCache.NetCache_socket.write(responseBuf.array, 0, 4);
+						js5ResponseMsg.removeDual();
+						NetCache.NetCache_pendingResponses.put(js5ResponseMsg, js5ResponseMsg.key);
 						--NetCache.NetCache_pendingWritesCount;
 						++NetCache.NetCache_pendingResponsesCount;
 					}
 
 					for (int var15 = 0; var15 < 100; ++var15) {
-						int var16 = NetCache.NetCache_socket.available();
-						if (var16 < 0) {
+						int availableBytes = NetCache.NetCache_socket.available();
+						if (availableBytes < 0) {
 							throw new IOException();
 						}
 
-						if (var16 == 0) {
+						if (availableBytes == 0) {
 							break;
 						}
 
 						NetCache.NetCache_loadTime = 0;
-						byte var5 = 0;
+						byte responseLength = 0;
 						if (NetCache.NetCache_currentResponse == null) {
-							var5 = 8;
+							responseLength = 8;
 						} else if (NetCache.field3990 == 0) {
-							var5 = 1;
+							responseLength = 1;
 						}
 
-						int var6;
-						int var7;
+						int responseHeaderLength;
+						int i;
 						int var8;
 						int var10;
-						byte[] var10000;
-						int var10001;
-						Buffer var22;
-						if (var5 > 0) {
-							var6 = var5 - NetCache.NetCache_responseHeaderBuffer.offset;
-							if (var6 > var16) {
-								var6 = var16;
+						byte[] responseHeaderBytes;
+						int responseHeaderOffset;
+						Buffer responseHeaderBuf;
+						if (responseLength > 0) {
+							responseHeaderLength = responseLength - NetCache.NetCache_responseHeaderBuffer.offset;
+							if (responseHeaderLength > availableBytes) {
+								responseHeaderLength = availableBytes;
 							}
 
-							NetCache.NetCache_socket.read(NetCache.NetCache_responseHeaderBuffer.array, NetCache.NetCache_responseHeaderBuffer.offset, var6);
-							if (NetCache.field3999 != 0) {
-								for (var7 = 0; var7 < var6; ++var7) {
-									var10000 = NetCache.NetCache_responseHeaderBuffer.array;
-									var10001 = var7 + NetCache.NetCache_responseHeaderBuffer.offset;
-									var10000[var10001] ^= NetCache.field3999;
+							NetCache.NetCache_socket.read(NetCache.NetCache_responseHeaderBuffer.array, NetCache.NetCache_responseHeaderBuffer.offset, responseHeaderLength);
+							if (NetCache.NetCache_xorValue != 0) {
+								for (i = 0; i < responseHeaderLength; ++i) {
+									responseHeaderBytes = NetCache.NetCache_responseHeaderBuffer.array;
+									responseHeaderOffset = i + NetCache.NetCache_responseHeaderBuffer.offset;
+									responseHeaderBytes[responseHeaderOffset] ^= NetCache.NetCache_xorValue;
 								}
 							}
 
-							var22 = NetCache.NetCache_responseHeaderBuffer;
-							var22.offset += var6;
-							if (NetCache.NetCache_responseHeaderBuffer.offset < var5) {
+							responseHeaderBuf = NetCache.NetCache_responseHeaderBuffer;
+							responseHeaderBuf.offset += responseHeaderLength;
+							if (NetCache.NetCache_responseHeaderBuffer.offset < responseLength) {
 								break;
 							}
 
 							if (NetCache.NetCache_currentResponse == null) {
 								NetCache.NetCache_responseHeaderBuffer.offset = 0;
-								var7 = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
+								i = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
 								var8 = NetCache.NetCache_responseHeaderBuffer.readUnsignedShort();
 								int var9 = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
 								var10 = NetCache.NetCache_responseHeaderBuffer.readInt();
-								long var11 = var8 + (var7 << 16);
+								long var11 = var8 + (i << 16);
 								NetFileRequest var13 = (NetFileRequest)NetCache.NetCache_pendingPriorityResponses.get(var11);
 								ClanChannel.field1673 = true;
 								if (var13 == null) {
@@ -133,29 +133,29 @@ public class class65 {
 								}
 							}
 						} else {
-							var6 = class291.NetCache_responseArchiveBuffer.array.length - NetCache.NetCache_currentResponse.padding;
-							var7 = 512 - NetCache.field3990;
-							if (var7 > var6 - class291.NetCache_responseArchiveBuffer.offset) {
-								var7 = var6 - class291.NetCache_responseArchiveBuffer.offset;
+							responseHeaderLength = class291.NetCache_responseArchiveBuffer.array.length - NetCache.NetCache_currentResponse.padding;
+							i = 512 - NetCache.field3990;
+							if (i > responseHeaderLength - class291.NetCache_responseArchiveBuffer.offset) {
+								i = responseHeaderLength - class291.NetCache_responseArchiveBuffer.offset;
 							}
 
-							if (var7 > var16) {
-								var7 = var16;
+							if (i > availableBytes) {
+								i = availableBytes;
 							}
 
-							NetCache.NetCache_socket.read(class291.NetCache_responseArchiveBuffer.array, class291.NetCache_responseArchiveBuffer.offset, var7);
-							if (NetCache.field3999 != 0) {
-								for (var8 = 0; var8 < var7; ++var8) {
-									var10000 = class291.NetCache_responseArchiveBuffer.array;
-									var10001 = class291.NetCache_responseArchiveBuffer.offset + var8;
-									var10000[var10001] ^= NetCache.field3999;
+							NetCache.NetCache_socket.read(class291.NetCache_responseArchiveBuffer.array, class291.NetCache_responseArchiveBuffer.offset, i);
+							if (NetCache.NetCache_xorValue != 0) {
+								for (var8 = 0; var8 < i; ++var8) {
+									responseHeaderBytes = class291.NetCache_responseArchiveBuffer.array;
+									responseHeaderOffset = class291.NetCache_responseArchiveBuffer.offset + var8;
+									responseHeaderBytes[responseHeaderOffset] ^= NetCache.NetCache_xorValue;
 								}
 							}
 
-							var22 = class291.NetCache_responseArchiveBuffer;
-							var22.offset += var7;
-							NetCache.field3990 += var7;
-							if (var6 == class291.NetCache_responseArchiveBuffer.offset) {
+							responseHeaderBuf = class291.NetCache_responseArchiveBuffer;
+							responseHeaderBuf.offset += i;
+							NetCache.field3990 += i;
+							if (responseHeaderLength == class291.NetCache_responseArchiveBuffer.offset) {
 								if (NetCache.NetCache_currentResponse.key == 16711935L) {
 									class122.NetCache_reference = class291.NetCache_responseArchiveBuffer;
 
@@ -170,7 +170,7 @@ public class class65 {
 									}
 								} else {
 									NetCache.NetCache_crc.reset();
-									NetCache.NetCache_crc.update(class291.NetCache_responseArchiveBuffer.array, 0, var6);
+									NetCache.NetCache_crc.update(class291.NetCache_responseArchiveBuffer.array, 0, responseHeaderLength);
 									var8 = (int)NetCache.NetCache_crc.getValue();
 									if (var8 != NetCache.NetCache_currentResponse.crc) {
 										try {
@@ -180,7 +180,7 @@ public class class65 {
 
 										++NetCache.NetCache_crcMismatches;
 										NetCache.NetCache_socket = null;
-										NetCache.field3999 = (byte)((int)(Math.random() * 255.0D + 1.0D));
+										NetCache.NetCache_xorValue = (byte)((int)(Math.random() * 255.0D + 1.0D));
 										return false;
 									}
 

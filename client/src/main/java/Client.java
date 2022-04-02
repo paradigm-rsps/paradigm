@@ -991,11 +991,11 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 								while (true) {
 									var3 = (NetFileRequest)NetCache.NetCache_pendingResponses.first();
 									if (var3 == null) {
-										if (NetCache.field3999 != 0) {
+										if (NetCache.NetCache_xorValue != 0) {
 											try {
 												Buffer var13 = new Buffer(4);
 												var13.writeByte(4);
-												var13.writeByte(NetCache.field3999);
+												var13.writeByte(NetCache.NetCache_xorValue);
 												var13.writeShort(0);
 												NetCache.NetCache_socket.write(var13.array, 0, 4);
 											} catch (IOException var8) {

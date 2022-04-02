@@ -21,7 +21,7 @@ public class NetCache {
 	public static int field3990;
 	static CRC32 NetCache_crc;
 	static Archive[] NetCache_archives;
-	public static byte field3999;
+	public static byte NetCache_xorValue;
 	public static int NetCache_crcMismatches;
 	public static int NetCache_ioExceptions;
 
@@ -40,7 +40,7 @@ public class NetCache {
 		field3990 = 0;
 		NetCache_crc = new CRC32();
 		NetCache_archives = new Archive[256];
-		field3999 = 0;
+		NetCache_xorValue = 0;
 		NetCache_crcMismatches = 0;
 		NetCache_ioExceptions = 0;
 	}
