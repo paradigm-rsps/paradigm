@@ -8,7 +8,6 @@ import org.paradigm.config.ServerConfig
 import org.paradigm.engine.coroutine.EngineCoroutineScope
 import org.paradigm.engine.net.NetworkServer
 import org.tinylog.kotlin.Logger
-import java.sql.Time
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
 
@@ -18,11 +17,10 @@ class Engine {
     private val networkServer: NetworkServer by inject()
 
     private var running = false
-    private var prevCycleNanos = 0L
+    private var prevCycleTime = 0L
 
     fun start() {
         Logger.info("Starting server engine.")
-
         running = true
         engineCoroutine.start()
         networkServer.start()
@@ -37,19 +35,19 @@ class Engine {
 
     private fun CoroutineScope.start() = launch {
         while(running) {
-            val curNanos = measureNanoTime { cycle() } + prevCycleNanos
-            val curMillis = TimeUnit.NANOSECONDS.toMillis(curNanos)
-            val sleepMillis = if(curMillis > ServerConfig.TICK_RATE) {
-                val curCycle = curMillis / ServerConfig.TICK_RATE
-                (curCycle + 1) * ServerConfig.TICK_RATE - curMillis
+            val nanos = measureNanoTime { cycle() } + prevCycleTime
+            val millis = TimeUnit.NANOSECONDS.toMillis(nanos)
+            val sleepTime = if(millis > ServerConfig.TICK_RATE) {
+                val curCycle = millis / ServerConfig.TICK_RATE
+                (curCycle + 1) * ServerConfig.TICK_RATE - millis
             } else {
-                ServerConfig.TICK_RATE - curMillis
+                ServerConfig.TICK_RATE - millis
             }
-            if(curMillis > ServerConfig.TICK_RATE) {
-                Logger.warn("Tick took longer than expected. Is the server overloaded? (active: ${curMillis}ms, idle: ${sleepMillis}ms).")
+            if(millis > ServerConfig.TICK_RATE) {
+                Logger.warn("Tick took longer than expected. Is the server overloaded? (active: ${millis}ms, idle: ${sleepTime}ms).")
             }
-            prevCycleNanos = curNanos - TimeUnit.NANOSECONDS.toNanos(curMillis)
-            delay(sleepMillis)
+            prevCycleTime = nanos - TimeUnit.NANOSECONDS.toNanos(millis)
+            delay(sleepTime)
         }
     }
 
