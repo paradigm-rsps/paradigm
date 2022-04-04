@@ -9,7 +9,7 @@ dependencies {
 
 tasks {
     register<JavaExec>("run client") {
-        group = "application"
+        group = "paradigm"
         workingDir = rootProject.projectDir
         mainClass.set("Launcher")
         classpath = sourceSets["main"].runtimeClasspath

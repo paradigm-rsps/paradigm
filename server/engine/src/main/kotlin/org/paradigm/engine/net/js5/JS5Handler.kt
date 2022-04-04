@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import org.paradigm.cache.GameCache
 import org.paradigm.common.inject
+import org.tinylog.kotlin.Logger
 
 class JS5Handler : SimpleChannelInboundHandler<JS5Request>() {
 
@@ -21,5 +22,12 @@ class JS5Handler : SimpleChannelInboundHandler<JS5Request>() {
             data.copy()
         )
         ctx.writeAndFlush(response)
+    }
+
+    override fun exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable) {
+        if(cause.stackTrace.isEmpty() || cause.stackTrace[0].methodName != "read0") {
+            Logger.error(cause) { "An error occurred in the networking thread." }
+            ctx.channel().disconnect()
+        }
     }
 }

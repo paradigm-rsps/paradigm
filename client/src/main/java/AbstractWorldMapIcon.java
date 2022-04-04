@@ -1,4 +1,4 @@
-public abstract class AbstractWorldMapIcon {
+public abstract class                                                    AbstractWorldMapIcon {
 	public final Coord coord2;
 	public final Coord coord1;
 	int screenX;

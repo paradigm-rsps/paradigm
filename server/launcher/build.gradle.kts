@@ -4,13 +4,21 @@ dependencies {
     implementation(project(":server:logger"))
     implementation(project(":server:engine"))
     implementation(project(":server:config"))
+    implementation(project(":server:cache"))
 }
 
 tasks {
     register<JavaExec>("run server") {
-        group = "application"
+        group = "paradigm"
         workingDir = rootProject.projectDir
         mainClass.set("org.paradigm.launcher.Launcher")
+        classpath = sourceSets["main"].runtimeClasspath
+    }
+
+    register<JavaExec>("setup server") {
+        group = "paradigm"
+        workingDir = rootProject.projectDir
+        mainClass.set("org.paradigm.launcher.Setup")
         classpath = sourceSets["main"].runtimeClasspath
     }
 
