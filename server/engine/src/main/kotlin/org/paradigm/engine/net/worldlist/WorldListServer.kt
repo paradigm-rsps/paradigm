@@ -11,8 +11,7 @@ class WorldListServer {
     private val networkServer: NetworkServer by inject()
 
     val worlds = mutableListOf(
-        WorldEntry(1, "127.0.0.1", "-", listOf(WorldType.MEMBERS), WorldLocation.UNITED_STATES, 0),
-        WorldEntry(2, "127.0.0.1", "-", listOf(WorldType.MEMBERS, WorldType.TOURNAMENT), WorldLocation.UNITED_STATES, 0)
+        WorldEntry(1, "127.0.0.1", "-", listOf(WorldType.MEMBERS), WorldLocation.UNITED_STATES, 0)
     )
 
     private lateinit var channelFuture: ChannelFuture
