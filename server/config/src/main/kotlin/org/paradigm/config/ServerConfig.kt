@@ -43,6 +43,12 @@ class ServerConfig {
             val address by optional("0.0.0.0", "address")
             val port by optional(43594, "port")
         }
+
+        object HomeTile : ConfigSpec("home-tile") {
+            val x by optional(3221, "x")
+            val y by optional(3218, "y")
+            val plane by optional(0, "plane")
+        }
     }
 
     companion object {
@@ -61,6 +67,13 @@ class ServerConfig {
         class NetworkCompanion(private val config: ServerConfig) {
             val ADDRESS get() = config[Spec.Network.address]
             val PORT get() = config[Spec.Network.port]
+        }
+
+        val HOME_TILE = HomeTileCompanion(config)
+        class HomeTileCompanion(private val config: ServerConfig) {
+            val x get() = config[Spec.HomeTile.x]
+            val y get() = config[Spec.HomeTile.y]
+            val plane get() = config[Spec.HomeTile.plane]
         }
     }
 }

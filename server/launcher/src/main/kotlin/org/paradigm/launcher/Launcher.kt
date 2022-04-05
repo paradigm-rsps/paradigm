@@ -4,6 +4,7 @@ import org.koin.core.context.startKoin
 import org.paradigm.cache.GameCache
 import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
+import org.paradigm.config.XteaConfig
 import org.paradigm.engine.Engine
 import org.paradigm.util.RSA
 import org.tinylog.kotlin.Logger
@@ -13,6 +14,7 @@ object Launcher {
 
     private val engine: Engine by inject()
     private val serverConfig: ServerConfig by inject()
+    private val xteaConfig: XteaConfig by inject()
     private val cache: GameCache by inject()
     private val rsa: RSA by inject()
 
@@ -60,6 +62,7 @@ object Launcher {
     private fun loadConfigs() {
         Logger.info("Loading configurations files.")
         serverConfig.load()
+        xteaConfig.load()
     }
 
     private fun loadCache() {

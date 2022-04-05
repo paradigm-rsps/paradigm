@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.SimpleChannelInboundHandler
 import org.paradigm.common.inject
 import org.paradigm.engine.service.ServiceManager
-import org.paradigm.engine.service.login.LoginService
+import org.paradigm.engine.service.auth.LoginService
 import org.tinylog.kotlin.Logger
 
 class LoginHandler : SimpleChannelInboundHandler<LoginRequest>() {

@@ -1,6 +1,6 @@
 package org.paradigm.engine.service
 
-import org.paradigm.engine.service.login.LoginService
+import org.paradigm.engine.service.auth.LoginService
 import org.tinylog.kotlin.Logger
 import kotlin.reflect.KClass
 
