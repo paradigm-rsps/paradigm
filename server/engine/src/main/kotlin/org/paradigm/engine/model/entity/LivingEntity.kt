@@ -3,6 +3,8 @@ package org.paradigm.engine.model.entity
 import org.paradigm.engine.model.Direction
 import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.map.Tile
+import org.paradigm.engine.queue.PriorityQueueList
+import org.tinylog.kotlin.Logger
 
 abstract class LivingEntity : Entity() {
     var index: Int = -1
@@ -18,6 +20,24 @@ abstract class LivingEntity : Entity() {
     var faceDirection: Direction = Direction.NORTH
     var invisible: Boolean = false
 
-    abstract fun cycle()
+    internal val queue = PriorityQueueList()
 
+    abstract suspend fun cycle()
+
+    internal suspend fun queueCycle() {
+        val shouldPollPending = queue.paused
+        try {
+            queue.processCurrent()
+        } catch (e: Throwable) {
+            queue.discardCurrent()
+            Logger.error(e) { "An error occurred in queue." }
+        }
+        if (shouldPollPending) {
+            try {
+                queue.pollPending()
+            } catch (e: Throwable) {
+                Logger.error(e) { "An error occurred in queue." }
+            }
+        }
+    }
 }

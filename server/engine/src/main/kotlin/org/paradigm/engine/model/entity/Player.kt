@@ -59,7 +59,8 @@ class Player internal constructor(val session: Session) : LivingEntity() {
         world.players.removePlayer(this)
     }
 
-    override fun cycle() {
-
+    override suspend fun cycle() {
+        queueCycle()
     }
+
 }

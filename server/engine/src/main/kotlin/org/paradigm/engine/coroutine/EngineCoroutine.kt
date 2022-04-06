@@ -1,9 +1,30 @@
 package org.paradigm.engine.coroutine
 
 import kotlin.coroutines.*
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
+import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 import kotlin.coroutines.cancellation.CancellationException
 
-private val CoroutineContext.task: Any get() = ""
+private val CoroutineContext.task: EngineCoroutineTask
+    get() = get(EngineCoroutineTask) ?: error("Failed to get engine coroutine task.")
+
+suspend fun wait(ticks: Int = 1) {
+    if (ticks <= 0) return
+    return suspendCoroutineUninterceptedOrReturn {
+        it.context.task.wait(ticks, it)
+        COROUTINE_SUSPENDED
+    }
+}
+
+suspend fun waitUntil(predicate: () -> Boolean) {
+    if (predicate()) return
+    return suspendCoroutineUninterceptedOrReturn {
+        it.context.task.wait(predicate, it)
+        COROUTINE_SUSPENDED
+    }
+}
+
+suspend fun cancel() = coroutineContext.task.cancel()
 
 /**
  * === COROUTINE INTERNAL CLASSES ===

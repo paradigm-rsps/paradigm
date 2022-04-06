@@ -41,9 +41,7 @@ class Engine {
 
     fun stop() {
         Logger.info("Stopping server engine.")
-
         running = false
-
         serviceManager.stop()
         networkServer.stop()
     }
@@ -76,6 +74,7 @@ class Engine {
     private suspend fun cycle() {
         world.players.forEach { it.session.cycle() }
         world.players.forEach { it.cycle() }
+        world.queue.cycle()
         updateTasks.forEach { it.execute() }
         world.players.forEach { it.session.flush() }
     }
