@@ -19,7 +19,7 @@ public class ServerPacket {
 	public static final ServerPacket field3082;
 	public static final ServerPacket field3042;
 	public static final ServerPacket field3043;
-	public static final ServerPacket field3044;
+	public static final ServerPacket IF_MOVE;
 	public static final ServerPacket field3080;
 	public static final ServerPacket field3046;
 	public static final ServerPacket field3052;
@@ -27,7 +27,7 @@ public class ServerPacket {
 	public static final ServerPacket field3049;
 	public static final ServerPacket field3050;
 	public static final ServerPacket field3122;
-	public static final ServerPacket field3102;
+	public static final ServerPacket IF_OPEN_TOP;
 	public static final ServerPacket field3053;
 	public static final ServerPacket field3054;
 	public static final ServerPacket field3055;
@@ -80,7 +80,7 @@ public class ServerPacket {
 	public static final ServerPacket field3124;
 	public static final ServerPacket field3103;
 	public static final ServerPacket field3126;
-	public static final ServerPacket field3105;
+	public static final ServerPacket IF_OPEN_SUB;
 	public static final ServerPacket field3106;
 	public static final ServerPacket field3107;
 	public static final ServerPacket field3108;
@@ -127,7 +127,7 @@ public class ServerPacket {
 		field3082 = new ServerPacket(17, -1);
 		field3042 = new ServerPacket(18, -2);
 		field3043 = new ServerPacket(19, -2);
-		field3044 = new ServerPacket(20, 8);
+		IF_MOVE = new ServerPacket(20, 8);
 		field3080 = new ServerPacket(21, -2);
 		field3046 = new ServerPacket(22, 4);
 		field3052 = new ServerPacket(23, 10);
@@ -135,7 +135,7 @@ public class ServerPacket {
 		field3049 = new ServerPacket(25, 2);
 		field3050 = new ServerPacket(26, -1);
 		field3122 = new ServerPacket(27, 1);
-		field3102 = new ServerPacket(28, 2);
+		IF_OPEN_TOP = new ServerPacket(28, 2);
 		field3053 = new ServerPacket(29, 6);
 		field3054 = new ServerPacket(30, -2);
 		field3055 = new ServerPacket(31, -2);
@@ -188,7 +188,7 @@ public class ServerPacket {
 		field3124 = new ServerPacket(78, -2);
 		field3103 = new ServerPacket(79, 8);
 		field3126 = new ServerPacket(80, 6);
-		field3105 = new ServerPacket(81, 7);
+		IF_OPEN_SUB = new ServerPacket(81, 7);
 		field3106 = new ServerPacket(82, 2);
 		field3107 = new ServerPacket(83, 5);
 		field3108 = new ServerPacket(84, -2);

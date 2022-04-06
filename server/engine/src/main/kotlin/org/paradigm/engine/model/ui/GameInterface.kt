@@ -1,0 +1,40 @@
+@file:Suppress("UNCHECKED_CAST")
+
+package org.paradigm.engine.model.ui
+
+import org.paradigm.cache.GameCache
+import org.paradigm.cache.config.EnumConfig
+import org.paradigm.common.inject
+
+enum class GameInterface(
+    val interfaceId: Int,
+    val child: Int,
+    val type: InterfaceType = InterfaceType.OVERLAY
+) {
+    CHAT_BOX(interfaceId = 162, child = 10, type = InterfaceType.OVERLAY),
+    PRIVATE_CHAT(interfaceId = 163, child = 35, type = InterfaceType.OVERLAY),
+    MINI_MAP(interfaceId = 160, child = 24, type = InterfaceType.OVERLAY),
+    XP_TRACKER(interfaceId = 122, child = 33, type = InterfaceType.OVERLAY),
+    SKILLS(interfaceId = 320, child = 80, type = InterfaceType.OVERLAY),
+    QUESTS(interfaceId = 629, child = 81, type = InterfaceType.OVERLAY),
+    INVENTORY(interfaceId = 149, child = 82, type = InterfaceType.OVERLAY),
+    EQUIPMENT(interfaceId = 387, child = 83, type = InterfaceType.OVERLAY),
+    PRAYER(interfaceId = 541, child = 84, type = InterfaceType.OVERLAY),
+    SPELL_BOOK(interfaceId = 218, child = 85, type = InterfaceType.OVERLAY),
+    SOCIAL(interfaceId = 429, child = 88, type = InterfaceType.OVERLAY),
+    ACCOUNT(interfaceId = 109, child = 87, type = InterfaceType.OVERLAY),
+    LOG_OUT(interfaceId = 182, child = 89, type = InterfaceType.OVERLAY),
+    SETTINGS(interfaceId = 116, child = 90, type = InterfaceType.OVERLAY),
+    EMOTES(interfaceId = 216, child = 91, type = InterfaceType.OVERLAY),
+    MUSIC(interfaceId = 239, child = 92, type = InterfaceType.OVERLAY),
+    CLANS(interfaceId = 707, child = 86, type = InterfaceType.OVERLAY),
+    COMBAT(interfaceId = 593, child = 79, type = InterfaceType.OVERLAY);
+
+    private val cache: GameCache by inject()
+
+    fun getChild(displayMode: DisplayMode): Int? {
+        val mappings = cache.configArchive.enumConfigs[displayMode.id]!!.entryMap as Map<EnumConfig.Component, EnumConfig.Component>
+        return mappings[EnumConfig.Component(DisplayMode.FULLSCREEN.id, child)]?.child
+    }
+
+}

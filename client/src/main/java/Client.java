@@ -1490,11 +1490,11 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 
 			} else {
 				if (loginState == 14 && ((AbstractSocket)var1).available() >= 1) {
-					class124.field1514 = ((AbstractSocket)var1).readUnsignedByte();
+					class124.loginResponseLength = ((AbstractSocket)var1).readUnsignedByte();
 					UrlRequester.method2533(15);
 				}
 
-				if (loginState == 15 && ((AbstractSocket)var1).available() >= class124.field1514) {
+				if (loginState == 15 && ((AbstractSocket)var1).available() >= class124.loginResponseLength) {
 					var12 = ((AbstractSocket)var1).readUnsignedByte() == 1;
 					((AbstractSocket)var1).read(packetBuf.array, 0, 4);
 					packetBuf.offset = 0;
@@ -1543,7 +1543,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					((AbstractSocket)var1).read(packetBuf.array, 0, 8);
 					packetBuf.offset = 0;
 					this.field658 = packetBuf.readLong();
-					if (class124.field1514 >= 29) {
+					if (class124.loginResponseLength >= 29) {
 						((AbstractSocket)var1).read(packetBuf.array, 0, 8);
 						packetBuf.offset = 0;
 						field608 = packetBuf.readLong();
@@ -2624,83 +2624,83 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 		field550 = 0;
 	}
 
-	final boolean method1153(PacketWriter var1) {
-		AbstractSocket var2 = var1.getSocket();
-		PacketBuffer var3 = var1.packetBuffer;
+	final boolean method1153(PacketWriter packetWriter) {
+		AbstractSocket var2 = packetWriter.getSocket();
+		PacketBuffer packetBuf = packetWriter.packetBuffer;
 		if (var2 == null) {
 			return false;
 		} else {
 			String var21;
-			int var22;
+			int interfaceId;
 			try {
-				int var5;
-				if (var1.serverPacket == null) {
-					if (var1.field1328) {
+				int component;
+				if (packetWriter.serverPacket == null) {
+					if (packetWriter.field1328) {
 						if (!var2.isAvailable(1)) {
 							return false;
 						}
 
-						var2.read(var1.packetBuffer.array, 0, 1);
-						var1.field1326 = 0;
-						var1.field1328 = false;
+						var2.read(packetWriter.packetBuffer.array, 0, 1);
+						packetWriter.field1326 = 0;
+						packetWriter.field1328 = false;
 					}
 
-					var3.offset = 0;
-					if (var3.method7701()) {
+					packetBuf.offset = 0;
+					if (packetBuf.method7701()) {
 						if (!var2.isAvailable(1)) {
 							return false;
 						}
 
-						var2.read(var1.packetBuffer.array, 1, 1);
-						var1.field1326 = 0;
+						var2.read(packetWriter.packetBuffer.array, 1, 1);
+						packetWriter.field1326 = 0;
 					}
 
-					var1.field1328 = true;
+					packetWriter.field1328 = true;
 					ServerPacket[] var4 = Statics1.ServerPacket_values();
-					var5 = var3.readSmartByteShortIsaac();
-					if (var5 < 0 || var5 >= var4.length) {
-						throw new IOException(var5 + " " + var3.offset);
+					component = packetBuf.readSmartByteShortIsaac();
+					if (component < 0 || component >= var4.length) {
+						throw new IOException(component + " " + packetBuf.offset);
 					}
 
-					var1.serverPacket = var4[var5];
-					var1.serverPacketLength = var1.serverPacket.length;
+					packetWriter.serverPacket = var4[component];
+					packetWriter.serverPacketLength = packetWriter.serverPacket.length;
 				}
 
-				if (var1.serverPacketLength == -1) {
+				if (packetWriter.serverPacketLength == -1) {
 					if (!var2.isAvailable(1)) {
 						return false;
 					}
 
-					var1.getSocket().read(var3.array, 0, 1);
-					var1.serverPacketLength = var3.array[0] & 255;
+					packetWriter.getSocket().read(packetBuf.array, 0, 1);
+					packetWriter.serverPacketLength = packetBuf.array[0] & 255;
 				}
 
-				if (var1.serverPacketLength == -2) {
+				if (packetWriter.serverPacketLength == -2) {
 					if (!var2.isAvailable(2)) {
 						return false;
 					}
 
-					var1.getSocket().read(var3.array, 0, 2);
-					var3.offset = 0;
-					var1.serverPacketLength = var3.readUnsignedShort();
+					packetWriter.getSocket().read(packetBuf.array, 0, 2);
+					packetBuf.offset = 0;
+					packetWriter.serverPacketLength = packetBuf.readUnsignedShort();
 				}
 
-				if (!var2.isAvailable(var1.serverPacketLength)) {
+				if (!var2.isAvailable(packetWriter.serverPacketLength)) {
 					return false;
 				}
 
-				var3.offset = 0;
-				var2.read(var3.array, 0, var1.serverPacketLength);
-				var1.field1326 = 0;
+				packetBuf.offset = 0;
+				var2.read(packetBuf.array, 0, packetWriter.serverPacketLength);
+				packetWriter.field1326 = 0;
 				timer.method6594();
-				var1.field1331 = var1.field1329;
-				var1.field1329 = var1.field1320;
-				var1.field1320 = var1.serverPacket;
+				packetWriter.field1331 = packetWriter.field1329;
+				packetWriter.field1329 = packetWriter.field1320;
+				packetWriter.field1320 = packetWriter.serverPacket;
 				byte var70;
-				if (ServerPacket.field3043 == var1.serverPacket) {
+				if (ServerPacket.field3043 == packetWriter.serverPacket) {
 					RouteStrategy.method3875();
-					var70 = var3.readByte();
-					class131 var83 = new class131(var3);
+					var70 = packetBuf.readByte();
+					class131 var83 = new class131(packetBuf);
 					ClanSettings var65;
 					if (var70 >= 0) {
 						var65 = currentClanSettings[var70];
@@ -2709,133 +2709,133 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					}
 
 					var83.method2851(var65);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				int var7;
-				int var20;
+				int interfaceType;
 				Widget var56;
-				if (ServerPacket.field3052 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortLEAdd();
-					var5 = var3.readUnsignedShortAdd();
-					var22 = var3.readUnsignedShortAdd();
-					var7 = var3.method7797();
+				if (ServerPacket.field3052 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortLEAdd();
+					component = packetBuf.readUnsignedShortAdd();
+					interfaceId = packetBuf.readUnsignedShortAdd();
+					var7 = packetBuf.method7797();
 					var56 = HorizontalAlignment.getWidget(var7);
-					if (var22 != var56.modelAngleX || var5 != var56.modelAngleY || var20 != var56.modelZoom) {
-						var56.modelAngleX = var22;
-						var56.modelAngleY = var5;
-						var56.modelZoom = var20;
+					if (interfaceId != var56.modelAngleX || component != var56.modelAngleY || interfaceType != var56.modelZoom) {
+						var56.modelAngleX = interfaceId;
+						var56.modelAngleY = component;
+						var56.modelZoom = interfaceType;
 						class290.invalidateWidget(var56);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3061 == var1.serverPacket) {
-					class83.updatePlayers(var3, var1.serverPacketLength);
+				if (ServerPacket.field3061 == packetWriter.serverPacket) {
+					class83.updatePlayers(packetBuf, packetWriter.serverPacketLength);
 					class4.method19();
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				Widget var6;
 				boolean var71;
-				if (ServerPacket.field3107 == var1.serverPacket) {
-					var20 = var3.method7810();
-					var71 = var3.readUnsignedByte() == 1;
-					var6 = HorizontalAlignment.getWidget(var20);
+				if (ServerPacket.field3107 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readIntME();
+					var71 = packetBuf.readUnsignedByte() == 1;
+					var6 = HorizontalAlignment.getWidget(interfaceType);
 					if (var71 != var6.isHidden) {
 						var6.isHidden = var71;
 						class290.invalidateWidget(var6);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3034 == var1.serverPacket) {
-					var20 = var3.readUnsignedShort();
-					byte var72 = var3.method7792();
-					Varps.Varps_temp[var20] = var72;
-					if (Varps.Varps_main[var20] != var72) {
-						Varps.Varps_main[var20] = var72;
+				if (ServerPacket.field3034 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShort();
+					byte var72 = packetBuf.method7792();
+					Varps.Varps_temp[interfaceType] = var72;
+					if (Varps.Varps_main[interfaceType] != var72) {
+						Varps.Varps_main[interfaceType] = var72;
 					}
 
-					class78.changeGameOptions(var20);
-					changedVarps[++changedVarpCount - 1 & 31] = var20;
-					var1.serverPacket = null;
+					class78.changeGameOptions(interfaceType);
+					changedVarps[++changedVarpCount - 1 & 31] = interfaceType;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				String var59;
-				if (ServerPacket.field3032 == var1.serverPacket) {
-					var20 = var3.readUShortSmart();
-					var71 = var3.readUnsignedByte() == 1;
+				if (ServerPacket.field3032 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUShortSmart();
+					var71 = packetBuf.readUnsignedByte() == 1;
 					var59 = "";
 					boolean var66 = false;
 					if (var71) {
-						var59 = var3.readStringCp1252NullTerminated();
+						var59 = packetBuf.readStringCp1252NullTerminated();
 						if (class155.friendSystem.isIgnored(new Username(var59, class83.loginType))) {
 							var66 = true;
 						}
 					}
 
-					String var58 = var3.readStringCp1252NullTerminated();
+					String var58 = packetBuf.readStringCp1252NullTerminated();
 					if (!var66) {
-						Login.addGameMessage(var20, var59, var58);
+						Login.addGameMessage(interfaceType, var59, var58);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3058 == var1.serverPacket) {
-					var20 = var3.method7810();
-					var5 = var3.readUnsignedShort();
-					Varps.Varps_temp[var5] = var20;
-					if (Varps.Varps_main[var5] != var20) {
-						Varps.Varps_main[var5] = var20;
+				if (ServerPacket.field3058 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readIntME();
+					component = packetBuf.readUnsignedShort();
+					Varps.Varps_temp[component] = interfaceType;
+					if (Varps.Varps_main[component] != interfaceType) {
+						Varps.Varps_main[component] = interfaceType;
 					}
 
-					class78.changeGameOptions(var5);
-					changedVarps[++changedVarpCount - 1 & 31] = var5;
-					var1.serverPacket = null;
+					class78.changeGameOptions(component);
+					changedVarps[++changedVarpCount - 1 & 31] = component;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3038 == var1.serverPacket) {
-					var20 = var3.method7889();
-					var21 = var3.readStringCp1252NullTerminated();
-					var6 = HorizontalAlignment.getWidget(var20);
+				if (ServerPacket.field3038 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readIntLE();
+					var21 = packetBuf.readStringCp1252NullTerminated();
+					var6 = HorizontalAlignment.getWidget(interfaceType);
 					if (!var21.equals(var6.text)) {
 						var6.text = var21;
 						class290.invalidateWidget(var6);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				int var9;
 				int var10;
 				int var23;
-				if (ServerPacket.field3079 == var1.serverPacket) {
+				if (ServerPacket.field3079 == packetWriter.serverPacket) {
 					isCameraLocked = true;
 					field739 = false;
-					class12.field62 = var3.readUnsignedByte();
-					WorldMapSectionType.field2778 = var3.readUnsignedByte();
-					class351.field4157 = var3.readUnsignedShort();
-					ClanChannel.field1660 = var3.readUnsignedByte();
-					JagexCache.field1737 = var3.readUnsignedByte();
+					class12.field62 = packetBuf.readUnsignedByte();
+					WorldMapSectionType.field2778 = packetBuf.readUnsignedByte();
+					class351.field4157 = packetBuf.readUnsignedShort();
+					ClanChannel.field1660 = packetBuf.readUnsignedByte();
+					JagexCache.field1737 = packetBuf.readUnsignedByte();
 					if (JagexCache.field1737 >= 100) {
-						var20 = class12.field62 * 128 + 64;
-						var5 = WorldMapSectionType.field2778 * 128 + 64;
-						var22 = Archive.getTileHeight(var20, var5, class160.Client_plane) - class351.field4157;
-						var7 = var20 - EnumComposition.cameraX;
-						var23 = var22 - FriendSystem.cameraY;
-						var9 = var5 - CollisionMap.cameraZ;
+						interfaceType = class12.field62 * 128 + 64;
+						component = WorldMapSectionType.field2778 * 128 + 64;
+						interfaceId = Archive.getTileHeight(interfaceType, component, class160.Client_plane) - class351.field4157;
+						var7 = interfaceType - EnumComposition.cameraX;
+						var23 = interfaceId - FriendSystem.cameraY;
+						var9 = component - CollisionMap.cameraZ;
 						var10 = (int)Math.sqrt(var9 * var9 + var7 * var7);
 						Language.cameraPitch = (int)(Math.atan2(var23, var10) * 325.9490051269531D) & 2047;
 						MusicPatchNode2.cameraYaw = (int)(Math.atan2(var7, var9) * -325.9490051269531D) & 2047;
@@ -2848,53 +2848,53 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3103 == var1.serverPacket) {
-					var20 = var3.readInt();
-					var5 = var3.readInt();
-					var22 = NetCache.getGcDuration();
-					PacketBufferNode var84 = ItemContainer.getPacketBufferNode(ClientPacket.field2983, packetWriter.isaacCipher);
-					var84.packetBuffer.method7746(var20);
-					var84.packetBuffer.method7806(var5);
+				if (ServerPacket.field3103 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readInt();
+					component = packetBuf.readInt();
+					interfaceId = NetCache.getGcDuration();
+					PacketBufferNode var84 = ItemContainer.getPacketBufferNode(ClientPacket.field2983, Client.packetWriter.isaacCipher);
+					var84.packetBuffer.method7746(interfaceType);
+					var84.packetBuffer.method7806(component);
 					var84.packetBuffer.method7788(GameEngine.fps);
-					var84.packetBuffer.method7788(var22);
-					packetWriter.addNode(var84);
-					var1.serverPacket = null;
+					var84.packetBuffer.method7788(interfaceId);
+					Client.packetWriter.addNode(var84);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3042 == var1.serverPacket) {
-					class9.field34 = var3.method7789();
-					FriendSystem.field803 = var3.method7927();
+				if (ServerPacket.field3042 == packetWriter.serverPacket) {
+					class9.field34 = packetBuf.method7789();
+					FriendSystem.field803 = packetBuf.method7927();
 
-					while (var3.offset < var1.serverPacketLength) {
-						var20 = var3.readUnsignedByte();
-						class263 var81 = Language.method6134()[var20];
+					while (packetBuf.offset < packetWriter.serverPacketLength) {
+						interfaceType = packetBuf.readUnsignedByte();
+						class263 var81 = Language.method6134()[interfaceType];
 						class221.method4531(var81);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3095 == var1.serverPacket) {
+				if (ServerPacket.field3095 == packetWriter.serverPacket) {
 					GameEngine.field205 = null;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3040 == var1.serverPacket) {
-					class9.field34 = var3.method7789();
-					FriendSystem.field803 = var3.readUnsignedByte();
+				if (ServerPacket.field3040 == packetWriter.serverPacket) {
+					class9.field34 = packetBuf.method7789();
+					FriendSystem.field803 = packetBuf.readUnsignedByte();
 
-					for (var20 = FriendSystem.field803; var20 < FriendSystem.field803 + 8; ++var20) {
-						for (var5 = class9.field34; var5 < class9.field34 + 8; ++var5) {
-							if (groundItems[class160.Client_plane][var20][var5] != null) {
-								groundItems[class160.Client_plane][var20][var5] = null;
-								class162.updateItemPile(var20, var5);
+					for (interfaceType = FriendSystem.field803; interfaceType < FriendSystem.field803 + 8; ++interfaceType) {
+						for (component = class9.field34; component < class9.field34 + 8; ++component) {
+							if (groundItems[class160.Client_plane][interfaceType][component] != null) {
+								groundItems[class160.Client_plane][interfaceType][component] = null;
+								class162.updateItemPile(interfaceType, component);
 							}
 						}
 					}
@@ -2905,13 +2905,13 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3114 == var1.serverPacket) {
+				if (ServerPacket.field3114 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3012);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
@@ -2920,11 +2920,11 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 				String var32;
 				String var50;
 				int var68;
-				if (ServerPacket.field3048 == var1.serverPacket) {
-					var50 = var3.readStringCp1252NullTerminated();
-					var25 = var3.readUnsignedShort();
-					var27 = var3.readMedium();
-					PlayerType var29 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), var3.readUnsignedByte());
+				if (ServerPacket.field3048 == packetWriter.serverPacket) {
+					var50 = packetBuf.readStringCp1252NullTerminated();
+					var25 = packetBuf.readUnsignedShort();
+					var27 = packetBuf.readMedium();
+					PlayerType var29 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), packetBuf.readUnsignedByte());
 					long var30 = var27 + (var25 << 32);
 					boolean var62 = false;
 
@@ -2942,7 +2942,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					if (!var62 && field603 == 0) {
 						crossWorldMessageIds[crossWorldMessageIdsIndex] = var30;
 						crossWorldMessageIdsIndex = (crossWorldMessageIdsIndex + 1) % 100;
-						var32 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(var3)));
+						var32 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(packetBuf)));
 						byte var69;
 						if (var29.isPrivileged) {
 							var69 = 7;
@@ -2957,7 +2957,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
@@ -2966,22 +2966,22 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 				int var15;
 				int var16;
 				int var61;
-				if (ServerPacket.field3090 == var1.serverPacket) {
-					int var18 = var3.readUnsignedByte();
-					var16 = var3.readUnsignedShortLEAdd();
-					var22 = var3.method7805();
-					var20 = var22 >> 16;
-					var5 = var22 >> 8 & 255;
-					var7 = var20 + (var22 >> 4 & 7);
-					var23 = var5 + (var22 & 7);
-					byte var63 = var3.readByte();
-					var12 = var3.readUnsignedShortLEAdd();
-					var68 = var3.method7789() * 4;
-					byte var64 = var3.method7792();
-					var15 = var3.readUnsignedShortLE();
-					int var17 = var3.readUnsignedByte();
-					var14 = var3.method7927() * 4;
-					var61 = var3.method7769();
+				if (ServerPacket.field3090 == packetWriter.serverPacket) {
+					int var18 = packetBuf.readUnsignedByte();
+					var16 = packetBuf.readUnsignedShortLEAdd();
+					interfaceId = packetBuf.method7805();
+					interfaceType = interfaceId >> 16;
+					component = interfaceId >> 8 & 255;
+					var7 = interfaceType + (interfaceId >> 4 & 7);
+					var23 = component + (interfaceId & 7);
+					byte var63 = packetBuf.readByte();
+					var12 = packetBuf.readUnsignedShortLEAdd();
+					var68 = packetBuf.method7789() * 4;
+					byte var64 = packetBuf.method7792();
+					var15 = packetBuf.readUnsignedShortLE();
+					int var17 = packetBuf.readUnsignedByte();
+					var14 = packetBuf.method7927() * 4;
+					var61 = packetBuf.method7769();
 					var9 = var63 + var7;
 					var10 = var64 + var23;
 					if (var7 >= 0 && var23 >= 0 && var7 < 104 && var23 < 104 && var9 >= 0 && var10 >= 0 && var9 < 104 && var10 < 104 && var12 != 65535) {
@@ -2994,52 +2994,59 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						projectiles.addFirst(var19);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3051 == var1.serverPacket) {
+				if (ServerPacket.field3051 == packetWriter.serverPacket) {
 					isCameraLocked = false;
 
-					for (var20 = 0; var20 < 5; ++var20) {
-						field740[var20] = false;
+					for (interfaceType = 0; interfaceType < 5; ++interfaceType) {
+						field740[interfaceType] = false;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3117 == var1.serverPacket) {
+				if (ServerPacket.field3117 == packetWriter.serverPacket) {
 					if (Statics1.friendsChat != null) {
-						Statics1.friendsChat.method6718(var3);
+						Statics1.friendsChat.method6718(packetBuf);
 					}
 
 					Strings.method5798();
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				InterfaceParent var82;
-				if (ServerPacket.field3044 == var1.serverPacket) {
-					var20 = var3.method7889();
-					var5 = var3.method7810();
-					InterfaceParent var60 = (InterfaceParent)interfaceParents.get(var20);
-					var82 = (InterfaceParent)interfaceParents.get(var5);
+				if (ServerPacket.IF_MOVE == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readIntLE();
+					component = packetBuf.readIntME();
+
+					/*int fromParent = (interfaceType >> 16) & 0xFFFF;
+					int fromChild = interfaceType & 0xFFFF;
+					int toParent = (component >> 16) & 0xFFFF;
+					int toChild = component & 0xFFFF;
+					System.out.println("[IF_MOVE] : [from: [parent: "+fromParent+", child: "+fromChild+"], to: [parent: "+toParent+", child: "+toChild+"]]");*/
+
+					InterfaceParent var60 = (InterfaceParent)interfaceParents.get(interfaceType);
+					var82 = (InterfaceParent)interfaceParents.get(component);
 					if (var82 != null) {
 						class20.closeInterface(var82, var60 == null || var82.group != var60.group);
 					}
 
 					if (var60 != null) {
 						var60.remove();
-						interfaceParents.put(var60, var5);
+						interfaceParents.put(var60, component);
 					}
 
-					var56 = HorizontalAlignment.getWidget(var20);
+					var56 = HorizontalAlignment.getWidget(interfaceType);
 					if (var56 != null) {
 						class290.invalidateWidget(var56);
 					}
 
-					var56 = HorizontalAlignment.getWidget(var5);
+					var56 = HorizontalAlignment.getWidget(component);
 					if (var56 != null) {
 						class290.invalidateWidget(var56);
 						GrandExchangeEvents.revalidateWidgetScroll(EnumComposition.Widget_interfaceComponents[var56.id >>> 16], var56, true);
@@ -3049,124 +3056,124 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						MouseHandler.runIntfCloseListeners(rootInterface, 1);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3100 == var1.serverPacket && isCameraLocked) {
+				if (ServerPacket.field3100 == packetWriter.serverPacket && isCameraLocked) {
 					field739 = true;
-					Tiles.field996 = var3.readUnsignedByte();
-					class33.field231 = var3.readUnsignedByte();
-					ClanChannel.field1660 = var3.readUnsignedByte();
-					JagexCache.field1737 = var3.readUnsignedByte();
+					Tiles.field996 = packetBuf.readUnsignedByte();
+					class33.field231 = packetBuf.readUnsignedByte();
+					ClanChannel.field1660 = packetBuf.readUnsignedByte();
+					JagexCache.field1737 = packetBuf.readUnsignedByte();
 
-					for (var20 = 0; var20 < 5; ++var20) {
-						field740[var20] = false;
+					for (interfaceType = 0; interfaceType < 5; ++interfaceType) {
+						field740[interfaceType] = false;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3030 == var1.serverPacket) {
-					DynamicObject.updateNpcs(false, var3);
-					var1.serverPacket = null;
+				if (ServerPacket.field3030 == packetWriter.serverPacket) {
+					DynamicObject.updateNpcs(false, packetBuf);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				boolean var87;
-				if (ServerPacket.field3036 == var1.serverPacket) {
-					var87 = var3.readUnsignedByte() == 1;
+				if (ServerPacket.field3036 == packetWriter.serverPacket) {
+					var87 = packetBuf.readUnsignedByte() == 1;
 					if (var87) {
-						Varps.field3287 = WorldMapSprite.cycleTimer() - var3.readLong();
-						ReflectionCheck.grandExchangeEvents = new GrandExchangeEvents(var3, true);
+						Varps.field3287 = WorldMapSprite.cycleTimer() - packetBuf.readLong();
+						ReflectionCheck.grandExchangeEvents = new GrandExchangeEvents(packetBuf, true);
 					} else {
 						ReflectionCheck.grandExchangeEvents = null;
 					}
 
 					field572 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3065 == var1.serverPacket) {
+				if (ServerPacket.field3065 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3010);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3116 == var1.serverPacket) {
-					var20 = var3.readUnsignedByte();
-					var5 = var3.readUnsignedByte();
-					var22 = var3.readUnsignedByte();
-					var7 = var3.readUnsignedByte();
-					field740[var20] = true;
-					field482[var20] = var5;
-					field549[var20] = var22;
-					field766[var20] = var7;
-					field744[var20] = 0;
-					var1.serverPacket = null;
+				if (ServerPacket.field3116 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedByte();
+					component = packetBuf.readUnsignedByte();
+					interfaceId = packetBuf.readUnsignedByte();
+					var7 = packetBuf.readUnsignedByte();
+					field740[interfaceType] = true;
+					field482[interfaceType] = component;
+					field549[interfaceType] = interfaceId;
+					field766[interfaceType] = var7;
+					field744[interfaceType] = 0;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				Widget var80;
-				if (ServerPacket.field3072 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortAdd();
-					var5 = var3.readUnsignedShortLEAdd();
-					var22 = var3.method7810();
-					var80 = HorizontalAlignment.getWidget(var22);
-					var80.field3399 = var5 + (var20 << 16);
-					var1.serverPacket = null;
+				if (ServerPacket.field3072 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortAdd();
+					component = packetBuf.readUnsignedShortLEAdd();
+					interfaceId = packetBuf.readIntME();
+					var80 = HorizontalAlignment.getWidget(interfaceId);
+					var80.field3399 = component + (interfaceType << 16);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3110 == var1.serverPacket) {
+				if (ServerPacket.field3110 == packetWriter.serverPacket) {
 					World var53 = new World();
-					var53.host = var3.readStringCp1252NullTerminated();
-					var53.id = var3.readUnsignedShort();
-					var5 = var3.readInt();
-					var53.properties = var5;
+					var53.host = packetBuf.readStringCp1252NullTerminated();
+					var53.id = packetBuf.readUnsignedShort();
+					component = packetBuf.readInt();
+					var53.properties = component;
 					InterfaceParent.updateGameState(45);
 					var2.close();
 					var2 = null;
 					ItemContainer.changeWorld(var53);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return false;
 				}
 
-				if (ServerPacket.field3085 == var1.serverPacket) {
-					var3.offset += 28;
-					if (var3.checkCrc()) {
-						WorldMapRegion.method4798(var3, var3.offset - 28);
+				if (ServerPacket.field3085 == packetWriter.serverPacket) {
+					packetBuf.offset += 28;
+					if (packetBuf.checkCrc()) {
+						WorldMapRegion.method4798(packetBuf, packetBuf.offset - 28);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3041 == var1.serverPacket) {
-					var20 = var3.method7797();
-					var5 = var3.readShort();
-					var22 = var3.method7769();
-					var80 = HorizontalAlignment.getWidget(var20);
-					if (var5 != var80.rawX || var22 != var80.rawY || var80.xAlignment != 0 || var80.yAlignment != 0) {
-						var80.rawX = var5;
-						var80.rawY = var22;
+				if (ServerPacket.field3041 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.method7797();
+					component = packetBuf.readShort();
+					interfaceId = packetBuf.method7769();
+					var80 = HorizontalAlignment.getWidget(interfaceType);
+					if (component != var80.rawX || interfaceId != var80.rawY || var80.xAlignment != 0 || var80.yAlignment != 0) {
+						var80.rawX = component;
+						var80.rawY = interfaceId;
 						var80.xAlignment = 0;
 						var80.yAlignment = 0;
 						class290.invalidateWidget(var80);
 						this.alignWidget(var80);
 						if (var80.type == 0) {
-							GrandExchangeEvents.revalidateWidgetScroll(EnumComposition.Widget_interfaceComponents[var20 >> 16], var80, false);
+							GrandExchangeEvents.revalidateWidgetScroll(EnumComposition.Widget_interfaceComponents[interfaceType >> 16], var80, false);
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3033 == var1.serverPacket) {
-					var87 = var3.readBoolean();
+				if (ServerPacket.field3033 == packetWriter.serverPacket) {
+					var87 = packetBuf.readBoolean();
 					if (var87) {
 						if (class340.field4109 == null) {
 							class340.field4109 = new class326();
@@ -3175,115 +3182,120 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						class340.field4109 = null;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3105 == var1.serverPacket) {
-					var20 = var3.readUnsignedByte();
-					var5 = var3.readInt();
-					var22 = var3.readUnsignedShortLEAdd();
-					var82 = (InterfaceParent)interfaceParents.get(var5);
+				if (ServerPacket.IF_OPEN_SUB == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedByte();
+					component = packetBuf.readInt();
+					interfaceId = packetBuf.readUnsignedShortLEAdd();
+
+					/*int parent = (component >> 16) & 0xFFFF;
+					int child = component & 0xFFFF;
+					System.out.println("[IF_OPEN_SUB] : [parent: " + parent + ", child: " + child + ", interfaceId: " + interfaceId);*/
+
+					var82 = (InterfaceParent)interfaceParents.get(component);
 					if (var82 != null) {
-						class20.closeInterface(var82, var22 != var82.group);
+						class20.closeInterface(var82, interfaceId != var82.group);
 					}
 
-					ServerPacket.method5222(var5, var22, var20);
-					var1.serverPacket = null;
+					ServerPacket.method5222(component, interfaceId, interfaceType);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3057 == var1.serverPacket) {
+				if (ServerPacket.field3057 == packetWriter.serverPacket) {
 					GameObject.logOut();
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return false;
 				}
 
-				if (ServerPacket.rebuildRegionOther == var1.serverPacket) {
-					class146.rebuildRegion(true, var1.packetBuffer);
-					var1.serverPacket = null;
+				if (ServerPacket.rebuildRegionOther == packetWriter.serverPacket) {
+					class146.rebuildRegion(true, packetWriter.packetBuffer);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3027 == var1.serverPacket) {
+				if (ServerPacket.field3027 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3006);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3060 == var1.serverPacket) {
-					Varps.privateChatMode = class83.method2124(var3.readUnsignedByte());
-					var1.serverPacket = null;
+				if (ServerPacket.field3060 == packetWriter.serverPacket) {
+					Varps.privateChatMode = class83.method2124(packetBuf.readUnsignedByte());
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3091 == var1.serverPacket) {
+				if (ServerPacket.field3091 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3013);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3126 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortLE();
-					var5 = var3.readInt();
-					var22 = var20 >> 10 & 31;
-					var7 = var20 >> 5 & 31;
-					var23 = var20 & 31;
-					var9 = (var7 << 11) + (var22 << 19) + (var23 << 3);
-					Widget var86 = HorizontalAlignment.getWidget(var5);
+				if (ServerPacket.field3126 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortLE();
+					component = packetBuf.readInt();
+					interfaceId = interfaceType >> 10 & 31;
+					var7 = interfaceType >> 5 & 31;
+					var23 = interfaceType & 31;
+					var9 = (var7 << 11) + (interfaceId << 19) + (var23 << 3);
+					Widget var86 = HorizontalAlignment.getWidget(component);
 					if (var9 != var86.color) {
 						var86.color = var9;
 						class290.invalidateWidget(var86);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				long var34;
-				if (ServerPacket.field3071 == var1.serverPacket) {
-					var20 = var3.method7810();
-					var5 = var3.readUnsignedShortLE();
-					if (var5 == 65535) {
-						var5 = -1;
+				if (ServerPacket.field3071 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readIntME();
+					component = packetBuf.readUnsignedShortLE();
+					if (component == 65535) {
+						component = -1;
 					}
 
-					var22 = var3.readUnsignedShortLEAdd();
-					if (var22 == 65535) {
-						var22 = -1;
+					interfaceId = packetBuf.readUnsignedShortLEAdd();
+					if (interfaceId == 65535) {
+						interfaceId = -1;
 					}
 
-					var7 = var3.readInt();
+					var7 = packetBuf.readInt();
 
-					for (var23 = var5; var23 <= var22; ++var23) {
+					for (var23 = component; var23 <= interfaceId; ++var23) {
 						var34 = (long)var23 + ((long)var7 << 32);
 						Node var88 = widgetFlags.get(var34);
 						if (var88 != null) {
 							var88.remove();
 						}
 
-						widgetFlags.put(new IntegerNode(var20), var34);
+						widgetFlags.put(new IntegerNode(interfaceType), var34);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3078 == var1.serverPacket) {
-					DynamicObject.updateNpcs(true, var3);
-					var1.serverPacket = null;
+				if (ServerPacket.field3078 == packetWriter.serverPacket) {
+					DynamicObject.updateNpcs(true, packetBuf);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3124 == var1.serverPacket) {
-					var20 = var3.readInt();
-					var5 = var3.readUnsignedShort();
-					if (var20 < -70000) {
-						var5 += 32768;
+				if (ServerPacket.field3124 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readInt();
+					component = packetBuf.readUnsignedShort();
+					if (interfaceType < -70000) {
+						component += 32768;
 					}
 
-					if (var20 >= 0) {
-						var6 = HorizontalAlignment.getWidget(var20);
+					if (interfaceType >= 0) {
+						var6 = HorizontalAlignment.getWidget(interfaceType);
 					} else {
 						var6 = null;
 					}
@@ -3295,14 +3307,14 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					TileItem.clearItemContainer(var5);
-					var7 = var3.readUnsignedShort();
+					TileItem.clearItemContainer(component);
+					var7 = packetBuf.readUnsignedShort();
 
 					for (var23 = 0; var23 < var7; ++var23) {
-						var9 = var3.readUnsignedShort();
-						var10 = var3.method7789();
+						var9 = packetBuf.readUnsignedShort();
+						var10 = packetBuf.method7789();
 						if (var10 == 255) {
-							var10 = var3.readInt();
+							var10 = packetBuf.readInt();
 						}
 
 						if (var6 != null && var23 < var6.itemIds.length) {
@@ -3310,7 +3322,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 							var6.itemQuantities[var23] = var10;
 						}
 
-						class29.itemContainerSetItem(var5, var23, var9 - 1, var10);
+						class29.itemContainerSetItem(component, var23, var9 - 1, var10);
 					}
 
 					if (var6 != null) {
@@ -3318,20 +3330,20 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					}
 
 					SceneTilePaint.method4499();
-					changedItemContainers[++field746 - 1 & 31] = var5 & 32767;
-					var1.serverPacket = null;
+					changedItemContainers[++field746 - 1 & 31] = component & 32767;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3086 == var1.serverPacket) {
-					var22 = var3.method7877();
-					var20 = var22 >> 16;
-					var5 = var22 >> 8 & 255;
-					var7 = var20 + (var22 >> 4 & 7);
-					var23 = var5 + (var22 & 7);
-					var10 = var3.readUnsignedByte();
-					var61 = var3.readUnsignedShort();
-					var9 = var3.readUnsignedShortLEAdd();
+				if (ServerPacket.field3086 == packetWriter.serverPacket) {
+					interfaceId = packetBuf.method7877();
+					interfaceType = interfaceId >> 16;
+					component = interfaceId >> 8 & 255;
+					var7 = interfaceType + (interfaceId >> 4 & 7);
+					var23 = component + (interfaceId & 7);
+					var10 = packetBuf.readUnsignedByte();
+					var61 = packetBuf.readUnsignedShort();
+					var9 = packetBuf.readUnsignedShortLEAdd();
 					if (var7 >= 0 && var23 >= 0 && var7 < 104 && var23 < 104) {
 						var7 = var7 * 128 + 64;
 						var23 = var23 * 128 + 64;
@@ -3339,51 +3351,51 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						graphicsObjects.addFirst(var89);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3129 == var1.serverPacket) {
-					var20 = var3.readInt();
-					if (var20 != field571) {
-						field571 = var20;
+				if (ServerPacket.field3129 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readInt();
+					if (interfaceType != field571) {
+						field571 = interfaceType;
 						class11.method115();
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3064 == var1.serverPacket) {
+				if (ServerPacket.field3064 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3009);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3025 == var1.serverPacket) {
-					byte[] var52 = new byte[var1.serverPacketLength];
-					var3.method7708(var52, 0, var52.length);
+				if (ServerPacket.field3025 == packetWriter.serverPacket) {
+					byte[] var52 = new byte[packetWriter.serverPacketLength];
+					packetBuf.method7708(var52, 0, var52.length);
 					Buffer var79 = new Buffer(var52);
 					var59 = var79.readStringCp1252NullTerminated();
 					class11.openURL(var59, true, false);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				Widget var74;
-				if (ServerPacket.field3035 == var1.serverPacket) {
-					var20 = var3.method7797();
-					var74 = HorizontalAlignment.getWidget(var20);
+				if (ServerPacket.field3035 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.method7797();
+					var74 = HorizontalAlignment.getWidget(interfaceType);
 					var74.modelType = 3;
 					var74.modelId = class19.localPlayer.appearance.getChatHeadId();
 					class290.invalidateWidget(var74);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3099 == var1.serverPacket) {
-					var20 = var3.readInt();
-					InterfaceParent var78 = (InterfaceParent)interfaceParents.get(var20);
+				if (ServerPacket.field3099 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readInt();
+					InterfaceParent var78 = (InterfaceParent)interfaceParents.get(interfaceType);
 					if (var78 != null) {
 						class20.closeInterface(var78, true);
 					}
@@ -3393,14 +3405,14 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						meslayerContinueWidget = null;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3076 == var1.serverPacket) {
+				if (ServerPacket.field3076 == packetWriter.serverPacket) {
 					field749 = cycleCntr;
-					var70 = var3.readByte();
-					class145 var76 = new class145(var3);
+					var70 = packetBuf.readByte();
+					class145 var76 = new class145(packetBuf);
 					ClanChannel var57;
 					if (var70 >= 0) {
 						var57 = currentClanChannels[var70];
@@ -3409,212 +3421,212 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					}
 
 					var76.method3030(var57);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3054 == var1.serverPacket) {
+				if (ServerPacket.field3054 == packetWriter.serverPacket) {
 					field749 = cycleCntr;
-					var70 = var3.readByte();
-					if (var1.serverPacketLength == 1) {
+					var70 = packetBuf.readByte();
+					if (packetWriter.serverPacketLength == 1) {
 						if (var70 >= 0) {
 							currentClanChannels[var70] = null;
 						} else {
 							class83.guestClanChannel = null;
 						}
 
-						var1.serverPacket = null;
+						packetWriter.serverPacket = null;
 						return true;
 					}
 
 					if (var70 >= 0) {
-						currentClanChannels[var70] = new ClanChannel(var3);
+						currentClanChannels[var70] = new ClanChannel(packetBuf);
 					} else {
-						class83.guestClanChannel = new ClanChannel(var3);
+						class83.guestClanChannel = new ClanChannel(packetBuf);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3096 == var1.serverPacket) {
-					for (var20 = 0; var20 < Varps.Varps_main.length; ++var20) {
-						if (Varps.Varps_temp[var20] != Varps.Varps_main[var20]) {
-							Varps.Varps_main[var20] = Varps.Varps_temp[var20];
-							class78.changeGameOptions(var20);
-							changedVarps[++changedVarpCount - 1 & 31] = var20;
+				if (ServerPacket.field3096 == packetWriter.serverPacket) {
+					for (interfaceType = 0; interfaceType < Varps.Varps_main.length; ++interfaceType) {
+						if (Varps.Varps_temp[interfaceType] != Varps.Varps_main[interfaceType]) {
+							Varps.Varps_main[interfaceType] = Varps.Varps_temp[interfaceType];
+							class78.changeGameOptions(interfaceType);
+							changedVarps[++changedVarpCount - 1 & 31] = interfaceType;
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3045 == var1.serverPacket) {
+				if (ServerPacket.field3045 == packetWriter.serverPacket) {
 					RouteStrategy.method3875();
-					var70 = var3.readByte();
-					if (var1.serverPacketLength == 1) {
+					var70 = packetBuf.readByte();
+					if (packetWriter.serverPacketLength == 1) {
 						if (var70 >= 0) {
 							currentClanSettings[var70] = null;
 						} else {
 							class134.guestClanSettings = null;
 						}
 
-						var1.serverPacket = null;
+						packetWriter.serverPacket = null;
 						return true;
 					}
 
 					if (var70 >= 0) {
-						currentClanSettings[var70] = new ClanSettings(var3);
+						currentClanSettings[var70] = new ClanSettings(packetBuf);
 					} else {
-						class134.guestClanSettings = new ClanSettings(var3);
+						class134.guestClanSettings = new ClanSettings(packetBuf);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3028 == var1.serverPacket) {
-					rebootTimer = var3.readUnsignedShort() * 30;
+				if (ServerPacket.field3028 == packetWriter.serverPacket) {
+					rebootTimer = packetBuf.readUnsignedShort() * 30;
 					field762 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3118 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortLEAdd();
-					var5 = var3.method7810();
-					var6 = HorizontalAlignment.getWidget(var5);
-					if (var6.modelType != 2 || var20 != var6.modelId) {
+				if (ServerPacket.field3118 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortLEAdd();
+					component = packetBuf.readIntME();
+					var6 = HorizontalAlignment.getWidget(component);
+					if (var6.modelType != 2 || interfaceType != var6.modelId) {
 						var6.modelType = 2;
-						var6.modelId = var20;
+						var6.modelId = interfaceType;
 						class290.invalidateWidget(var6);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3121 == var1.serverPacket) {
-					var20 = var3.method7797();
-					var5 = var3.readUnsignedShort();
-					var6 = HorizontalAlignment.getWidget(var20);
-					if (var6.modelType != 1 || var5 != var6.modelId) {
+				if (ServerPacket.field3121 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.method7797();
+					component = packetBuf.readUnsignedShort();
+					var6 = HorizontalAlignment.getWidget(interfaceType);
+					if (var6.modelType != 1 || component != var6.modelId) {
 						var6.modelType = 1;
-						var6.modelId = var5;
+						var6.modelId = component;
 						class290.invalidateWidget(var6);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3024 == var1.serverPacket) {
-					minimapState = var3.readUnsignedByte();
-					var1.serverPacket = null;
+				if (ServerPacket.field3024 == packetWriter.serverPacket) {
+					minimapState = packetBuf.readUnsignedByte();
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3075 == var1.serverPacket) {
-					var20 = var3.readUnsignedShort();
-					Language.method6136(var20);
-					changedItemContainers[++field746 - 1 & 31] = var20 & 32767;
-					var1.serverPacket = null;
+				if (ServerPacket.field3075 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShort();
+					Language.method6136(interfaceType);
+					changedItemContainers[++field746 - 1 & 31] = interfaceType & 32767;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3101 == var1.serverPacket) {
-					var20 = var3.readUnsignedShort();
-					var5 = var3.readUnsignedByte();
-					var22 = var3.readUnsignedShort();
-					KitDefinition.queueSoundEffect(var20, var5, var22);
-					var1.serverPacket = null;
+				if (ServerPacket.field3101 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShort();
+					component = packetBuf.readUnsignedByte();
+					interfaceId = packetBuf.readUnsignedShort();
+					KitDefinition.queueSoundEffect(interfaceType, component, interfaceId);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3098 == var1.serverPacket) {
-					for (var20 = 0; var20 < players.length; ++var20) {
-						if (players[var20] != null) {
-							players[var20].sequence = -1;
+				if (ServerPacket.field3098 == packetWriter.serverPacket) {
+					for (interfaceType = 0; interfaceType < players.length; ++interfaceType) {
+						if (players[interfaceType] != null) {
+							players[interfaceType].sequence = -1;
 						}
 					}
 
-					for (var20 = 0; var20 < npcs.length; ++var20) {
-						if (npcs[var20] != null) {
-							npcs[var20].sequence = -1;
+					for (interfaceType = 0; interfaceType < npcs.length; ++interfaceType) {
+						if (npcs[interfaceType] != null) {
+							npcs[interfaceType].sequence = -1;
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3102 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortAdd();
-					rootInterface = var20;
+				if (ServerPacket.IF_OPEN_TOP == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortAdd();
+					rootInterface = interfaceType;
 					this.resizeRoot(false);
-					class127.Widget_resetModelFrames(var20);
+					class127.Widget_resetModelFrames(interfaceType);
 					class358.runWidgetOnLoadListener(rootInterface);
 
-					for (var5 = 0; var5 < 100; ++var5) {
-						field564[var5] = true;
+					for (component = 0; component < 100; ++component) {
+						field564[component] = true;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3119 == var1.serverPacket) {
+				if (ServerPacket.field3119 == packetWriter.serverPacket) {
 					SceneTilePaint.method4499();
-					var20 = var3.method7927();
-					var5 = var3.method7790();
-					var22 = var3.method7797();
-					experience[var5] = var22;
-					currentLevels[var5] = var20;
-					levels[var5] = 1;
+					interfaceType = packetBuf.method7927();
+					component = packetBuf.method7790();
+					interfaceId = packetBuf.method7797();
+					experience[component] = interfaceId;
+					currentLevels[component] = interfaceType;
+					levels[component] = 1;
 
 					for (var7 = 0; var7 < 98; ++var7) {
-						if (var22 >= Skills.Skills_experienceTable[var7]) {
-							levels[var5] = var7 + 2;
+						if (interfaceId >= Skills.Skills_experienceTable[var7]) {
+							levels[component] = var7 + 2;
 						}
 					}
 
-					changedSkills[++changedSkillsCount - 1 & 31] = var5;
-					var1.serverPacket = null;
+					changedSkills[++changedSkillsCount - 1 & 31] = component;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3104 == var1.serverPacket) {
-					publicChatMode = var3.method7927();
-					tradeChatMode = var3.method7789();
-					var1.serverPacket = null;
+				if (ServerPacket.field3104 == packetWriter.serverPacket) {
+					publicChatMode = packetBuf.method7927();
+					tradeChatMode = packetBuf.method7789();
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3092 == var1.serverPacket) {
+				if (ServerPacket.field3092 == packetWriter.serverPacket) {
 					if (rootInterface != -1) {
 						MouseHandler.runIntfCloseListeners(rootInterface, 0);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3106 == var1.serverPacket) {
+				if (ServerPacket.field3106 == packetWriter.serverPacket) {
 					SceneTilePaint.method4499();
-					weight = var3.readShort();
+					weight = packetBuf.readShort();
 					field762 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				long var38;
-				if (ServerPacket.field3069 == var1.serverPacket) {
-					var20 = var3.offset + var1.serverPacketLength;
-					var5 = var3.readUnsignedShort();
-					var22 = var3.readUnsignedShort();
-					if (var5 != rootInterface) {
-						rootInterface = var5;
+				if (ServerPacket.field3069 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.offset + packetWriter.serverPacketLength;
+					component = packetBuf.readUnsignedShort();
+					interfaceId = packetBuf.readUnsignedShort();
+					if (component != rootInterface) {
+						rootInterface = component;
 						this.resizeRoot(false);
 						class127.Widget_resetModelFrames(rootInterface);
 						class358.runWidgetOnLoadListener(rootInterface);
@@ -3625,10 +3637,10 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					}
 
 					InterfaceParent var85;
-					for (; var22-- > 0; var85.field1039 = true) {
-						var7 = var3.readInt();
-						var23 = var3.readUnsignedShort();
-						var9 = var3.readUnsignedByte();
+					for (; interfaceId-- > 0; var85.field1039 = true) {
+						var7 = packetBuf.readInt();
+						var23 = packetBuf.readUnsignedShort();
+						var9 = packetBuf.readUnsignedByte();
 						var85 = (InterfaceParent)interfaceParents.get(var7);
 						if (var85 != null && var23 != var85.group) {
 							class20.closeInterface(var85, true);
@@ -3650,11 +3662,11 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 
 					widgetFlags = new NodeHashTable(512);
 
-					while (var3.offset < var20) {
-						var7 = var3.readInt();
-						var23 = var3.readUnsignedShort();
-						var9 = var3.readUnsignedShort();
-						var10 = var3.readInt();
+					while (packetBuf.offset < interfaceType) {
+						var7 = packetBuf.readInt();
+						var23 = packetBuf.readUnsignedShort();
+						var9 = packetBuf.readUnsignedShort();
+						var10 = packetBuf.readInt();
 
 						for (var61 = var23; var61 <= var9; ++var61) {
 							var38 = ((long)var7 << 32) + (long)var61;
@@ -3662,59 +3674,59 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3031 == var1.serverPacket) {
-					var50 = var3.readStringCp1252NullTerminated();
-					var21 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(var3)));
+				if (ServerPacket.field3031 == packetWriter.serverPacket) {
+					var50 = packetBuf.readStringCp1252NullTerminated();
+					var21 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(packetBuf)));
 					Login.addGameMessage(6, var50, var21);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3050 == var1.serverPacket) {
+				if (ServerPacket.field3050 == packetWriter.serverPacket) {
 					if (GameEngine.field205 == null) {
 						GameEngine.field205 = new class391(FontName.HitSplatDefinition_cached);
 					}
 
-					class445 var51 = FontName.HitSplatDefinition_cached.method7173(var3);
+					class445 var51 = FontName.HitSplatDefinition_cached.method7173(packetBuf);
 					GameEngine.field205.field4376.vmethod7561(var51.field4680, var51.field4681);
 					field682[++field683 - 1 & 31] = var51.field4680;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3112 == var1.serverPacket) {
-					class9.field34 = var3.method7789();
-					FriendSystem.field803 = var3.method7927();
-					var1.serverPacket = null;
+				if (ServerPacket.field3112 == packetWriter.serverPacket) {
+					class9.field34 = packetBuf.method7789();
+					FriendSystem.field803 = packetBuf.method7927();
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3074 == var1.serverPacket) {
-					for (var20 = 0; var20 < VarpDefinition.VarpDefinition_fileCount; ++var20) {
-						VarpDefinition var75 = SoundCache.VarpDefinition_get(var20);
+				if (ServerPacket.field3074 == packetWriter.serverPacket) {
+					for (interfaceType = 0; interfaceType < VarpDefinition.VarpDefinition_fileCount; ++interfaceType) {
+						VarpDefinition var75 = SoundCache.VarpDefinition_get(interfaceType);
 						if (var75 != null) {
-							Varps.Varps_temp[var20] = 0;
-							Varps.Varps_main[var20] = 0;
+							Varps.Varps_temp[interfaceType] = 0;
+							Varps.Varps_main[interfaceType] = 0;
 						}
 					}
 
 					SceneTilePaint.method4499();
 					changedVarpCount += 32;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				String var40;
-				if (ServerPacket.field3082 == var1.serverPacket) {
-					var50 = var3.readStringCp1252NullTerminated();
-					var25 = var3.readLong();
-					var27 = var3.readUnsignedShort();
-					var34 = var3.readMedium();
-					PlayerType var36 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), var3.readUnsignedByte());
+				if (ServerPacket.field3082 == packetWriter.serverPacket) {
+					var50 = packetBuf.readStringCp1252NullTerminated();
+					var25 = packetBuf.readLong();
+					var27 = packetBuf.readUnsignedShort();
+					var34 = packetBuf.readMedium();
+					PlayerType var36 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), packetBuf.readUnsignedByte());
 					var38 = (var27 << 32) + var34;
 					boolean var67 = false;
 
@@ -3732,7 +3744,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					if (!var67 && field603 == 0) {
 						crossWorldMessageIds[crossWorldMessageIdsIndex] = var38;
 						crossWorldMessageIdsIndex = (crossWorldMessageIdsIndex + 1) % 100;
-						var40 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(var3)));
+						var40 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(packetBuf)));
 						if (var36.modIcon != -1) {
 							class6.addChatMessage(9, class351.method6579(var36.modIcon) + var50, var40, UserComparator7.base37DecodeLong(var25));
 						} else {
@@ -3740,53 +3752,53 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3047 == var1.serverPacket) {
-					class155.friendSystem.readUpdate(var3, var1.serverPacketLength);
+				if (ServerPacket.field3047 == packetWriter.serverPacket) {
+					class155.friendSystem.readUpdate(packetBuf, packetWriter.serverPacketLength);
 					field685 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3122 == var1.serverPacket) {
+				if (ServerPacket.field3122 == packetWriter.serverPacket) {
 					SceneTilePaint.method4499();
-					runEnergy = var3.readUnsignedByte();
+					runEnergy = packetBuf.readUnsignedByte();
 					field762 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3084 == var1.serverPacket) {
-					var20 = var3.readUnsignedByte();
-					var21 = var3.readStringCp1252NullTerminated();
-					var22 = var3.method7789();
-					if (var20 >= 1 && var20 <= 8) {
+				if (ServerPacket.field3084 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedByte();
+					var21 = packetBuf.readStringCp1252NullTerminated();
+					interfaceId = packetBuf.method7789();
+					if (interfaceType >= 1 && interfaceType <= 8) {
 						if (var21.equalsIgnoreCase("null")) {
 							var21 = null;
 						}
 
-						playerMenuActions[var20 - 1] = var21;
-						playerOptionsPriorities[var20 - 1] = var22 == 0;
+						playerMenuActions[interfaceType - 1] = var21;
+						playerOptionsPriorities[interfaceType - 1] = interfaceId == 0;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3123 == var1.serverPacket) {
-					var22 = var3.method7877();
-					var20 = var22 >> 16;
-					var5 = var22 >> 8 & 255;
-					var7 = var20 + (var22 >> 4 & 7);
-					var23 = var5 + (var22 & 7);
-					var9 = var3.method7789();
+				if (ServerPacket.field3123 == packetWriter.serverPacket) {
+					interfaceId = packetBuf.method7877();
+					interfaceType = interfaceId >> 16;
+					component = interfaceId >> 8 & 255;
+					var7 = interfaceType + (interfaceId >> 4 & 7);
+					var23 = component + (interfaceId & 7);
+					var9 = packetBuf.method7789();
 					var10 = var9 >> 2;
 					var61 = var9 & 3;
 					var12 = field711[var10];
-					var68 = var3.readUnsignedShort();
+					var68 = packetBuf.readUnsignedShort();
 					if (var7 >= 0 && var23 >= 0 && var7 < 103 && var23 < 103) {
 						if (var12 == 0) {
 							BoundaryObject var93 = FriendSystem.scene.method4150(class160.Client_plane, var7, var23);
@@ -3833,28 +3845,28 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3046 == var1.serverPacket) {
-					var20 = var3.method7797();
-					var74 = HorizontalAlignment.getWidget(var20);
+				if (ServerPacket.field3046 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.method7797();
+					var74 = HorizontalAlignment.getWidget(interfaceType);
 
-					for (var22 = 0; var22 < var74.itemIds.length; ++var22) {
-						var74.itemIds[var22] = -1;
-						var74.itemIds[var22] = 0;
+					for (interfaceId = 0; interfaceId < var74.itemIds.length; ++interfaceId) {
+						var74.itemIds[interfaceId] = -1;
+						var74.itemIds[interfaceId] = 0;
 					}
 
 					class290.invalidateWidget(var74);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3068 == var1.serverPacket) {
-					var70 = var3.readByte();
-					var25 = var3.readUnsignedShort();
-					var27 = var3.readMedium();
+				if (ServerPacket.field3068 == packetWriter.serverPacket) {
+					var70 = packetBuf.readByte();
+					var25 = packetBuf.readUnsignedShort();
+					var27 = packetBuf.readMedium();
 					var34 = (var25 << 32) + var27;
 					boolean var11 = false;
 					ClanChannel var37 = var70 >= 0 ? currentClanChannels[var70] : class83.guestClanChannel;
@@ -3872,47 +3884,47 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					if (!var11) {
 						crossWorldMessageIds[crossWorldMessageIdsIndex] = var34;
 						crossWorldMessageIdsIndex = (crossWorldMessageIdsIndex + 1) % 100;
-						var32 = class118.method2737(var3);
+						var32 = class118.method2737(packetBuf);
 						var14 = var70 >= 0 ? 43 : 46;
 						class6.addChatMessage(var14, "", var32, var37.name);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3029 == var1.serverPacket) {
-					var20 = var3.readUnsignedByte();
-					class19.forceDisconnect(var20);
-					var1.serverPacket = null;
+				if (ServerPacket.field3029 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedByte();
+					class19.forceDisconnect(interfaceType);
+					packetWriter.serverPacket = null;
 					return false;
 				}
 
-				if (ServerPacket.field3081 == var1.serverPacket) {
+				if (ServerPacket.field3081 == packetWriter.serverPacket) {
 					GameEngine.field205 = new class391(FontName.HitSplatDefinition_cached);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3083 == var1.serverPacket) {
-					destinationX = var3.readUnsignedByte();
+				if (ServerPacket.field3083 == packetWriter.serverPacket) {
+					destinationX = packetBuf.readUnsignedByte();
 					if (destinationX == 255) {
 						destinationX = 0;
 					}
 
-					destinationY = var3.readUnsignedByte();
+					destinationY = packetBuf.readUnsignedByte();
 					if (destinationY == 255) {
 						destinationY = 0;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3039 == var1.serverPacket) {
-					hintArrowType = var3.readUnsignedByte();
+				if (ServerPacket.field3039 == packetWriter.serverPacket) {
+					hintArrowType = packetBuf.readUnsignedByte();
 					if (hintArrowType == 1) {
-						hintArrowNpcIndex = var3.readUnsignedShort();
+						hintArrowNpcIndex = packetBuf.readUnsignedShort();
 					}
 
 					if (hintArrowType >= 2 && hintArrowType <= 6) {
@@ -3942,42 +3954,42 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 
 						hintArrowType = 2;
-						hintArrowX = var3.readUnsignedShort();
-						hintArrowY = var3.readUnsignedShort();
-						hintArrowHeight = var3.readUnsignedByte();
+						hintArrowX = packetBuf.readUnsignedShort();
+						hintArrowY = packetBuf.readUnsignedShort();
+						hintArrowHeight = packetBuf.readUnsignedByte();
 					}
 
 					if (hintArrowType == 10) {
-						hintArrowPlayerIndex = var3.readUnsignedShort();
+						hintArrowPlayerIndex = packetBuf.readUnsignedShort();
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3120 == var1.serverPacket) {
-					class268.readReflectionCheck(var3, var1.serverPacketLength);
-					var1.serverPacket = null;
+				if (ServerPacket.field3120 == packetWriter.serverPacket) {
+					class268.readReflectionCheck(packetBuf, packetWriter.serverPacketLength);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3125 == var1.serverPacket) {
+				if (ServerPacket.field3125 == packetWriter.serverPacket) {
 					class162.field1768 = true;
-					DynamicObject.updateNpcs(false, var3);
-					var1.serverPacket = null;
+					DynamicObject.updateNpcs(false, packetBuf);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
 				NPC var24;
-				if (ServerPacket.field3063 == var1.serverPacket) {
-					var5 = var3.method7810();
-					var22 = var3.readUnsignedShortAdd();
-					var20 = var3.readUnsignedShortLE();
-					var24 = npcs[var20];
+				if (ServerPacket.field3063 == packetWriter.serverPacket) {
+					component = packetBuf.readIntME();
+					interfaceId = packetBuf.readUnsignedShortAdd();
+					interfaceType = packetBuf.readUnsignedShortLE();
+					var24 = npcs[interfaceType];
 					if (var24 != null) {
-						var24.spotAnimation = var22;
-						var24.spotAnimationHeight = var5 >> 16;
-						var24.field1173 = (var5 & 65535) + cycle;
+						var24.spotAnimation = interfaceId;
+						var24.spotAnimationHeight = component >> 16;
+						var24.field1173 = (component & 65535) + cycle;
 						var24.spotAnimationFrame = 0;
 						var24.spotAnimationFrameCycle = 0;
 						if (var24.field1173 > cycle) {
@@ -3989,65 +4001,65 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3053 == var1.serverPacket) {
-					var20 = var3.readInt();
-					var5 = var3.method7802();
-					var6 = HorizontalAlignment.getWidget(var20);
-					if (var5 != var6.sequenceId || var5 == -1) {
-						var6.sequenceId = var5;
+				if (ServerPacket.field3053 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readInt();
+					component = packetBuf.method7802();
+					var6 = HorizontalAlignment.getWidget(interfaceType);
+					if (component != var6.sequenceId || component == -1) {
+						var6.sequenceId = component;
 						var6.modelFrame = 0;
 						var6.modelFrameCycle = 0;
 						class290.invalidateWidget(var6);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3094 == var1.serverPacket) {
+				if (ServerPacket.field3094 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3005);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3067 == var1.serverPacket) {
+				if (ServerPacket.field3067 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3008);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3062 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortLE();
-					if (var20 == 65535) {
-						var20 = -1;
+				if (ServerPacket.field3062 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortLE();
+					if (interfaceType == 65535) {
+						interfaceType = -1;
 					}
 
-					var5 = var3.method7797();
-					var22 = var3.method7810();
-					var80 = HorizontalAlignment.getWidget(var22);
+					component = packetBuf.method7797();
+					interfaceId = packetBuf.readIntME();
+					var80 = HorizontalAlignment.getWidget(interfaceId);
 					ItemComposition var8;
 					if (!var80.isIf3) {
-						if (var20 == -1) {
+						if (interfaceType == -1) {
 							var80.modelType = 0;
-							var1.serverPacket = null;
+							packetWriter.serverPacket = null;
 							return true;
 						}
 
-						var8 = class67.ItemDefinition_get(var20);
+						var8 = class67.ItemDefinition_get(interfaceType);
 						var80.modelType = 4;
-						var80.modelId = var20;
+						var80.modelId = interfaceType;
 						var80.modelAngleX = var8.xan2d;
 						var80.modelAngleY = var8.yan2d;
-						var80.modelZoom = var8.zoom2d * 100 / var5;
+						var80.modelZoom = var8.zoom2d * 100 / component;
 						class290.invalidateWidget(var80);
 					} else {
-						var80.itemId = var20;
-						var80.itemQuantity = var5;
-						var8 = class67.ItemDefinition_get(var20);
+						var80.itemId = interfaceType;
+						var80.itemQuantity = component;
+						var8 = class67.ItemDefinition_get(interfaceType);
 						var80.modelAngleX = var8.xan2d;
 						var80.modelAngleY = var8.yan2d;
 						var80.modelAngleZ = var8.zan2d;
@@ -4069,48 +4081,48 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						class290.invalidateWidget(var80);
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3111 == var1.serverPacket) {
-					var20 = var3.method7797();
-					var5 = var3.readUnsignedShortAdd();
-					var6 = HorizontalAlignment.getWidget(var20);
+				if (ServerPacket.field3111 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.method7797();
+					component = packetBuf.readUnsignedShortAdd();
+					var6 = HorizontalAlignment.getWidget(interfaceType);
 					if (var6 != null && var6.type == 0) {
-						if (var5 > var6.scrollHeight - var6.height) {
-							var5 = var6.scrollHeight - var6.height;
+						if (component > var6.scrollHeight - var6.height) {
+							component = var6.scrollHeight - var6.height;
 						}
 
-						if (var5 < 0) {
-							var5 = 0;
+						if (component < 0) {
+							component = 0;
 						}
 
-						if (var5 != var6.scrollY) {
-							var6.scrollY = var5;
+						if (component != var6.scrollY) {
+							var6.scrollY = component;
 							class290.invalidateWidget(var6);
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3109 == var1.serverPacket) {
-					var5 = var3.readUnsignedShort();
-					var22 = var3.method7889();
-					var20 = var3.readUnsignedShort();
+				if (ServerPacket.field3109 == packetWriter.serverPacket) {
+					component = packetBuf.readUnsignedShort();
+					interfaceId = packetBuf.readIntLE();
+					interfaceType = packetBuf.readUnsignedShort();
 					Player var77;
-					if (var20 == localPlayerIndex) {
+					if (interfaceType == localPlayerIndex) {
 						var77 = class19.localPlayer;
 					} else {
-						var77 = players[var20];
+						var77 = players[interfaceType];
 					}
 
 					if (var77 != null) {
-						var77.spotAnimation = var5;
-						var77.spotAnimationHeight = var22 >> 16;
-						var77.field1173 = (var22 & 65535) + cycle;
+						var77.spotAnimation = component;
+						var77.spotAnimationHeight = interfaceId >> 16;
+						var77.field1173 = (interfaceId & 65535) + cycle;
 						var77.spotAnimationFrame = 0;
 						var77.spotAnimationFrameCycle = 0;
 						if (var77.field1173 > cycle) {
@@ -4122,122 +4134,122 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3089 == var1.serverPacket) {
-					var50 = var3.readStringCp1252NullTerminated();
+				if (ServerPacket.field3089 == packetWriter.serverPacket) {
+					var50 = packetBuf.readStringCp1252NullTerminated();
 					Object[] var73 = new Object[var50.length() + 1];
 
-					for (var22 = var50.length() - 1; var22 >= 0; --var22) {
-						if (var50.charAt(var22) == 's') {
-							var73[var22 + 1] = var3.readStringCp1252NullTerminated();
+					for (interfaceId = var50.length() - 1; interfaceId >= 0; --interfaceId) {
+						if (var50.charAt(interfaceId) == 's') {
+							var73[interfaceId + 1] = packetBuf.readStringCp1252NullTerminated();
 						} else {
-							var73[var22 + 1] = new Integer(var3.readInt());
+							var73[interfaceId + 1] = new Integer(packetBuf.readInt());
 						}
 					}
 
-					var73[0] = new Integer(var3.readInt());
+					var73[0] = new Integer(packetBuf.readInt());
 					ScriptEvent var55 = new ScriptEvent();
 					var55.args = var73;
 					class1.runScriptEvent(var55);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3066 == var1.serverPacket) {
-					var20 = var3.readUnsignedByte();
-					class82.method2123(var20);
-					var1.serverPacket = null;
+				if (ServerPacket.field3066 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedByte();
+					class82.method2123(interfaceType);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3097 == var1.serverPacket) {
+				if (ServerPacket.field3097 == packetWriter.serverPacket) {
 					isCameraLocked = true;
 					field739 = false;
-					PcmPlayer.field302 = var3.readUnsignedByte();
-					DevicePcmPlayerProvider.field146 = var3.readUnsignedByte();
-					ClanSettings.field1608 = var3.readUnsignedShort();
-					Tiles.field996 = var3.readUnsignedByte();
-					class33.field231 = var3.readUnsignedByte();
+					PcmPlayer.field302 = packetBuf.readUnsignedByte();
+					DevicePcmPlayerProvider.field146 = packetBuf.readUnsignedByte();
+					ClanSettings.field1608 = packetBuf.readUnsignedShort();
+					Tiles.field996 = packetBuf.readUnsignedByte();
+					class33.field231 = packetBuf.readUnsignedByte();
 					if (class33.field231 >= 100) {
 						EnumComposition.cameraX = PcmPlayer.field302 * 128 + 64;
 						CollisionMap.cameraZ = DevicePcmPlayerProvider.field146 * 128 + 64;
 						FriendSystem.cameraY = Archive.getTileHeight(EnumComposition.cameraX, CollisionMap.cameraZ, class160.Client_plane) - ClanSettings.field1608;
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3037 == var1.serverPacket) {
+				if (ServerPacket.field3037 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3011);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3059 == var1.serverPacket) {
-					var22 = var3.method7790();
-					var20 = var3.readUnsignedShortLEAdd();
-					var5 = var3.readUnsignedShortAdd();
-					if (var5 == 65535) {
-						var5 = -1;
+				if (ServerPacket.field3059 == packetWriter.serverPacket) {
+					interfaceId = packetBuf.method7790();
+					interfaceType = packetBuf.readUnsignedShortLEAdd();
+					component = packetBuf.readUnsignedShortAdd();
+					if (component == 65535) {
+						component = -1;
 					}
 
-					var24 = npcs[var20];
+					var24 = npcs[interfaceType];
 					if (var24 != null) {
-						if (var5 == var24.sequence && var5 != -1) {
-							var23 = ItemContainer.SequenceDefinition_get(var5).field2172;
+						if (component == var24.sequence && component != -1) {
+							var23 = ItemContainer.SequenceDefinition_get(component).field2172;
 							if (var23 == 1) {
 								var24.sequenceFrame = 0;
 								var24.sequenceFrameCycle = 0;
-								var24.sequenceDelay = var22;
+								var24.sequenceDelay = interfaceId;
 								var24.field1169 = 0;
 							} else if (var23 == 2) {
 								var24.field1169 = 0;
 							}
-						} else if (var5 == -1 || var24.sequence == -1 || ItemContainer.SequenceDefinition_get(var5).field2166 >= ItemContainer.SequenceDefinition_get(var24.sequence).field2166) {
-							var24.sequence = var5;
+						} else if (component == -1 || var24.sequence == -1 || ItemContainer.SequenceDefinition_get(component).field2166 >= ItemContainer.SequenceDefinition_get(var24.sequence).field2166) {
+							var24.sequence = component;
 							var24.sequenceFrame = 0;
 							var24.sequenceFrameCycle = 0;
-							var24.sequenceDelay = var22;
+							var24.sequenceDelay = interfaceId;
 							var24.field1169 = 0;
 							var24.field1134 = var24.pathLength;
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3070 == var1.serverPacket) {
+				if (ServerPacket.field3070 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3007);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3080 == var1.serverPacket) {
-					var20 = var3.readInt();
-					var5 = var3.readUnsignedShort();
-					if (var20 < -70000) {
-						var5 += 32768;
+				if (ServerPacket.field3080 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readInt();
+					component = packetBuf.readUnsignedShort();
+					if (interfaceType < -70000) {
+						component += 32768;
 					}
 
-					if (var20 >= 0) {
-						var6 = HorizontalAlignment.getWidget(var20);
+					if (interfaceType >= 0) {
+						var6 = HorizontalAlignment.getWidget(interfaceType);
 					} else {
 						var6 = null;
 					}
 
-					for (; var3.offset < var1.serverPacketLength; class29.itemContainerSetItem(var5, var7, var23 - 1, var9)) {
-						var7 = var3.readUShortSmart();
-						var23 = var3.readUnsignedShort();
+					for (; packetBuf.offset < packetWriter.serverPacketLength; class29.itemContainerSetItem(component, var7, var23 - 1, var9)) {
+						var7 = packetBuf.readUShortSmart();
+						var23 = packetBuf.readUnsignedShort();
 						var9 = 0;
 						if (var23 != 0) {
-							var9 = var3.readUnsignedByte();
+							var9 = packetBuf.readUnsignedByte();
 							if (var9 == 255) {
-								var9 = var3.readInt();
+								var9 = packetBuf.readInt();
 							}
 						}
 
@@ -4252,96 +4264,96 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					}
 
 					SceneTilePaint.method4499();
-					changedItemContainers[++field746 - 1 & 31] = var5 & 32767;
-					var1.serverPacket = null;
+					changedItemContainers[++field746 - 1 & 31] = component & 32767;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3049 == var1.serverPacket) {
-					var20 = var3.readUnsignedShortLEAdd();
-					if (var20 == 65535) {
-						var20 = -1;
+				if (ServerPacket.field3049 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShortLEAdd();
+					if (interfaceType == 65535) {
+						interfaceType = -1;
 					}
 
-					class401.playSong(var20);
-					var1.serverPacket = null;
+					class401.playSong(interfaceType);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3093 == var1.serverPacket) {
-					var20 = var3.method7805();
-					var5 = var3.readUnsignedShortLEAdd();
-					if (var5 == 65535) {
-						var5 = -1;
+				if (ServerPacket.field3093 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.method7805();
+					component = packetBuf.readUnsignedShortLEAdd();
+					if (component == 65535) {
+						component = -1;
 					}
 
-					class145.method3032(var5, var20);
-					var1.serverPacket = null;
+					class145.method3032(component, interfaceType);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3113 == var1.serverPacket) {
-					FillMode.method8155(var3.readStringCp1252NullTerminated());
-					var1.serverPacket = null;
+				if (ServerPacket.field3113 == packetWriter.serverPacket) {
+					FillMode.method8155(packetBuf.readStringCp1252NullTerminated());
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3026 == var1.serverPacket) {
+				if (ServerPacket.field3026 == packetWriter.serverPacket) {
 					class221.method4531(class263.field3004);
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.REBUILD_REGION_NORMAL == var1.serverPacket) {
-					class146.rebuildRegion(false, var1.packetBuffer);
-					var1.serverPacket = null;
+				if (ServerPacket.REBUILD_REGION_NORMAL == packetWriter.serverPacket) {
+					class146.rebuildRegion(false, packetWriter.packetBuffer);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3055 == var1.serverPacket) {
-					class155.friendSystem.ignoreList.read(var3, var1.serverPacketLength);
+				if (ServerPacket.field3055 == packetWriter.serverPacket) {
+					class155.friendSystem.ignoreList.read(packetBuf, packetWriter.serverPacketLength);
 					ObjectComposition.FriendSystem_invalidateIgnoreds();
 					field685 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3087 == var1.serverPacket) {
+				if (ServerPacket.field3087 == packetWriter.serverPacket) {
 					class162.field1768 = true;
-					DynamicObject.updateNpcs(true, var3);
-					var1.serverPacket = null;
+					DynamicObject.updateNpcs(true, packetBuf);
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3073 == var1.serverPacket) {
+				if (ServerPacket.field3073 == packetWriter.serverPacket) {
 					class155.friendSystem.method1687();
 					field685 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3108 == var1.serverPacket) {
-					if (var1.serverPacketLength == 0) {
+				if (ServerPacket.field3108 == packetWriter.serverPacket) {
+					if (packetWriter.serverPacketLength == 0) {
 						Statics1.friendsChat = null;
 					} else {
 						if (Statics1.friendsChat == null) {
 							Statics1.friendsChat = new FriendsChat(class83.loginType, UserComparator10.client);
 						}
 
-						Statics1.friendsChat.readUpdate(var3);
+						Statics1.friendsChat.readUpdate(packetBuf);
 					}
 
 					Strings.method5798();
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3115 == var1.serverPacket) {
-					var70 = var3.readByte();
-					var21 = var3.readStringCp1252NullTerminated();
-					long var42 = var3.readUnsignedShort();
-					long var44 = var3.readMedium();
-					PlayerType var33 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), var3.readUnsignedByte());
+				if (ServerPacket.field3115 == packetWriter.serverPacket) {
+					var70 = packetBuf.readByte();
+					var21 = packetBuf.readStringCp1252NullTerminated();
+					long var42 = packetBuf.readUnsignedShort();
+					long var44 = packetBuf.readMedium();
+					PlayerType var33 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), packetBuf.readUnsignedByte());
 					long var46 = (var42 << 32) + var44;
 					boolean var13 = false;
 					ClanChannel var41 = null;
@@ -4371,7 +4383,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					if (!var13) {
 						crossWorldMessageIds[crossWorldMessageIdsIndex] = var46;
 						crossWorldMessageIdsIndex = (crossWorldMessageIdsIndex + 1) % 100;
-						var40 = AbstractFont.escapeBrackets(class118.method2737(var3));
+						var40 = AbstractFont.escapeBrackets(class118.method2737(packetBuf));
 						var16 = var70 >= 0 ? 41 : 44;
 						if (var33.modIcon != -1) {
 							class6.addChatMessage(var16, class351.method6579(var33.modIcon) + var21, var40, var41.name);
@@ -4380,34 +4392,34 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						}
 					}
 
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				if (ServerPacket.field3077 == var1.serverPacket) {
-					var20 = var3.readUnsignedByte();
-					if (var3.readUnsignedByte() == 0) {
-						grandExchangeOffers[var20] = new GrandExchangeOffer();
-						var3.offset += 18;
+				if (ServerPacket.field3077 == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedByte();
+					if (packetBuf.readUnsignedByte() == 0) {
+						grandExchangeOffers[interfaceType] = new GrandExchangeOffer();
+						packetBuf.offset += 18;
 					} else {
-						--var3.offset;
-						grandExchangeOffers[var20] = new GrandExchangeOffer(var3, false);
+						--packetBuf.offset;
+						grandExchangeOffers[interfaceType] = new GrandExchangeOffer(packetBuf, false);
 					}
 
 					field689 = cycleCntr;
-					var1.serverPacket = null;
+					packetWriter.serverPacket = null;
 					return true;
 				}
 
-				class301.RunException_sendStackTrace("" + (var1.serverPacket != null ? var1.serverPacket.id * -805983233 * -998616065 : -1) + "," + (var1.field1329 != null ? var1.field1329.id * -805983233 * -998616065 : -1) + "," + (var1.field1331 != null ? var1.field1331.id * -805983233 * -998616065 : -1) + "," + var1.serverPacketLength, null);
+				class301.RunException_sendStackTrace("" + (packetWriter.serverPacket != null ? packetWriter.serverPacket.id * -805983233 * -998616065 : -1) + "," + (packetWriter.field1329 != null ? packetWriter.field1329.id * -805983233 * -998616065 : -1) + "," + (packetWriter.field1331 != null ? packetWriter.field1331.id * -805983233 * -998616065 : -1) + "," + packetWriter.serverPacketLength, null);
 				GameObject.logOut();
 			} catch (IOException var48) {
 				class9.method64();
 			} catch (Exception var49) {
-				var21 = "" + (var1.serverPacket != null ? var1.serverPacket.id * -805983233 * -998616065 : -1) + "," + (var1.field1329 != null ? var1.field1329.id * -805983233 * -998616065 : -1) + "," + (var1.field1331 != null ? var1.field1331.id * -805983233 * -998616065 : -1) + "," + var1.serverPacketLength + "," + (class19.localPlayer.pathX[0] + ApproximateRouteStrategy.baseX) + "," + (class19.localPlayer.pathY[0] + class250.baseY) + ",";
+				var21 = "" + (packetWriter.serverPacket != null ? packetWriter.serverPacket.id * -805983233 * -998616065 : -1) + "," + (packetWriter.field1329 != null ? packetWriter.field1329.id * -805983233 * -998616065 : -1) + "," + (packetWriter.field1331 != null ? packetWriter.field1331.id * -805983233 * -998616065 : -1) + "," + packetWriter.serverPacketLength + "," + (class19.localPlayer.pathX[0] + ApproximateRouteStrategy.baseX) + "," + (class19.localPlayer.pathY[0] + class250.baseY) + ",";
 
-				for (var22 = 0; var22 < var1.serverPacketLength && var22 < 50; ++var22) {
-					var21 = var21 + var3.array[var22] + ",";
+				for (interfaceId = 0; interfaceId < packetWriter.serverPacketLength && interfaceId < 50; ++interfaceId) {
+					var21 = var21 + packetBuf.array[interfaceId] + ",";
 				}
 
 				class301.RunException_sendStackTrace(var21, var49);

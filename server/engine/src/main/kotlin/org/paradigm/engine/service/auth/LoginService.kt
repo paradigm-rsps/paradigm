@@ -70,8 +70,11 @@ class LoginService : Service {
         session.encodeIsaac.init(IntArray(4) { session.xteas[it] + 50 })
         session.decodeIsaac.init(session.xteas)
 
+        if(world.players.firstOrNull { it.username == username } != null) {
+            world.players.first { it.username == username }.logout()
+        }
+
         world.players.addPlayer(this)
-        this.init()
 
         session.writeAndFlush(LoginResponse(this)).addListener {
             val p = session.channel.pipeline()
@@ -79,7 +82,8 @@ class LoginService : Service {
             p.replace("login-decoder", "packet-decoder", GamePacketDecoder(session))
             p.replace("login-handler", "packet-handler", GamePacketHandler(session))
 
-            session.writeAndFlush(RebuildRegionNormal(this, gpi = true))
+            this.init()
+
             Logger.info("[$username] has connected to the server.")
         }
     }

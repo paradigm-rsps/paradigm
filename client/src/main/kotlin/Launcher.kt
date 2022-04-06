@@ -43,9 +43,10 @@ object Launcher {
             }
         }
 
-        /*
-         * Override parameters for private server client.
-         */
+        overrideParams()
+    }
+
+    private fun overrideParams() {
         params["codebase"] = "http://$CODEBASE/"
         params["cachedir"] = TITLE.lowercase()
         params["12"] = DEFAULT_WORLD.toString()

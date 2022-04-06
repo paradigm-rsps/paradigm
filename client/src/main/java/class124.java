@@ -7,7 +7,7 @@ public enum class124 implements MouseWheel {
 
 	static int field1520;
 	static IndexedSprite worldSelectRightSprite;
-	static int field1514;
+	static int loginResponseLength;
 	static String field1518;
 	public final int field1513;
 	final int id;

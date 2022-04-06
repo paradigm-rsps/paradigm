@@ -4,6 +4,7 @@ import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.map.Chunk
 import org.paradigm.engine.model.map.Region
 import org.paradigm.engine.model.map.Tile
+import org.paradigm.engine.net.packet.server.RebuildRegionNormal
 
 class SceneManager(private val player: Player) {
 
@@ -30,6 +31,7 @@ class SceneManager(private val player: Player) {
 
     fun init() {
         baseTile = player.tile
+        player.session.writeAndFlush(RebuildRegionNormal(player, gpi = true))
     }
 
     fun cycle() {
