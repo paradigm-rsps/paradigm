@@ -692,7 +692,7 @@ public class Buffer extends Node {
 		return ((this.array[this.offset - 1] & 255) << 8) + ((this.array[this.offset - 4] & 255) << 16) + (this.array[this.offset - 2] & 255) + ((this.array[this.offset - 3] & 255) << 24);
 	}
 
-	public void writeBytesReversed(byte[] array, int start, int length) {
+	public void readBytesReversed(byte[] array, int start, int length) {
 		for (int i = length + start - 1; i >= start; --i) {
 			array[i] = this.array[++this.offset - 1];
 		}

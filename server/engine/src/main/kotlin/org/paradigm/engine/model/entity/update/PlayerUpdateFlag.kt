@@ -2,6 +2,7 @@ package org.paradigm.engine.model.entity.update
 
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.util.buffer.JagByteBuf
+import org.paradigm.util.buffer.SUB
 import org.paradigm.util.buffer.toJagBuf
 import kotlin.math.max
 
@@ -21,7 +22,7 @@ class PlayerUpdateFlag(
             appBuf.writeByte(player.skullIcon)
             appBuf.writeByte(player.prayerIcon)
 
-            for (i in STYLE_OFFSETS.indices) {
+            for (i in 0 until 12) {
                 if (STYLE_OFFSETS[i] == -1) {
                     appBuf.writeByte(0)
                 } else {
@@ -29,7 +30,7 @@ class PlayerUpdateFlag(
                 }
             }
 
-            for (i in player.appearance.colors.indices) {
+            for (i in 0 until 5) {
                 appBuf.writeByte(max(0, player.appearance.colors[i]))
             }
 
@@ -42,12 +43,9 @@ class PlayerUpdateFlag(
             appBuf.writeShort(0)
             appBuf.writeByte(if (player.invisible) 1 else 0)
 
-            val buf = appBuf.toByteBuf()
-            val bytes = ByteArray(buf.writerIndex())
-            buf.readBytes(bytes)
-
-            this.writeByte(bytes.size)
-            this.writeBytesReversed(bytes)
+            this.writeByte(appBuf.writerIndex(), transform = SUB)
+            this.writeBytesReversed(appBuf.toByteBuf())
+            appBuf.release()
         }
 
         /*

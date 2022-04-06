@@ -30,10 +30,8 @@ class GamePacketEncoder(private val session: Session) : MessageToByteEncoder<Pac
             }
         }
 
-        val bytes = ByteArray(length)
-        buf.readBytes(bytes)
-
-        out.writeBytes(bytes)
+        out.writeBytes(buf.toByteBuf())
+        buf.release()
     }
 
 }

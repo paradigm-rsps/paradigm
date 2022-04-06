@@ -65,7 +65,7 @@ public class HealthBarUpdate extends Node {
 
 				if (!var10 && Client.field603 == 0 && !player.isHidden) {
 					Players.field1299.offset = 0;
-					buf.writeBytesReversed(Players.field1299.array, 0, var8);
+					buf.readBytesReversed(Players.field1299.array, 0, var8);
 					Players.field1299.offset = 0;
 					String var11 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(Players.field1299)));
 					player.overheadText = var11.trim();
@@ -120,7 +120,7 @@ public class HealthBarUpdate extends Node {
 			dataLength = buf.readUnsignedByteSub();
 			byte[] data = new byte[dataLength];
 			Buffer appearanceBuf = new Buffer(data);
-			buf.writeBytesReversed(data, 0, dataLength);
+			buf.readBytesReversed(data, 0, dataLength);
 			Players.cached_appearances[var1] = appearanceBuf;
 			player.read(appearanceBuf);
 		}

@@ -49,8 +49,6 @@ class PlayerSyncTask : SyncTask {
         added += writeExternalPlayers(mainBuf, maskBuf, false, local, added)
         added += writeExternalPlayers(mainBuf, maskBuf, true, local, added)
 
-        val buf = session.ctx.alloc().buffer()
-
         gpi.localPlayerCount = 0
         gpi.externalPlayerCount = 0
 
@@ -64,9 +62,9 @@ class PlayerSyncTask : SyncTask {
         }
 
         mainBuf.writeBytes(maskBuf.toByteBuf())
-        maskBuf.toByteBuf().release()
-        buf.writeBytes(mainBuf.toByteBuf())
-        return buf
+        maskBuf.release()
+
+        return mainBuf.toByteBuf()
     }
 
     private fun Player.writeLocalPlayers(buf: JagByteBuf, maskBuf: JagByteBuf, activeMode: Boolean): Int {

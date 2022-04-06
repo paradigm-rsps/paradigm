@@ -58,13 +58,19 @@ class JagByteBuf(private val buffer: ByteBuf = Unpooled.buffer()) {
     fun toByteBuf(): ByteBuf = buffer
 
     /**
+     * Releases the backing buffer data from memory.
+     * @return Boolean
+     */
+    fun release() = buffer.release()
+
+    /**
      * Sets the writer mode to either BIT or BYTE access.
      * @param accessMode AccessMode
      */
     fun switchWriteMode(accessMode: AccessMode) {
-        when(accessMode) {
+        when (accessMode) {
             is BYTE_MODE -> {
-                if(writerMode === BYTE_MODE) return
+                if (writerMode === BYTE_MODE) return
                 writerMode = BYTE_MODE
                 buffer.writerIndex((writerBitIndex + 7) / 8)
             }

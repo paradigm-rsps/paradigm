@@ -13,6 +13,7 @@ class UpdatePlayers(val buf: ByteBuf) : Packet {
     companion object : Codec<UpdatePlayers> {
         override fun encode(session: Session, packet: UpdatePlayers, out: JagByteBuf) {
             out.writeBytes(packet.buf)
+            packet.buf.release()
         }
     }
 }
