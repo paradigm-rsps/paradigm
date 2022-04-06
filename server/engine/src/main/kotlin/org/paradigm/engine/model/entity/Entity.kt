@@ -10,8 +10,5 @@ abstract class Entity {
     val engine: Engine by inject()
     val world: World by inject()
 
-    var index: Int = -1
-
-    open var tile: Tile = Tile(0, 0, 0)
-
+    abstract var tile: Tile
 }

@@ -1,7 +1,9 @@
 package org.paradigm.engine.model.entity.update
 
+import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.util.buffer.JagByteBuf
+import org.paradigm.util.buffer.NEG
 import org.paradigm.util.buffer.SUB
 import org.paradigm.util.buffer.toJagBuf
 import kotlin.math.max
@@ -12,8 +14,16 @@ class PlayerUpdateFlag(
     val encode: JagByteBuf.(Player) -> Unit
 ) : UpdateFlag(order, mask) {
     companion object {
+
         /**
-         * Player Appearance Flag
+         * Movement Flag
+         */
+        val MOVEMENT = PlayerUpdateFlag(order = 1, mask = 0x100) { player ->
+            writeByte(if (player.movementState == MovementState.TELEPORT) 127 else 0, transform = SUB)
+        }
+
+        /**
+         * Appearance Flag
          */
         val APPEARANCE = PlayerUpdateFlag(order = 5, mask = 0x80) { player ->
             val appBuf = player.session.ctx.alloc().buffer().toJagBuf()
@@ -46,6 +56,13 @@ class PlayerUpdateFlag(
             this.writeByte(appBuf.writerIndex(), transform = SUB)
             this.writeBytesReversed(appBuf.toByteBuf())
             appBuf.release()
+        }
+
+        /**
+         * Movement Type Flag
+         */
+        val MOVEMENT_TYPE = PlayerUpdateFlag(order = 10, mask = 0x4000) { player ->
+            writeByte(if (player.running) 2 else 1, transform = NEG)
         }
 
         /*

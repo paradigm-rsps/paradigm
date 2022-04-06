@@ -103,7 +103,7 @@ public class WorldMapLabelSize {
 					var4.tileY = var7;
 				} else {
 					var4.field1109 = false;
-					var4.method2144(var6, var7, Players.field1285[var1]);
+                    var4.method2144(var6, var7, Players.movementTypes[var1]);
 				}
 
 			} else if (var3 == 2) {
@@ -164,8 +164,8 @@ public class WorldMapLabelSize {
 					var4.tileX = var6;
 					var4.tileY = var7;
 				} else {
-					var4.field1109 = false;
-					var4.method2144(var6, var7, Players.field1285[var1]);
+                    var4.field1109 = false;
+                    var4.method2144(var6, var7, Players.movementTypes[var1]);
 				}
 
 			} else {
@@ -197,8 +197,8 @@ public class WorldMapLabelSize {
 						var4.tileX = var10;
 						var4.tileY = var11;
 					} else {
-						var4.field1109 = false;
-						var4.method2144(var10, var11, Players.field1285[var1]);
+                        var4.field1109 = false;
+                        var4.method2144(var10, var11, Players.movementTypes[var1]);
 					}
 
 					var4.plane = (byte)(var7 + var4.plane & 3);
@@ -221,8 +221,8 @@ public class WorldMapLabelSize {
 						var4.tileX = var10;
 						var4.tileY = var11;
 					} else {
-						var4.field1109 = false;
-						var4.method2144(var10, var11, Players.field1285[var1]);
+                        var4.field1109 = false;
+                        var4.method2144(var10, var11, Players.movementTypes[var1]);
 					}
 
 					var4.plane = (byte)(var7 + var4.plane & 3);

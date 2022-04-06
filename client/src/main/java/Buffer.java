@@ -582,12 +582,12 @@ public class Buffer extends Node {
 		return (byte)(this.array[++this.offset - 1] - 128);
 	}
 
-	public byte method7955() {
-		return (byte)(0 - this.array[++this.offset - 1]);
+	public byte readByteNeg() {
+		return (byte) (0 - this.array[++this.offset - 1]);
 	}
 
-	public byte method7925() {
-		return (byte)(128 - this.array[++this.offset - 1]);
+	public byte readByteSub() {
+		return (byte) (128 - this.array[++this.offset - 1]);
 	}
 
 	public void method7795(int var1) {

@@ -23,7 +23,7 @@ public class HealthBarUpdate extends Node {
 	}
 
 	static int ItemContainer_getCount(int var0, int var1) {
-		ItemContainer var2 = (ItemContainer)ItemContainer.itemContainers.get(var0);
+		ItemContainer var2 = (ItemContainer) ItemContainer.itemContainers.get(var0);
 		if (var2 == null) {
 			return 0;
 		} else {
@@ -31,21 +31,21 @@ public class HealthBarUpdate extends Node {
 		}
 	}
 
-	static final void decodePlayerUpdateFlag(PacketBuffer buf, int var1, Player player, int mask) {
-		byte var4 = class193.field2192.field2194;
+	static final void readPlayerUpdateFlags(PacketBuffer buf, int playerIndex, Player player, int mask) {
+		byte movementType = class193.field2192.field2194;
 		// 0
 		if ((mask & 8192) != 0) {
 			player.field1133 = Client.cycle + buf.readUnsignedShortAdd();
 			player.field1185 = Client.cycle + buf.readUnsignedShortLE();
-			player.field1146 = buf.method7955();
-			player.field1187 = buf.method7955();
-			player.field1188 = buf.method7925();
+			player.field1146 = buf.readByteNeg();
+			player.field1187 = buf.readByteNeg();
+			player.field1188 = buf.readByteSub();
 			player.field1189 = (byte) buf.method7790();
 		}
 
-		// 1
+		// Movement : 1 - 0x100
 		if ((mask & 256) != 0) {
-			var4 = buf.method7925();
+			movementType = buf.readByteSub();
 		}
 
 		int dataLength;
@@ -53,7 +53,7 @@ public class HealthBarUpdate extends Node {
 		int var9;
 		int var12;
 
-		// 2
+		// Chat : 2
 		if ((mask & 1) != 0) {
 			dataLength = buf.readUnsignedShortLE();
 			PlayerType var6 = (PlayerType) ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), buf.readUnsignedByte());
@@ -91,14 +91,14 @@ public class HealthBarUpdate extends Node {
 			buf.offset = var8 + var9;
 		}
 
-		// 3
+		// Actions : 3
 		if ((mask & 2048) != 0) {
 			for (dataLength = 0; dataLength < 3; ++dataLength) {
 				player.actions[dataLength] = buf.readStringCp1252NullTerminated();
 			}
 		}
 
-		// 4
+		// Spot Animation : 4
 		if ((mask & 4096) != 0) {
 			player.spotAnimation = buf.readUnsignedShortLE();
 			dataLength = buf.readIntLE();
@@ -121,15 +121,16 @@ public class HealthBarUpdate extends Node {
 			byte[] data = new byte[dataLength];
 			Buffer appearanceBuf = new Buffer(data);
 			buf.readBytesReversed(data, 0, dataLength);
-			Players.cached_appearances[var1] = appearanceBuf;
+			Players.cached_appearances[playerIndex] = appearanceBuf;
 			player.read(appearanceBuf);
 		}
 
+		// Force Move : 6
 		if ((mask & 512) != 0) {
 			player.field1175 = buf.method7792();
 			player.field1177 = buf.readByte();
-			player.field1176 = buf.method7925();
-			player.field1178 = buf.method7955();
+			player.field1176 = buf.readByteSub();
+			player.field1178 = buf.readByteNeg();
 			player.field1179 = buf.readUnsignedShortAdd() + Client.cycle;
 			player.field1180 = buf.readUnsignedShortLEAdd() + Client.cycle;
 			player.field1181 = buf.readUnsignedShortLE();
@@ -150,6 +151,7 @@ public class HealthBarUpdate extends Node {
 			player.field1134 = 0;
 		}
 
+		// Force direction : 7
 		if ((mask & 16) != 0) {
 			player.field1160 = buf.readUnsignedShort();
 			if (player.pathLength == 0) {
@@ -158,6 +160,7 @@ public class HealthBarUpdate extends Node {
 			}
 		}
 
+		// Force chat : 8
 		if ((mask & 2) != 0) {
 			player.overheadText = buf.readStringCp1252NullTerminated();
 			if (player.overheadText.charAt(0) == '~') {
@@ -174,6 +177,8 @@ public class HealthBarUpdate extends Node {
 		}
 
 		int var14;
+
+		// Animation : 9
 		if ((mask & 8) != 0) {
 			dataLength = buf.readUnsignedShortLEAdd();
 			if (dataLength == 65535) {
@@ -184,10 +189,12 @@ public class HealthBarUpdate extends Node {
 			KeyHandler.performPlayerAnimation(player, dataLength, var14);
 		}
 
+		// Movement Type : 10 - 0x4000
 		if ((mask & 16384) != 0) {
-			Players.field1285[var1] = (class193) ChatChannel.findEnumerated(class124.method2801(), buf.method7955());
+			Players.movementTypes[playerIndex] = (class193) ChatChannel.findEnumerated(class124.method2801(), buf.readByteNeg());
 		}
 
+		// Interact : 11
 		if ((mask & 32) != 0) {
 			player.targetIndex = buf.readUnsignedShortLE();
 			if (player.targetIndex == 65535) {
@@ -195,6 +202,7 @@ public class HealthBarUpdate extends Node {
 			}
 		}
 
+		// Hitsplat : 12
 		if ((mask & 4) != 0) {
 			dataLength = buf.method7790();
 			int var16;
@@ -240,17 +248,17 @@ public class HealthBarUpdate extends Node {
 		}
 
 		if (player.field1109) {
-			if (var4 == 127) {
+			if (movementType == 127) {
 				player.resetPath(player.tileX, player.tileY);
 			} else {
-				class193 var15;
-				if (var4 != class193.field2192.field2194) {
-					var15 = (class193) ChatChannel.findEnumerated(class124.method2801(), var4);
+				class193 movementDirection;
+				if (movementType != class193.field2192.field2194) {
+					movementDirection = (class193) ChatChannel.findEnumerated(class124.method2801(), movementType);
 				} else {
-					var15 = Players.field1285[var1];
+					movementDirection = Players.movementTypes[playerIndex];
 				}
 
-				player.method2144(player.tileX, player.tileY, var15);
+				player.method2144(player.tileX, player.tileY, movementDirection);
 			}
 		}
 

@@ -14,11 +14,15 @@ import org.tinylog.kotlin.Logger
 
 class Player internal constructor(val session: Session) : LivingEntity() {
 
-    init { session.player = this }
+    init {
+        session.player = this
+    }
 
     val gpi = GpiManager(this)
     val scene = SceneManager(this)
     val ui = InterfaceManager(this)
+
+    override val size: Int = 1
 
     var username: String = ""
     var passwordHash: String = ""
@@ -31,7 +35,6 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     var appearance: Appearance = Appearance.DEFAULT
     var stanceAnimations: IntArray = intArrayOf(808, 823, 819, 820, 821, 822, 824)
     var combatLevel: Int = 3
-    var invisible: Boolean = false
 
     val updateFlags = sortedSetOf<PlayerUpdateFlag>()
 
@@ -40,6 +43,9 @@ class Player internal constructor(val session: Session) : LivingEntity() {
         ServerConfig.HOME_TILE.y,
         ServerConfig.HOME_TILE.plane
     )
+
+    override var prevTile: Tile = tile
+    override var followTile: Tile = tile
 
     internal fun init() {
         gpi.init()

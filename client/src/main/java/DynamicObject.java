@@ -242,8 +242,8 @@ public class DynamicObject extends Renderable {
 			}
 
 			if (class162.field1768 && (var5 & 256) != 0 || !class162.field1768 && (var5 & 64) != 0) {
-				var4.field1175 = var1.method7925();
-				var4.field1177 = var1.method7792();
+				var4.field1175 = var1.readByteSub();
+                var4.field1177 = var1.method7792();
 				var4.field1176 = var1.readByte();
 				var4.field1178 = var1.readByte();
 				var4.field1179 = var1.readUnsignedShortLEAdd() + Client.cycle;

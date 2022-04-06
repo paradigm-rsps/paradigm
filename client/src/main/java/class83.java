@@ -33,7 +33,7 @@ public enum class83 implements MouseWheel {
 				mask += buf.readUnsignedByte() << 8;
 			}
 
-			HealthBarUpdate.decodePlayerUpdateFlag(buf, playerIndex, player, mask);
+			HealthBarUpdate.readPlayerUpdateFlags(buf, playerIndex, player, mask);
 		}
 
 		if (buf.offset - var2 != var1) {

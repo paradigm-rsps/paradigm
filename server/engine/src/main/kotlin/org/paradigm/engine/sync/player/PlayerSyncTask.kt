@@ -4,12 +4,15 @@ import io.netty.buffer.ByteBuf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.paradigm.common.inject
+import org.paradigm.engine.Engine
 import org.paradigm.engine.coroutine.EngineCoroutineScope
+import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.list.PlayerList
 import org.paradigm.engine.model.map.Scene
+import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.net.packet.server.UpdatePlayers
 import org.paradigm.engine.sync.SyncTask
 import org.paradigm.util.buffer.BIT_MODE
@@ -17,18 +20,19 @@ import org.paradigm.util.buffer.BYTE_MODE
 import org.paradigm.util.buffer.JagByteBuf
 import org.paradigm.util.buffer.toJagBuf
 import java.util.*
+import kotlin.math.abs
 
 class PlayerSyncTask : SyncTask {
 
-    private val engineCoroutine: EngineCoroutineScope by inject()
+    private val engine: Engine by inject()
     private val world: World by inject()
 
     override suspend fun execute() {
-        val sync = engineCoroutine.launch { launchSync() }
+        val sync = engine.ioCoroutine.launch { launchSync() }
         sync.join()
     }
 
-    private fun CoroutineScope.launchSync() {
+    private fun CoroutineScope.launchSync() = launch {
         world.players.forEach { player ->
             launch {
                 val buf = player.encodeSync()
@@ -74,16 +78,38 @@ class PlayerSyncTask : SyncTask {
         fun shouldUpdate(player: Player, other: Player): Boolean {
             return other.updateFlags.isNotEmpty()
                     || !player.tile.isWithinRadius(other.tile, Scene.RENDER_DISTANCE)
+                    || other.movementState != MovementState.NONE
         }
 
         fun updatePlayer(localPlayer: Player, buf: JagByteBuf, maskBuf: JagByteBuf) {
             val shouldUpdate = localPlayer.updateFlags.isNotEmpty()
-
             buf.writeBoolean(shouldUpdate)
 
-            if (!this.tile.isWithinRadius(localPlayer.tile, Scene.RENDER_DISTANCE)) {
+            if (localPlayer.movementState == MovementState.TELEPORT) {
+                buf.writeBits(3, 2)
+                val dx = localPlayer.tile.x - localPlayer.prevTile.x
+                val dy = localPlayer.tile.y - localPlayer.prevTile.y
+                val dz = localPlayer.tile.plane - localPlayer.prevTile.plane
+                if (abs(dx) <= Scene.RENDER_DISTANCE && abs(dy) <= Scene.RENDER_DISTANCE) {
+                    buf.writeBoolean(false)
+                    buf.writeBits(dz and 0x3, 2)
+                    buf.writeBits(dx and 0x1F, 5)
+                    buf.writeBits(dy and 0x1f, 5)
+                } else {
+                    buf.writeBoolean(true)
+                    buf.writeBits(dz and 0x3, 2)
+                    buf.writeBits(dx and 0x3FFF, 14)
+                    buf.writeBits(dy and 0x3FFF, 14)
+                }
+            } else if (!this.tile.isWithinRadius(localPlayer.tile, Scene.RENDER_DISTANCE)) {
                 buf.writeBits(0, 2)
                 gpi.localPlayers[localPlayer.index] = null
+            } else if (localPlayer.movementState == MovementState.WALK) {
+                buf.writeBits(1, 2)
+                buf.writeBits(getMoveDirection(localPlayer), 3)
+            } else if (localPlayer.movementState == MovementState.RUN) {
+                buf.writeBits(2, 2)
+                buf.writeBits(getMoveDirection(localPlayer), 4)
             } else if (shouldUpdate) {
                 buf.writeBits(0, 2)
             }
@@ -233,8 +259,41 @@ class PlayerSyncTask : SyncTask {
         gpi.skipFlags[index] = gpi.skipFlags[index] or 0x2
     }
 
-    private fun Player.writeTileUpdate(other: Player, buf: JagByteBuf) {
+    private fun getDirectionId(dx: Int, dy: Int) = MOVE_DIR[2 - dy][dx + 2]
 
+    private fun getMoveDirection(player: Player): Int {
+        val dx = player.tile.x - player.prevTile.x
+        val dy = player.tile.y - player.prevTile.y
+        return getDirectionId(dx, dy)
+    }
+
+    private fun Player.writeTileUpdate(player: Player, buf: JagByteBuf) {
+        val prev = gpi.tiles[player.index]
+        val curr = player.tile.to18BitInteger()
+
+        val px = (prev shr 8) and 0xFF
+        val py = prev and 0xFF
+        val pz = prev shr 16
+
+        val cx = (curr shr 8) and 0xFF
+        val cy = curr and 0xFF
+        val cz = curr shr 16
+
+        val dx = cx - px
+        val dy = cy - py
+        val dz = (cz - pz) and 0x3
+
+        if (dx == 0 && dy == 0) {
+            buf.writeBits(1, 2)
+            buf.writeBits(dz, 2)
+        } else if (abs(dx) <= 1 && abs(dy) <= 1) {
+            buf.writeBits(2, 2)
+            buf.writeBits((dz shl 3) or getDirectionId(dx, dy), 5)
+        } else {
+            buf.writeBits(3, 2)
+            buf.writeBits(Tile(dx, dy, dz).to18BitInteger(), 18)
+        }
+        gpi.tiles[player.index] = curr
     }
 
     private fun encodeUpdateFlags(
@@ -263,5 +322,12 @@ class PlayerSyncTask : SyncTask {
 
     companion object {
         private const val EXCESS_MASK = 0x40
+        private val MOVE_DIR = arrayOf(
+            intArrayOf(11, 12, 13, 14, 15),
+            intArrayOf(9, 5, 6, 7, 10),
+            intArrayOf(7, 3, -1, 4, 8),
+            intArrayOf(5, 0, 1, 2, 6),
+            intArrayOf(0, 1, 2, 3, 4)
+        )
     }
 }

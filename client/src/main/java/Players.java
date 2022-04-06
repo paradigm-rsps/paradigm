@@ -1,6 +1,6 @@
 public class Players {
 	static byte[] field1288;
-	static class193[] field1285;
+    static class193[] movementTypes;
     static Buffer[] cached_appearances;
     static int Players_count;
 	static int[] Players_indices;
@@ -14,8 +14,8 @@ public class Players {
 	static Buffer field1299;
 
 	static {
-		field1288 = new byte[2048];
-        field1285 = new class193[2048];
+        field1288 = new byte[2048];
+        movementTypes = new class193[2048];
         cached_appearances = new Buffer[2048];
         Players_count = 0;
 		Players_indices = new int[2048];

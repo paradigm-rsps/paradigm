@@ -95,7 +95,7 @@ public class class9 implements MouseWheel {
                 var8 = var7 >> 28;
                 var9 = var7 >> 14 & 255;
                 var10 = var7 & 255;
-                var11.pathTraversed[0] = Players.field1285[var1];
+                var11.pathTraversed[0] = Players.movementTypes[var1];
                 var11.plane = (byte) var8;
 				var11.resetPath((var9 << 13) + var3 - ApproximateRouteStrategy.baseX, (var10 << 13) + var4 - class250.baseY);
 				var11.field1109 = false;

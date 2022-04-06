@@ -1,5 +1,6 @@
 package org.paradigm.engine.model.map
 
+import org.paradigm.engine.model.Direction
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.sqrt
@@ -20,6 +21,22 @@ value class Tile(val packed: Int) {
     constructor(x: Int, y: Int, plane: Int = 0) : this(
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
     )
+
+    fun translate(x: Int = 0, y: Int = 0, plane: Int = 0) = Tile(
+        this.x + x,
+        this.y + y,
+        this.plane + plane
+    )
+
+    fun translate(direction: Direction) = Tile(
+        this.x + direction.stepX,
+        this.y + direction.stepY,
+        this.plane
+    )
+
+    operator fun plus(other: Tile) = translate(other.x, other.y)
+
+    operator fun minus(other: Tile) = translate(-other.x, -other.y)
 
     fun isWithinRadius(x: Int, y: Int, plane: Int, radius: Int): Boolean {
         if (this.plane != plane) return false
@@ -44,6 +61,14 @@ value class Tile(val packed: Int) {
     fun deltaTo(x: Int, y: Int): Int = abs(this.x - x) + abs(this.y - y)
 
     fun deltaTo(other: Tile): Int = deltaTo(other.x, other.y)
+
+    fun directionTo(x: Int, y: Int): Direction = directionTo(Tile(x, y, this.plane))
+
+    fun directionTo(other: Tile): Direction = Direction.between(this, other)
+
+    fun sameAs(x: Int, y: Int): Boolean = this.x == x && this.y == y
+
+    fun sameAs(other: Tile): Boolean = sameAs(other.x, other.y)
 
     fun toChunk() = Chunk(
         x / Chunk.SIZE,

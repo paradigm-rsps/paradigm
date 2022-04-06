@@ -139,7 +139,7 @@ public class PacketWriter {
 		int var0;
 		for (var0 = 0; var0 < 2048; ++var0) {
 			Players.cached_appearances[var0] = null;
-            Players.field1285[var0] = class193.field2193;
+            Players.movementTypes[var0] = class193.field2193;
 		}
 
 		for (var0 = 0; var0 < 2048; ++var0) {

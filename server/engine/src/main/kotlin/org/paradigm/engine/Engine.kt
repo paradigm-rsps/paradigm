@@ -24,7 +24,7 @@ class Engine {
 
     private val updateTasks = SyncTaskList()
     private var running = false
-    private var prevCycleTime = 0L
+    private var prevCycleNanos = 0L
 
     internal val ioCoroutine = CoroutineScope(Dispatchers.IO)
 
@@ -50,19 +50,19 @@ class Engine {
 
     private fun CoroutineScope.start() = launch {
         while(running) {
-            val nanos = measureNanoTime { cycle() } + prevCycleTime
-            val millis = TimeUnit.NANOSECONDS.toMillis(nanos)
-            val sleepTime = if(millis > ServerConfig.TICK_RATE) {
-                val curCycle = millis / ServerConfig.TICK_RATE
-                (curCycle + 1) * ServerConfig.TICK_RATE - millis
+            val activeNanos = measureNanoTime { cycle() } + prevCycleNanos
+            val activeMillis = TimeUnit.NANOSECONDS.toMillis(activeNanos)
+            val idleMillis = if (activeMillis > ServerConfig.TICK_RATE) {
+                val curCycle = activeMillis / ServerConfig.TICK_RATE
+                (curCycle + 1) * ServerConfig.TICK_RATE - activeMillis
             } else {
-                ServerConfig.TICK_RATE - millis
+                ServerConfig.TICK_RATE - activeMillis
             }
-            if(millis > ServerConfig.TICK_RATE) {
-                Logger.warn("Tick took longer than expected. Is the server overloaded? (active: ${millis}ms, idle: ${sleepTime}ms).")
+            if (activeMillis > ServerConfig.TICK_RATE) {
+                Logger.warn("Tick took longer than expected. Is the server overloaded? (active: ${activeMillis}ms, idle: ${idleMillis}ms).")
             }
-            prevCycleTime = nanos - TimeUnit.NANOSECONDS.toNanos(millis)
-            delay(sleepTime)
+            prevCycleNanos = activeNanos - TimeUnit.MILLISECONDS.toNanos(activeMillis)
+            delay(idleMillis)
         }
     }
 

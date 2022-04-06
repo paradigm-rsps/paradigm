@@ -48,7 +48,6 @@ class PlayerList : Iterable<Player> {
     operator fun get(username: String): Player? = this.firstOrNull { it.username == username }
 
     inner class PidIterator : MutableIterator<Player> {
-
         internal var currentIndex = 0
 
         override fun hasNext(): Boolean {

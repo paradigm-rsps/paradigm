@@ -24,9 +24,9 @@ public class class221 {
 			var6 = (var5 >> 4 & 7) + FriendSystem.field803;
 			var7 = (var5 & 7) + class9.field34;
 			var8 = var1.readUnsignedShortAdd();
-			byte var41 = var1.method7955();
+			byte var41 = var1.readByteNeg();
 			var10 = var1.readUnsignedByteSub();
-			byte var42 = var1.method7925();
+            byte var42 = var1.readByteSub();
 			var12 = var1.readUnsignedByte() * 4;
 			var13 = var1.method7790();
 			var14 = var1.readUnsignedShortAdd();
