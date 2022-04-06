@@ -142,105 +142,105 @@ public class class146 extends class128 {
 		return var8;
 	}
 
-	static final void loadRegions(boolean var0, PacketBuffer var1) {
-		Client.isInInstance = var0;
-		int var2;
-		int var3;
-		int var5;
-		int var6;
+	static final void rebuildRegion(boolean isInstance, PacketBuffer buf) {
+		Client.isInInstance = isInstance;
+		int chunkX;
+		int chunkY;
+		int regionX;
+		int regionY;
 		int var7;
 		int var8;
 		if (!Client.isInInstance) {
-			var2 = var1.method7935();
-			var3 = var1.method7935();
-			int var4 = var1.readUnsignedShort();
-			Message.xteaKeys = new int[var4][4];
+			chunkX = buf.readUnsignedShortAdd();
+			chunkY = buf.readUnsignedShortAdd();
+			int regionCount = buf.readUnsignedShort();
+			Message.xteaKeys = new int[regionCount][4];
 
-			for (var5 = 0; var5 < var4; ++var5) {
-				for (var6 = 0; var6 < 4; ++var6) {
-					Message.xteaKeys[var5][var6] = var1.readInt();
+			for (regionX = 0; regionX < regionCount; ++regionX) {
+				for (regionY = 0; regionY < 4; ++regionY) {
+					Message.xteaKeys[regionX][regionY] = buf.readInt();
 				}
 			}
 
-			class123.regions = new int[var4];
-			ObjectComposition.regionMapArchiveIds = new int[var4];
-			Message.regionLandArchiveIds = new int[var4];
-			WorldMapSectionType.regionLandArchives = new byte[var4][];
-			Occluder.regionMapArchives = new byte[var4][];
+			class123.regions = new int[regionCount];
+			ObjectComposition.regionMapArchiveIds = new int[regionCount];
+			Message.regionLandArchiveIds = new int[regionCount];
+			WorldMapSectionType.regionLandArchives = new byte[regionCount][];
+			Occluder.regionMapArchives = new byte[regionCount][];
 			boolean var16 = false;
 			if (Client.field753) {
-				if ((var2 / 8 == 48 || var2 / 8 == 49) && var3 / 8 == 48) {
+				if ((chunkX / 8 == 48 || chunkX / 8 == 49) && chunkY / 8 == 48) {
 					var16 = true;
 				}
 
-				if (var2 / 8 == 48 && var3 / 8 == 148) {
+				if (chunkX / 8 == 48 && chunkY / 8 == 148) {
 					var16 = true;
 				}
 			}
 
-			var4 = 0;
+			regionCount = 0;
 
-			for (var6 = (var2 - 6) / 8; var6 <= (var2 + 6) / 8; ++var6) {
-				for (var7 = (var3 - 6) / 8; var7 <= (var3 + 6) / 8; ++var7) {
-					var8 = var7 + (var6 << 8);
-					if (!var16 || var7 != 49 && var7 != 149 && var7 != 147 && var6 != 50 && (var6 != 49 || var7 != 47)) {
-						class123.regions[var4] = var8;
-						ObjectComposition.regionMapArchiveIds[var4] = class302.archive5.getGroupId("m" + var6 + "_" + var7);
-						Message.regionLandArchiveIds[var4] = class302.archive5.getGroupId("l" + var6 + "_" + var7);
-						++var4;
+			for (regionY = (chunkX - 6) / 8; regionY <= (chunkX + 6) / 8; ++regionY) {
+				for (var7 = (chunkY - 6) / 8; var7 <= (chunkY + 6) / 8; ++var7) {
+					var8 = var7 + (regionY << 8);
+					if (!var16 || var7 != 49 && var7 != 149 && var7 != 147 && regionY != 50 && (regionY != 49 || var7 != 47)) {
+						class123.regions[regionCount] = var8;
+						ObjectComposition.regionMapArchiveIds[regionCount] = class302.archive5.getGroupId("m" + regionY + "_" + var7);
+						Message.regionLandArchiveIds[regionCount] = class302.archive5.getGroupId("l" + regionY + "_" + var7);
+						++regionCount;
 					}
 				}
 			}
 
-			class321.method6030(var2, var3, true);
+			class321.method6030(chunkX, chunkY, true);
 		} else {
-			var2 = var1.method7971();
-			var3 = var1.method7798();
-			boolean var15 = var1.readUnsignedByte() == 1;
-			var5 = var1.readUnsignedShort();
-			var1.importIndex();
+			chunkX = buf.readUnsignedShortLEAdd();
+			chunkY = buf.readUnsignedShortLE();
+			boolean var15 = buf.readUnsignedByte() == 1;
+			regionX = buf.readUnsignedShort();
+			buf.importIndex();
 
 			int var9;
-			for (var6 = 0; var6 < 4; ++var6) {
+			for (regionY = 0; regionY < 4; ++regionY) {
 				for (var7 = 0; var7 < 13; ++var7) {
 					for (var8 = 0; var8 < 13; ++var8) {
-						var9 = var1.readBits(1);
+						var9 = buf.readBits(1);
 						if (var9 == 1) {
-							Client.instanceChunkTemplates[var6][var7][var8] = var1.readBits(26);
+							Client.instanceChunkTemplates[regionY][var7][var8] = buf.readBits(26);
 						} else {
-							Client.instanceChunkTemplates[var6][var7][var8] = -1;
+							Client.instanceChunkTemplates[regionY][var7][var8] = -1;
 						}
 					}
 				}
 			}
 
-			var1.exportIndex();
-			Message.xteaKeys = new int[var5][4];
+			buf.exportIndex();
+			Message.xteaKeys = new int[regionX][4];
 
-			for (var6 = 0; var6 < var5; ++var6) {
+			for (regionY = 0; regionY < regionX; ++regionY) {
 				for (var7 = 0; var7 < 4; ++var7) {
-					Message.xteaKeys[var6][var7] = var1.readInt();
+					Message.xteaKeys[regionY][var7] = buf.readInt();
 				}
 			}
 
-			class123.regions = new int[var5];
-			ObjectComposition.regionMapArchiveIds = new int[var5];
-			Message.regionLandArchiveIds = new int[var5];
-			WorldMapSectionType.regionLandArchives = new byte[var5][];
-			Occluder.regionMapArchives = new byte[var5][];
-			var5 = 0;
+			class123.regions = new int[regionX];
+			ObjectComposition.regionMapArchiveIds = new int[regionX];
+			Message.regionLandArchiveIds = new int[regionX];
+			WorldMapSectionType.regionLandArchives = new byte[regionX][];
+			Occluder.regionMapArchives = new byte[regionX][];
+			regionX = 0;
 
-			for (var6 = 0; var6 < 4; ++var6) {
+			for (regionY = 0; regionY < 4; ++regionY) {
 				for (var7 = 0; var7 < 13; ++var7) {
 					for (var8 = 0; var8 < 13; ++var8) {
-						var9 = Client.instanceChunkTemplates[var6][var7][var8];
+						var9 = Client.instanceChunkTemplates[regionY][var7][var8];
 						if (var9 != -1) {
 							int var10 = var9 >> 14 & 1023;
 							int var11 = var9 >> 3 & 2047;
 							int var12 = (var10 / 8 << 8) + var11 / 8;
 
 							int var13;
-							for (var13 = 0; var13 < var5; ++var13) {
+							for (var13 = 0; var13 < regionX; ++var13) {
 								if (class123.regions[var13] == var12) {
 									var12 = -1;
 									break;
@@ -248,19 +248,19 @@ public class class146 extends class128 {
 							}
 
 							if (var12 != -1) {
-								class123.regions[var5] = var12;
+								class123.regions[regionX] = var12;
 								var13 = var12 >> 8 & 255;
 								int var14 = var12 & 255;
-								ObjectComposition.regionMapArchiveIds[var5] = class302.archive5.getGroupId("m" + var13 + "_" + var14);
-								Message.regionLandArchiveIds[var5] = class302.archive5.getGroupId("l" + var13 + "_" + var14);
-								++var5;
+								ObjectComposition.regionMapArchiveIds[regionX] = class302.archive5.getGroupId("m" + var13 + "_" + var14);
+								Message.regionLandArchiveIds[regionX] = class302.archive5.getGroupId("l" + var13 + "_" + var14);
+								++regionX;
 							}
 						}
 					}
 				}
 			}
 
-			class321.method6030(var3, var2, !var15);
+			class321.method6030(chunkY, chunkX, !var15);
 		}
 
 	}

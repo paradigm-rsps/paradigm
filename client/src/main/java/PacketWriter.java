@@ -100,7 +100,7 @@ public class PacketWriter {
 		WorldMapElement.WorldMapElement_cachedSprites.clear();
 	}
 
-	static void method2489() {
+	static void reset() {
 		Client.mouseLastLastPressedTimeMillis = -1L;
 		BuddyRankComparator.mouseRecorder.index = 0;
 		Varps.hasFocus = true;

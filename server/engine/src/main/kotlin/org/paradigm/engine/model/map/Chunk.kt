@@ -13,6 +13,22 @@ value class Chunk(private val packed: Int) {
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
     )
 
+    fun toTile() = Tile(
+        x * SIZE,
+        y * SIZE,
+        plane
+    )
+
+    fun toRegion() = Region(
+        x / (Region.SIZE / SIZE),
+        y / (Region.SIZE / SIZE)
+    )
+
+    fun toScene() = Scene(
+        x / (Scene.SIZE / SIZE),
+        y / (Scene.SIZE / SIZE)
+    )
+
     companion object {
         const val SIZE = 8
     }

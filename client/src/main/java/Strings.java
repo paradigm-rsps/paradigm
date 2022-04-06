@@ -13,7 +13,7 @@ public class Strings {
 		field3871 = "(Please check your popup blocker.)";
 	}
 
-	static final void updatePlayer(PacketBuffer var0) {
+	static final void readPlayerGpi(PacketBuffer var0) {
 		var0.importIndex();
 		int var1 = Client.localPlayerIndex;
 		Player var2 = class19.localPlayer = Client.players[var1] = new Player();

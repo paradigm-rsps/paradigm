@@ -1,5 +1,5 @@
 public class ServerPacket {
-	public static final ServerPacket field3127;
+	public static final ServerPacket REBUILD_REGION_NORMAL;
 	public static final ServerPacket field3025;
 	public static final ServerPacket field3026;
 	public static final ServerPacket field3078;
@@ -63,7 +63,7 @@ public class ServerPacket {
 	public static final ServerPacket field3085;
 	public static final ServerPacket field3051;
 	public static final ServerPacket field3087;
-	public static final ServerPacket field3088;
+	public static final ServerPacket rebuildRegionOther;
 	public static final ServerPacket field3070;
 	public static final ServerPacket field3117;
 	public static final ServerPacket field3091;
@@ -107,7 +107,7 @@ public class ServerPacket {
 	public final int length;
 
 	static {
-		field3127 = new ServerPacket(0, -2);
+		REBUILD_REGION_NORMAL = new ServerPacket(0, -2);
 		field3025 = new ServerPacket(1, -2);
 		field3026 = new ServerPacket(2, 4);
 		field3078 = new ServerPacket(3, -2);
@@ -171,7 +171,7 @@ public class ServerPacket {
 		field3085 = new ServerPacket(61, 28);
 		field3051 = new ServerPacket(62, 0);
 		field3087 = new ServerPacket(63, -2);
-		field3088 = new ServerPacket(64, -2);
+		rebuildRegionOther = new ServerPacket(64, -2);
 		field3070 = new ServerPacket(65, 5);
 		field3117 = new ServerPacket(66, -1);
 		field3091 = new ServerPacket(67, 15);

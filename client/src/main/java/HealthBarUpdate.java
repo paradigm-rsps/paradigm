@@ -34,8 +34,8 @@ public class HealthBarUpdate extends Node {
 	static final void method2213(PacketBuffer var0, int var1, Player var2, int var3) {
 		byte var4 = class193.field2192.field2194;
 		if ((var3 & 8192) != 0) {
-			var2.field1133 = Client.cycle + var0.method7935();
-			var2.field1185 = Client.cycle + var0.method7798();
+			var2.field1133 = Client.cycle + var0.readUnsignedShortAdd();
+			var2.field1185 = Client.cycle + var0.readUnsignedShortLE();
 			var2.field1146 = var0.method7955();
 			var2.field1187 = var0.method7955();
 			var2.field1188 = var0.method7925();
@@ -51,7 +51,7 @@ public class HealthBarUpdate extends Node {
 		int var9;
 		int var12;
 		if ((var3 & 1) != 0) {
-			var5 = var0.method7798();
+			var5 = var0.readUnsignedShortLE();
 			PlayerType var6 = (PlayerType)ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), var0.readUnsignedByte());
 			boolean var7 = var0.method7927() == 1;
 			var8 = var0.method7927();
@@ -94,7 +94,7 @@ public class HealthBarUpdate extends Node {
 		}
 
 		if ((var3 & 4096) != 0) {
-			var2.spotAnimation = var0.method7798();
+			var2.spotAnimation = var0.readUnsignedShortLE();
 			var5 = var0.method7889();
 			var2.spotAnimationHeight = var5 >> 16;
 			var2.field1173 = (var5 & 65535) + Client.cycle;
@@ -123,9 +123,9 @@ public class HealthBarUpdate extends Node {
 			var2.field1177 = var0.readByte();
 			var2.field1176 = var0.method7925();
 			var2.field1178 = var0.method7955();
-			var2.field1179 = var0.method7935() + Client.cycle;
-			var2.field1180 = var0.method7971() + Client.cycle;
-			var2.field1181 = var0.method7798();
+			var2.field1179 = var0.readUnsignedShortAdd() + Client.cycle;
+			var2.field1180 = var0.readUnsignedShortLEAdd() + Client.cycle;
+			var2.field1181 = var0.readUnsignedShortLE();
 			if (var2.field1109) {
 				var2.field1175 += var2.tileX;
 				var2.field1177 += var2.tileY;
@@ -168,7 +168,7 @@ public class HealthBarUpdate extends Node {
 
 		int var14;
 		if ((var3 & 8) != 0) {
-			var5 = var0.method7971();
+			var5 = var0.readUnsignedShortLEAdd();
 			if (var5 == 65535) {
 				var5 = -1;
 			}
@@ -182,7 +182,7 @@ public class HealthBarUpdate extends Node {
 		}
 
 		if ((var3 & 32) != 0) {
-			var2.targetIndex = var0.method7798();
+			var2.targetIndex = var0.readUnsignedShortLE();
 			if (var2.targetIndex == 65535) {
 				var2.targetIndex = -1;
 			}

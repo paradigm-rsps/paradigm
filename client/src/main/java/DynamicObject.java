@@ -165,7 +165,7 @@ public class DynamicObject extends Renderable {
 			int var9;
 			if ((var5 & 1) != 0) {
 				var6 = var1.readUnsignedShort();
-				var7 = var1.method7971();
+				var7 = var1.readUnsignedShortLEAdd();
 				if (class162.field1768) {
 					var4.field1183 = var1.method7789() == 1;
 				}
@@ -246,9 +246,9 @@ public class DynamicObject extends Renderable {
 				var4.field1177 = var1.method7792();
 				var4.field1176 = var1.readByte();
 				var4.field1178 = var1.readByte();
-				var4.field1179 = var1.method7971() + Client.cycle;
+				var4.field1179 = var1.readUnsignedShortLEAdd() + Client.cycle;
 				var4.field1180 = var1.readUnsignedShort() + Client.cycle;
-				var4.field1181 = var1.method7971();
+				var4.field1181 = var1.readUnsignedShortLEAdd();
 				var4.pathLength = 1;
 				var4.field1134 = 0;
 				var4.field1175 += var4.pathX[0];
@@ -258,8 +258,8 @@ public class DynamicObject extends Renderable {
 			}
 
 			if ((var5 & 512) != 0) {
-				var4.field1133 = Client.cycle + var1.method7798();
-				var4.field1185 = Client.cycle + var1.method7935();
+				var4.field1133 = Client.cycle + var1.readUnsignedShortLE();
+				var4.field1185 = Client.cycle + var1.readUnsignedShortAdd();
 				var4.field1146 = var1.readByte();
 				var4.field1187 = var1.method7792();
 				var4.field1188 = var1.method7792();
@@ -272,14 +272,14 @@ public class DynamicObject extends Renderable {
 			}
 
 			if ((var5 & 4) != 0) {
-				var4.targetIndex = var1.method7935();
+				var4.targetIndex = var1.readUnsignedShortAdd();
 				if (var4.targetIndex == 65535) {
 					var4.targetIndex = -1;
 				}
 			}
 
 			if ((var5 & 32) != 0) {
-				var4.definition = class9.getNpcDefinition(var1.method7971());
+				var4.definition = class9.getNpcDefinition(var1.readUnsignedShortLEAdd());
 				var4.field1145 = var4.definition.size;
 				var4.field1192 = var4.definition.rotation;
 				var4.walkSequence = var4.definition.walkSequence;
@@ -292,7 +292,7 @@ public class DynamicObject extends Renderable {
 			}
 
 			if ((var5 & 8) != 0) {
-				var6 = var1.method7798();
+				var6 = var1.readUnsignedShortLE();
 				if (var6 == 65535) {
 					var6 = -1;
 				}

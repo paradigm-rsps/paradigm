@@ -8,6 +8,7 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
+import org.paradigm.engine.net.game.GamePackets
 import org.paradigm.engine.net.handshake.HandshakeDecoder
 import org.paradigm.engine.net.handshake.HandshakeHandler
 import org.paradigm.engine.net.worldlist.WorldListServer
@@ -16,7 +17,9 @@ import java.net.InetSocketAddress
 import kotlin.system.exitProcess
 
 class NetworkServer {
+
     private val worldListServer: WorldListServer by inject()
+    private val gamePackets: GamePackets by inject()
 
     internal val bootstrap = ServerBootstrap()
 
@@ -36,6 +39,8 @@ class NetworkServer {
     fun start() {
         Logger.info("Starting networking server.")
 
+        gamePackets.loadPackets()
+
         val socketAddress = InetSocketAddress(ServerConfig.NETWORK.ADDRESS, ServerConfig.NETWORK.PORT)
         bootstrap.bind(socketAddress).addListener {
             if(it.isSuccess) {
@@ -48,6 +53,7 @@ class NetworkServer {
 
     fun stop() {
         Logger.info("Stopping networking server.")
+        
         bossGroup.shutdownGracefully()
         workerGroup.shutdownGracefully()
         worldListServer.stop()

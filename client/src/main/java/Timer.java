@@ -40,7 +40,7 @@ public class Timer {
 		this.field4188 = var1;
 	}
 
-	public void method6597() {
+	public void updateCycleTimer() {
 		if (this.field4183 != -1L) {
 			this.field4189 = WorldMapSprite.cycleTimer() - this.field4183;
 			this.field4183 = -1L;
@@ -56,7 +56,7 @@ public class Timer {
 	}
 
 	public void method6598() {
-		this.method6597();
+		this.updateCycleTimer();
 	}
 
 	public void write(Buffer var1) {

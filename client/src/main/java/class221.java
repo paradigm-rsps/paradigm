@@ -18,18 +18,18 @@ public class class221 {
 		int var14;
 		if (class263.field3013 == var0) {
 			var2 = var1.method7789() * 4;
-			var3 = var1.method7935();
+			var3 = var1.readUnsignedShortAdd();
 			var4 = var1.method7802();
 			var5 = var1.method7790();
 			var6 = (var5 >> 4 & 7) + FriendSystem.field803;
 			var7 = (var5 & 7) + class9.field34;
-			var8 = var1.method7935();
+			var8 = var1.readUnsignedShortAdd();
 			byte var41 = var1.method7955();
 			var10 = var1.method7927();
 			byte var42 = var1.method7925();
 			var12 = var1.readUnsignedByte() * 4;
 			var13 = var1.method7790();
-			var14 = var1.method7935();
+			var14 = var1.readUnsignedShortAdd();
 			var9 = var41 + var6;
 			var11 = var42 + var7;
 			if (var6 >= 0 && var7 >= 0 && var6 < 104 && var7 < 104 && var9 >= 0 && var11 >= 0 && var9 < 104 && var11 < 104 && var14 != 65535) {
@@ -59,8 +59,8 @@ public class class221 {
 			var3 = var1.readUnsignedByte();
 			var4 = (var3 >> 4 & 7) + FriendSystem.field803;
 			var5 = (var3 & 7) + class9.field34;
-			var6 = var1.method7798();
-			var7 = var1.method7798();
+			var6 = var1.readUnsignedShortLE();
+			var7 = var1.readUnsignedShortLE();
 			if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104) {
 				NodeDeque var43 = Client.groundItems[class160.Client_plane][var4][var5];
 				if (var43 != null) {
@@ -76,7 +76,7 @@ public class class221 {
 			}
 
 		} else if (class263.field3004 == var0) {
-			var2 = var1.method7935();
+			var2 = var1.readUnsignedShortAdd();
 			var3 = var1.method7790();
 			var4 = var3 >> 2;
 			var5 = var3 & 3;
@@ -145,7 +145,7 @@ public class class221 {
 				var6 = var1.method7927();
 				var7 = var6 >> 4 & 15;
 				var8 = var6 & 7;
-				var9 = var1.method7798();
+				var9 = var1.readUnsignedShortLE();
 				if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104) {
 					var10 = var7 + 1;
 					if (class19.localPlayer.pathX[0] >= var4 - var10 && class19.localPlayer.pathX[0] <= var10 + var4 && class19.localPlayer.pathY[0] >= var5 - var10 && class19.localPlayer.pathY[0] <= var10 + var5 && Interpreter.clientPreferences.method2286() != 0 && var8 > 0 && Client.soundEffectCount < 50) {
@@ -161,11 +161,11 @@ public class class221 {
 
 			TileItem var32;
 			if (class263.field3007 == var0) {
-				var2 = var1.method7935();
+				var2 = var1.readUnsignedShortAdd();
 				var3 = var1.readUnsignedByte();
 				var4 = (var3 >> 4 & 7) + FriendSystem.field803;
 				var5 = (var3 & 7) + class9.field34;
-				var6 = var1.method7935();
+				var6 = var1.readUnsignedShortAdd();
 				if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104) {
 					var32 = new TileItem();
 					var32.id = var2;
@@ -184,9 +184,9 @@ public class class221 {
 					var3 = var1.readUnsignedShort();
 					byte var38 = var1.method7792();
 					byte var39 = var1.readByte();
-					var6 = var1.method7971();
+					var6 = var1.readUnsignedShortLEAdd();
 					byte var40 = var1.method7792();
-					var8 = var1.method7935();
+					var8 = var1.readUnsignedShortAdd();
 					var9 = var1.method7790();
 					var10 = var9 >> 2;
 					var11 = var9 & 3;
@@ -194,7 +194,7 @@ public class class221 {
 					var13 = var1.method7790();
 					var14 = (var13 >> 4 & 7) + FriendSystem.field803;
 					int var15 = (var13 & 7) + class9.field34;
-					int var16 = var1.method7935();
+					int var16 = var1.readUnsignedShortAdd();
 					Player var17;
 					if (var3 == Client.localPlayerIndex) {
 						var17 = class19.localPlayer;
@@ -255,7 +255,7 @@ public class class221 {
 				if (class263.field3005 == var0) {
 					var2 = var1.method7790();
 					var3 = var1.readUnsignedShort();
-					var4 = var1.method7971();
+					var4 = var1.readUnsignedShortLEAdd();
 					var5 = var1.method7789();
 					var6 = (var5 >> 4 & 7) + FriendSystem.field803;
 					var7 = (var5 & 7) + class9.field34;
@@ -274,7 +274,7 @@ public class class221 {
 					var6 = var5 >> 2;
 					var7 = var5 & 3;
 					var8 = Client.field711[var6];
-					var9 = var1.method7935();
+					var9 = var1.readUnsignedShortAdd();
 					if (var3 >= 0 && var4 >= 0 && var3 < 104 && var4 < 104) {
 						class137.updatePendingSpawn(class160.Client_plane, var3, var4, var8, var9, var6, var7, 0, -1);
 					}
@@ -283,7 +283,7 @@ public class class221 {
 					var2 = var1.method7789();
 					var3 = (var2 >> 4 & 7) + FriendSystem.field803;
 					var4 = (var2 & 7) + class9.field34;
-					var5 = var1.method7935();
+					var5 = var1.readUnsignedShortAdd();
 					if (var3 >= 0 && var4 >= 0 && var3 < 104 && var4 < 104) {
 						NodeDeque var31 = Client.groundItems[class160.Client_plane][var3][var4];
 						if (var31 != null) {

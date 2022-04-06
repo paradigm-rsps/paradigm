@@ -5,8 +5,12 @@ import org.paradigm.common.inject
 import org.paradigm.engine.model.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.net.Session
+import org.paradigm.engine.net.game.GamePacketDecoder
+import org.paradigm.engine.net.game.GamePacketEncoder
+import org.paradigm.engine.net.game.GamePacketHandler
 import org.paradigm.engine.net.login.LoginRequest
 import org.paradigm.engine.net.login.LoginResponse
+import org.paradigm.engine.net.packet.server.RebuildRegionNormal
 import org.paradigm.engine.service.Service
 import org.paradigm.util.SHA256
 import org.tinylog.kotlin.Logger
@@ -50,30 +54,33 @@ class LoginService : Service {
             /*
              * Successful login.
              */
-            val session = Session(request.ctx)
-            val player = Player(session)
+            Player(Session(request.ctx)).login(request)
+        }
+    }
 
-            player.username = request.username
-            player.passwordHash = request.password?.let { SHA256.hash(it) } ?: ""
-            player.displayName = request.username
+    private fun Player.login(request: LoginRequest) {
+        this.username = request.username
+        this.passwordHash = request.password?.let { SHA256.hash("salt" + request.password) } ?: ""
+        this.displayName = request.username
 
-            session.xteas = request.xteas
-            session.reconnectXteas = request.reconnectXteas
-            session.seed = request.seed
+        session.seed = request.seed
+        session.xteas = request.xteas
+        session.reconnectXteas = request.reconnectXteas
 
-            session.encodeIsaac.init(IntArray(4) { session.xteas[it] + 50 })
-            session.decodeIsaac.init(session.xteas)
+        session.encodeIsaac.init(IntArray(4) { session.xteas[it] + 50 })
+        session.decodeIsaac.init(session.xteas)
 
-            world.players.addPlayer(player)
-            player.init()
+        world.players.addPlayer(this)
+        this.init()
 
-            /*
-             * Send the login response.
-             */
-            val response = LoginResponse(player)
-            session.writeAndFlush(response)
+        session.writeAndFlush(LoginResponse(this)).addListener {
+            val p = session.channel.pipeline()
+            p.replace("login-encoder", "packet-encoder", GamePacketEncoder(session))
+            p.replace("login-decoder", "packet-decoder", GamePacketDecoder(session))
+            p.replace("login-handler", "packet-handler", GamePacketHandler(session))
 
-            Logger.info("[${request.username}] has connected to the server.")
+            session.writeAndFlush(RebuildRegionNormal(this, gpi = true))
+            Logger.info("[$username] has connected to the server.")
         }
     }
 
