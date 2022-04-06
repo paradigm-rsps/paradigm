@@ -17,28 +17,28 @@ public class Strings {
 		var0.importIndex();
 		int var1 = Client.localPlayerIndex;
 		Player var2 = class19.localPlayer = Client.players[var1] = new Player();
-		var2.index = var1;
-		int var3 = var0.readBits(30);
-		byte var4 = (byte)(var3 >> 28);
-		int var5 = var3 >> 14 & 16383;
-		int var6 = var3 & 16383;
-		var2.pathX[0] = var5 - ApproximateRouteStrategy.baseX;
-		var2.x = (var2.pathX[0] << 7) + (var2.transformedSize() << 6);
-		var2.pathY[0] = var6 - class250.baseY;
-		var2.y = (var2.pathY[0] << 7) + (var2.transformedSize() << 6);
-		class160.Client_plane = var2.plane = var4;
-		if (Players.field1289[var1] != null) {
-			var2.read(Players.field1289[var1]);
-		}
+        var2.index = var1;
+        int var3 = var0.readBits(30);
+        byte var4 = (byte) (var3 >> 28);
+        int var5 = var3 >> 14 & 16383;
+        int var6 = var3 & 16383;
+        var2.pathX[0] = var5 - ApproximateRouteStrategy.baseX;
+        var2.x = (var2.pathX[0] << 7) + (var2.transformedSize() << 6);
+        var2.pathY[0] = var6 - class250.baseY;
+        var2.y = (var2.pathY[0] << 7) + (var2.transformedSize() << 6);
+        class160.Client_plane = var2.plane = var4;
+        if (Players.cached_appearances[var1] != null) {
+            var2.read(Players.cached_appearances[var1]);
+        }
 
-		Players.Players_count = 0;
-		Players.Players_indices[++Players.Players_count - 1] = var1;
-		Players.field1288[var1] = 0;
-		Players.Players_emptyIdxCount = 0;
+        Players.Players_count = 0;
+        Players.Players_indices[++Players.Players_count - 1] = var1;
+        Players.field1288[var1] = 0;
+        Players.Players_emptyIdxCount = 0;
 
-		for (int var7 = 1; var7 < 2048; ++var7) {
-			if (var7 != var1) {
-				int var8 = var0.readBits(18);
+        for (int var7 = 1; var7 < 2048; ++var7) {
+            if (var7 != var1) {
+                int var8 = var0.readBits(18);
 				int var9 = var8 >> 16;
 				int var10 = var8 >> 8 & 597;
 				int var11 = var8 & 597;

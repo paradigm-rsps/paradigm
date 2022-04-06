@@ -501,9 +501,9 @@ class JagByteBuf(private val buffer: ByteBuf = Unpooled.buffer()) {
         val CP1252: Charset by lazy { Charset.forName("windows-1252") }
         val CESU8: Charset by lazy { Charset.forName("CESU-8") }
 
-        private val BIT_MASK = IntArray(32).apply {
-            for(i in 0 until size) {
-                set(i, (1 shl i) - 1)
+        private val BIT_MASK = IntArray(32).also {
+            for (i in it.indices) {
+                it[i] = (1 shl i) - 1
             }
         }
     }

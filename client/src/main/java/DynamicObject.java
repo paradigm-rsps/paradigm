@@ -263,7 +263,7 @@ public class DynamicObject extends Renderable {
 				var4.field1146 = var1.readByte();
 				var4.field1187 = var1.method7792();
 				var4.field1188 = var1.method7792();
-				var4.field1189 = (byte)var1.method7927();
+                var4.field1189 = (byte) var1.readUnsignedByteSub();
 			}
 
 			if ((var5 & 2) != 0) {

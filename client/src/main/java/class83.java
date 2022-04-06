@@ -20,24 +20,24 @@ public enum class83 implements MouseWheel {
 		return this.field1073;
 	}
 
-	static final void updatePlayers(PacketBuffer var0, int var1) {
-		int var2 = var0.offset;
+	static final void updatePlayers(PacketBuffer buf, int var1) {
+		int var2 = buf.offset;
 		Players.Players_pendingUpdateCount = 0;
-		UserComparator8.method2575(var0);
+		UserComparator8.decodePlayerGpiUpdate(buf);
 
-		for (int var3 = 0; var3 < Players.Players_pendingUpdateCount; ++var3) {
-			int var4 = Players.Players_pendingUpdateIndices[var3];
-			Player var5 = Client.players[var4];
-			int var6 = var0.readUnsignedByte();
-			if ((var6 & 64) != 0) {
-				var6 += var0.readUnsignedByte() << 8;
+		for (int i = 0; i < Players.Players_pendingUpdateCount; ++i) {
+			int playerIndex = Players.Players_pendingUpdateIndices[i];
+			Player player = Client.players[playerIndex];
+			int mask = buf.readUnsignedByte();
+			if ((mask & 64) != 0) {
+				mask += buf.readUnsignedByte() << 8;
 			}
 
-			HealthBarUpdate.method2213(var0, var4, var5, var6);
+			HealthBarUpdate.decodePlayerUpdateFlag(buf, playerIndex, player, mask);
 		}
 
-		if (var0.offset - var2 != var1) {
-			throw new RuntimeException(var0.offset - var2 + " " + var1);
+		if (buf.offset - var2 != var1) {
+			throw new RuntimeException(buf.offset - var2 + " " + var1);
 		}
 	}
 

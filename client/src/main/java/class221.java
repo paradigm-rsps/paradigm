@@ -25,7 +25,7 @@ public class class221 {
 			var7 = (var5 & 7) + class9.field34;
 			var8 = var1.readUnsignedShortAdd();
 			byte var41 = var1.method7955();
-			var10 = var1.method7927();
+			var10 = var1.readUnsignedByteSub();
 			byte var42 = var1.method7925();
 			var12 = var1.readUnsignedByte() * 4;
 			var13 = var1.method7790();
@@ -43,8 +43,8 @@ public class class221 {
 			}
 
 		} else if (class263.field3011 == var0) {
-			var2 = var1.method7927();
-			var3 = (var2 >> 4 & 7) + FriendSystem.field803;
+            var2 = var1.readUnsignedByteSub();
+            var3 = (var2 >> 4 & 7) + FriendSystem.field803;
 			var4 = (var2 & 7) + class9.field34;
 			var5 = var1.readUnsignedByte();
 			var6 = var5 >> 2;
@@ -138,12 +138,12 @@ public class class221 {
 
 		} else {
 			if (class263.field3010 == var0) {
-				var2 = var1.method7927();
-				var3 = var1.method7789();
+                var2 = var1.readUnsignedByteSub();
+                var3 = var1.method7789();
 				var4 = (var3 >> 4 & 7) + FriendSystem.field803;
-				var5 = (var3 & 7) + class9.field34;
-				var6 = var1.method7927();
-				var7 = var6 >> 4 & 15;
+                var5 = (var3 & 7) + class9.field34;
+                var6 = var1.readUnsignedByteSub();
+                var7 = var6 >> 4 & 15;
 				var8 = var6 & 7;
 				var9 = var1.readUnsignedShortLE();
 				if (var4 >= 0 && var5 >= 0 && var4 < 104 && var5 < 104) {
@@ -267,11 +267,11 @@ public class class221 {
 					}
 
 				} else if (class263.field3012 == var0) {
-					var2 = var1.method7927();
-					var3 = (var2 >> 4 & 7) + FriendSystem.field803;
-					var4 = (var2 & 7) + class9.field34;
-					var5 = var1.method7927();
-					var6 = var5 >> 2;
+                    var2 = var1.readUnsignedByteSub();
+                    var3 = (var2 >> 4 & 7) + FriendSystem.field803;
+                    var4 = (var2 & 7) + class9.field34;
+                    var5 = var1.readUnsignedByteSub();
+                    var6 = var5 >> 2;
 					var7 = var5 & 3;
 					var8 = Client.field711[var6];
 					var9 = var1.readUnsignedShortAdd();

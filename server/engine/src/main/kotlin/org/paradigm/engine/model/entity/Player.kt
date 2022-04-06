@@ -26,7 +26,12 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     var privilege: Privilege = Privilege.DEVELOPER
     var displayMode: DisplayMode = DisplayMode.FIXED
     var pid: Int = -1
+    var skullIcon: Int = -1
+    var prayerIcon: Int = -1
     var appearance: Appearance = Appearance.DEFAULT
+    var stanceAnimations: IntArray = intArrayOf(808, 823, 819, 820, 821, 822, 824)
+    var combatLevel: Int = 3
+    var invisible: Boolean = false
 
     val updateFlags = sortedSetOf<PlayerUpdateFlag>()
 
@@ -40,12 +45,12 @@ class Player internal constructor(val session: Session) : LivingEntity() {
         gpi.init()
         scene.init()
         ui.init()
+        updateFlags.add(PlayerUpdateFlag.APPEARANCE)
     }
 
     fun logout() {
         Logger.info("[$username] has disconnected from the server.")
         world.players.removePlayer(this)
-        session.channel.disconnect()
     }
 
     override fun cycle() {

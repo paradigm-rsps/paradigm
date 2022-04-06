@@ -574,7 +574,7 @@ public class Buffer extends Node {
 		return 0 - this.array[++this.offset - 1] & 255;
 	}
 
-	public int method7927() {
+	public int readUnsignedByteSub() {
 		return 128 - this.array[++this.offset - 1] & 255;
 	}
 
@@ -692,9 +692,9 @@ public class Buffer extends Node {
 		return ((this.array[this.offset - 1] & 255) << 8) + ((this.array[this.offset - 4] & 255) << 16) + (this.array[this.offset - 2] & 255) + ((this.array[this.offset - 3] & 255) << 24);
 	}
 
-	public void method7812(byte[] var1, int var2, int var3) {
-		for (int var4 = var3 + var2 - 1; var4 >= var2; --var4) {
-			var1[var4] = this.array[++this.offset - 1];
+	public void writeBytesReversed(byte[] array, int start, int length) {
+		for (int i = length + start - 1; i >= start; --i) {
+			array[i] = this.array[++this.offset - 1];
 		}
 
 	}

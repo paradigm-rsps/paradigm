@@ -1,6 +1,7 @@
 package org.paradigm.engine
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.paradigm.common.inject
@@ -24,6 +25,8 @@ class Engine {
     private val updateTasks = SyncTaskList()
     private var running = false
     private var prevCycleTime = 0L
+
+    internal val ioCoroutine = CoroutineScope(Dispatchers.IO)
 
     fun start() {
         Logger.info("Starting server engine.")

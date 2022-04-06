@@ -1,13 +1,13 @@
 package org.paradigm.engine.model
 
-data class Appearance(var style: IntArray, var colors: IntArray, var gender: Gender) {
+data class Appearance(var styles: IntArray, var colors: IntArray, var gender: Gender) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
         other as Appearance
 
-        if (!style.contentEquals(other.style)) return false
+        if (!styles.contentEquals(other.styles)) return false
         if (!colors.contentEquals(other.colors)) return false
         if (gender != other.gender) return false
 
@@ -15,7 +15,7 @@ data class Appearance(var style: IntArray, var colors: IntArray, var gender: Gen
     }
 
     override fun hashCode(): Int {
-        var result = style.contentHashCode()
+        var result = styles.contentHashCode()
         result = 31 * result + colors.contentHashCode()
         result = 31 * result + gender.hashCode()
         return result

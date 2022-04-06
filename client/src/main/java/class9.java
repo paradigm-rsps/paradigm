@@ -83,20 +83,20 @@ public class class9 implements MouseWheel {
 			if (Client.players[var1] != null) {
 				throw new RuntimeException();
 			} else {
-				Player var11 = Client.players[var1] = new Player();
-				var11.index = var1;
-				if (Players.field1289[var1] != null) {
-					var11.read(Players.field1289[var1]);
-				}
+                Player var11 = Client.players[var1] = new Player();
+                var11.index = var1;
+                if (Players.cached_appearances[var1] != null) {
+                    var11.read(Players.cached_appearances[var1]);
+                }
 
-				var11.orientation = Players.Players_orientations[var1];
-				var11.targetIndex = Players.Players_targetIndices[var1];
-				var7 = Players.Players_regions[var1];
-				var8 = var7 >> 28;
-				var9 = var7 >> 14 & 255;
-				var10 = var7 & 255;
-				var11.pathTraversed[0] = Players.field1285[var1];
-				var11.plane = (byte)var8;
+                var11.orientation = Players.Players_orientations[var1];
+                var11.targetIndex = Players.Players_targetIndices[var1];
+                var7 = Players.Players_regions[var1];
+                var8 = var7 >> 28;
+                var9 = var7 >> 14 & 255;
+                var10 = var7 & 255;
+                var11.pathTraversed[0] = Players.field1285[var1];
+                var11.plane = (byte) var8;
 				var11.resetPath((var9 << 13) + var3 - ApproximateRouteStrategy.baseX, (var10 << 13) + var4 - class250.baseY);
 				var11.field1109 = false;
 				return true;

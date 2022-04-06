@@ -24,7 +24,7 @@ public class UserComparator8 extends AbstractUserComparator {
 		return this.compareBuddy((Buddy)var1, (Buddy)var2);
 	}
 
-	static final void method2575(PacketBuffer var0) {
+	static final void decodePlayerGpiUpdate(PacketBuffer var0) {
 		int var1 = 0;
 		var0.importIndex();
 

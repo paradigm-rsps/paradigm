@@ -36,8 +36,8 @@ public class ServerPacket {
 	public static final ServerPacket field3110;
 	public static final ServerPacket field3089;
 	public static final ServerPacket field3093;
-	public static final ServerPacket field3061;
-	public static final ServerPacket field3062;
+    public static final ServerPacket UPDATE_PLAYERS;
+    public static final ServerPacket field3062;
 	public static final ServerPacket field3032;
 	public static final ServerPacket field3064;
 	public static final ServerPacket field3065;
@@ -143,9 +143,9 @@ public class ServerPacket {
 		field3057 = new ServerPacket(33, 0);
 		field3110 = new ServerPacket(34, -1);
 		field3089 = new ServerPacket(35, -2);
-		field3093 = new ServerPacket(36, 5);
-		field3061 = new ServerPacket(37, -2);
-		field3062 = new ServerPacket(38, 10);
+        field3093 = new ServerPacket(36, 5);
+        UPDATE_PLAYERS = new ServerPacket(37, -2);
+        field3062 = new ServerPacket(38, 10);
 		field3032 = new ServerPacket(39, -1);
 		field3064 = new ServerPacket(40, 14);
 		field3065 = new ServerPacket(41, 5);

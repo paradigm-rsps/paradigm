@@ -1,5 +1,9 @@
 package org.paradigm.engine.model.map
 
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.sqrt
+
 @JvmInline
 value class Tile(val packed: Int) {
 
@@ -16,6 +20,30 @@ value class Tile(val packed: Int) {
     constructor(x: Int, y: Int, plane: Int = 0) : this(
         (x and 0x7FFF) or ((y and 0x7FFF) shl 15) or (plane shl 30)
     )
+
+    fun isWithinRadius(x: Int, y: Int, plane: Int, radius: Int): Boolean {
+        if (this.plane != plane) return false
+        val dx = abs(this.x - x)
+        val dy = abs(this.y - y)
+        return dx <= radius && dy <= radius
+    }
+
+    fun isWithinRadius(other: Tile, radius: Int): Boolean = isWithinRadius(other.x, other.y, other.plane, radius)
+
+    fun distanceTo(x: Int, y: Int): Int {
+        val dx = this.x - x
+        val dy = this.y - y
+        return ceil(sqrt((dx * dx + dy * dy).toDouble())).toInt()
+    }
+
+    fun distanceTo(other: Tile): Int {
+        if (this.plane != other.plane) throw IllegalArgumentException("Can not calculate distance to tiles on different planes.")
+        return distanceTo(other.x, other.y)
+    }
+
+    fun deltaTo(x: Int, y: Int): Int = abs(this.x - x) + abs(this.y - y)
+
+    fun deltaTo(other: Tile): Int = deltaTo(other.x, other.y)
 
     fun toChunk() = Chunk(
         x / Chunk.SIZE,

@@ -12,7 +12,10 @@ class GamePacketHandler(private val session: Session) : SimpleChannelInboundHand
     }
 
     override fun channelInactive(ctx: ChannelHandlerContext) {
-        if(!ctx.channel().isActive) return
+        if (ctx.channel().isActive) {
+            ctx.channel().disconnect()
+        }
+
         session.player.logout()
     }
 

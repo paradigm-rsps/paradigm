@@ -19,16 +19,21 @@ class GamePacketEncoder(private val session: Session) : MessageToByteEncoder<Pac
         val buf = ctx.alloc().buffer().toJagBuf()
         codec.encode(session, msg, buf)
 
+        val length = buf.writerIndex()
+
         out.writeByte((opcode + session.encodeIsaac.nextInt()) and 0xFF)
 
-        when(type) {
-            PacketType.VARIABLE_BYTE -> out.writeByte(buf.writerIndex())
-            PacketType.VARIABLE_SHORT -> out.writeShort(buf.writerIndex())
-            else -> { /* Do nothing */ }
+        when (type) {
+            PacketType.VARIABLE_BYTE -> out.writeByte(length)
+            PacketType.VARIABLE_SHORT -> out.writeShort(length)
+            else -> { /* Do nothing */
+            }
         }
 
-        out.writeBytes(buf.toByteBuf())
-        buf.toByteBuf().release()
+        val bytes = ByteArray(length)
+        buf.readBytes(bytes)
+
+        out.writeBytes(bytes)
     }
 
 }

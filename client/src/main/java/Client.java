@@ -2733,7 +2733,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					return true;
 				}
 
-				if (ServerPacket.field3061 == packetWriter.serverPacket) {
+				if (ServerPacket.UPDATE_PLAYERS == packetWriter.serverPacket) {
 					class83.updatePlayers(packetBuf, packetWriter.serverPacketLength);
 					class4.method19();
 					packetWriter.serverPacket = null;
@@ -2868,7 +2868,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 
 				if (ServerPacket.field3042 == packetWriter.serverPacket) {
 					class9.field34 = packetBuf.method7789();
-					FriendSystem.field803 = packetBuf.method7927();
+					FriendSystem.field803 = packetBuf.readUnsignedByteSub();
 
 					while (packetBuf.offset < packetWriter.serverPacketLength) {
 						interfaceType = packetBuf.readUnsignedByte();
@@ -2980,7 +2980,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					byte var64 = packetBuf.method7792();
 					var15 = packetBuf.readUnsignedShortLE();
 					int var17 = packetBuf.readUnsignedByte();
-					var14 = packetBuf.method7927() * 4;
+					var14 = packetBuf.readUnsignedByteSub() * 4;
 					var61 = packetBuf.method7769();
 					var9 = var63 + var7;
 					var10 = var64 + var23;
@@ -3578,7 +3578,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 
 				if (ServerPacket.field3119 == packetWriter.serverPacket) {
 					SceneTilePaint.method4499();
-					interfaceType = packetBuf.method7927();
+					interfaceType = packetBuf.readUnsignedByteSub();
 					component = packetBuf.method7790();
 					interfaceId = packetBuf.method7797();
 					experience[component] = interfaceId;
@@ -3597,7 +3597,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 				}
 
 				if (ServerPacket.field3104 == packetWriter.serverPacket) {
-					publicChatMode = packetBuf.method7927();
+					publicChatMode = packetBuf.readUnsignedByteSub();
 					tradeChatMode = packetBuf.method7789();
 					packetWriter.serverPacket = null;
 					return true;
@@ -3700,7 +3700,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 
 				if (ServerPacket.field3112 == packetWriter.serverPacket) {
 					class9.field34 = packetBuf.method7789();
-					FriendSystem.field803 = packetBuf.method7927();
+					FriendSystem.field803 = packetBuf.readUnsignedByteSub();
 					packetWriter.serverPacket = null;
 					return true;
 				}
