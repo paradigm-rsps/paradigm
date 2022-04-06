@@ -31,7 +31,7 @@ class SceneManager(private val player: Player) {
 
     fun init() {
         baseTile = player.tile
-        player.session.writeAndFlush(RebuildRegionNormal(player, gpi = true))
+        player.session.write(RebuildRegionNormal(player, gpi = true))
     }
 
     fun cycle() {

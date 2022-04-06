@@ -1,14 +1,15 @@
 package org.paradigm.engine
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
 import org.paradigm.engine.coroutine.EngineCoroutineScope
+import org.paradigm.engine.model.World
 import org.paradigm.engine.net.NetworkServer
 import org.paradigm.engine.service.ServiceManager
+import org.paradigm.engine.sync.SyncTaskList
 import org.tinylog.kotlin.Logger
 import java.util.concurrent.TimeUnit
 import kotlin.system.measureNanoTime
@@ -18,7 +19,9 @@ class Engine {
     private val engineCoroutine: EngineCoroutineScope by inject()
     private val networkServer: NetworkServer by inject()
     private val serviceManager: ServiceManager by inject()
+    private val world: World by inject()
 
+    private val updateTasks = SyncTaskList()
     private var running = false
     private var prevCycleTime = 0L
 
@@ -28,6 +31,7 @@ class Engine {
         running = true
 
         serviceManager.start()
+        updateTasks.init()
         engineCoroutine.start()
         networkServer.start()
     }
@@ -67,6 +71,9 @@ class Engine {
      * the engine that execute every tick/cycle.
      */
     private suspend fun cycle() {
-
+        world.players.forEach { it.session.cycle() }
+        world.players.forEach { it.cycle() }
+        updateTasks.forEach { it.execute() }
+        world.players.forEach { it.session.flush() }
     }
 }

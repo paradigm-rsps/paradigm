@@ -48,7 +48,7 @@ class InterfaceManager(private val player: Player) {
 
     fun openRootInterface(interfaceId: Int) {
         open(interfaceId, 0, interfaceId)
-        player.session.writeAndFlush(IfOpenTop(interfaceId))
+        player.session.write(IfOpenTop(interfaceId))
     }
 
     fun openInterface(parent: Int, child: Int, interfaceId: Int, type: InterfaceType) {
@@ -57,6 +57,6 @@ class InterfaceManager(private val player: Player) {
         } else {
             open(parent, child, interfaceId)
         }
-        player.session.writeAndFlush(IfOpenSub(parent, child, interfaceId, type))
+        player.session.write(IfOpenSub(parent, child, interfaceId, type))
     }
 }

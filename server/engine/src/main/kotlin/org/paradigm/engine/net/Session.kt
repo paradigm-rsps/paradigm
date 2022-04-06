@@ -20,6 +20,10 @@ class Session(val ctx: ChannelHandlerContext) {
     val encodeIsaac = IsaacRandom()
     val decodeIsaac = IsaacRandom()
 
+    internal fun cycle() {
+
+    }
+
     fun write(message: Message) = ctx.write(message)
 
     fun writeAndFlush(message: Message) = ctx.writeAndFlush(message)

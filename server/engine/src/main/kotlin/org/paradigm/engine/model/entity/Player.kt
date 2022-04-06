@@ -1,9 +1,11 @@
 package org.paradigm.engine.model.entity
 
 import org.paradigm.config.ServerConfig
+import org.paradigm.engine.model.Appearance
 import org.paradigm.engine.model.manager.GpiManager
 import org.paradigm.engine.model.manager.SceneManager
 import org.paradigm.engine.model.Privilege
+import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.manager.InterfaceManager
 import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.model.ui.DisplayMode
@@ -24,6 +26,9 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     var privilege: Privilege = Privilege.DEVELOPER
     var displayMode: DisplayMode = DisplayMode.FIXED
     var pid: Int = -1
+    var appearance: Appearance = Appearance.DEFAULT
+
+    val updateFlags = sortedSetOf<PlayerUpdateFlag>()
 
     override var tile = Tile(
         ServerConfig.HOME_TILE.x,
@@ -41,5 +46,9 @@ class Player internal constructor(val session: Session) : LivingEntity() {
         Logger.info("[$username] has disconnected from the server.")
         world.players.removePlayer(this)
         session.channel.disconnect()
+    }
+
+    override fun cycle() {
+
     }
 }
