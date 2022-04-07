@@ -31,9 +31,7 @@ class PacketRegistry {
         else -> PacketType.FIXED
     }
 
-    fun isUnknown(opcode: Int): Boolean = packets.firstOrNull {
-        it.opcode == opcode
-    }?.codec?.let { true } ?: false
+    fun isUnknown(opcode: Int): Boolean = packets.firstOrNull { it.opcode == opcode } == null
 
     private data class PacketInfo(
         val packet: KClass<Packet>,

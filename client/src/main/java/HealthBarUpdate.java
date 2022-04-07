@@ -35,17 +35,17 @@ public class HealthBarUpdate extends Node {
 		byte movementType = class193.field2192.field2194;
 		// 0
 		if ((mask & 8192) != 0) {
-			player.field1133 = Client.cycle + buf.readUnsignedShortAdd();
-			player.field1185 = Client.cycle + buf.readUnsignedShortLE();
-			player.field1146 = buf.readByteNeg();
-			player.field1187 = buf.readByteNeg();
-			player.field1188 = buf.readByteSub();
-			player.field1189 = (byte) buf.method7790();
-		}
+            player.field1133 = Client.cycle + buf.readUnsignedShortAdd();
+            player.field1185 = Client.cycle + buf.readUnsignedShortLE();
+            player.field1146 = buf.readByteNEG();
+            player.field1187 = buf.readByteNEG();
+            player.field1188 = buf.readByteSUB();
+            player.field1189 = (byte) buf.readUnsignedByteNEG();
+        }
 
 		// Movement : 1 - 0x100
 		if ((mask & 256) != 0) {
-			movementType = buf.readByteSub();
+            movementType = buf.readByteSUB();
 		}
 
 		int dataLength;
@@ -55,20 +55,20 @@ public class HealthBarUpdate extends Node {
 
 		// Chat : 2
 		if ((mask & 1) != 0) {
-			dataLength = buf.readUnsignedShortLE();
-			PlayerType var6 = (PlayerType) ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), buf.readUnsignedByte());
-			boolean var7 = buf.readUnsignedByteSub() == 1;
-			var8 = buf.readUnsignedByteSub();
-			var9 = buf.offset;
-			if (player.username != null && player.appearance != null) {
-				boolean var10 = var6.isUser && class155.friendSystem.isIgnored(player.username);
+            dataLength = buf.readUnsignedShortLE();
+            PlayerType var6 = (PlayerType) ChatChannel.findEnumerated(HitSplatDefinition.PlayerType_values(), buf.readUnsignedByte());
+            boolean var7 = buf.readUnsignedByteSUB() == 1;
+            var8 = buf.readUnsignedByteSUB();
+            var9 = buf.offset;
+            if (player.username != null && player.appearance != null) {
+                boolean var10 = var6.isUser && class155.friendSystem.isIgnored(player.username);
 
-				if (!var10 && Client.field603 == 0 && !player.isHidden) {
-					Players.field1299.offset = 0;
-					buf.readBytesReversed(Players.field1299.array, 0, var8);
-					Players.field1299.offset = 0;
-					String var11 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(Players.field1299)));
-					player.overheadText = var11.trim();
+                if (!var10 && Client.field603 == 0 && !player.isHidden) {
+                    Players.field1299.offset = 0;
+                    buf.readBytesReversed(Players.field1299.array, 0, var8);
+                    Players.field1299.offset = 0;
+                    String var11 = AbstractFont.escapeBrackets(AbstractByteArrayCopier.method5528(class118.method2737(Players.field1299)));
+                    player.overheadText = var11.trim();
 					player.overheadTextColor = dataLength >> 8;
 					player.overheadTextEffect = dataLength & 255;
 					player.overheadTextCyclesRemaining = 150;
@@ -117,7 +117,7 @@ public class HealthBarUpdate extends Node {
 
 		// Appearance : 5 - 0x80
 		if ((mask & 128) != 0) {
-			dataLength = buf.readUnsignedByteSub();
+            dataLength = buf.readUnsignedByteSUB();
 			byte[] data = new byte[dataLength];
 			Buffer appearanceBuf = new Buffer(data);
 			buf.readBytesReversed(data, 0, dataLength);
@@ -127,20 +127,20 @@ public class HealthBarUpdate extends Node {
 
 		// Force Move : 6
 		if ((mask & 512) != 0) {
-			player.field1175 = buf.method7792();
-			player.field1177 = buf.readByte();
-			player.field1176 = buf.readByteSub();
-			player.field1178 = buf.readByteNeg();
-			player.field1179 = buf.readUnsignedShortAdd() + Client.cycle;
-			player.field1180 = buf.readUnsignedShortLEAdd() + Client.cycle;
-			player.field1181 = buf.readUnsignedShortLE();
-			if (player.field1109) {
-				player.field1175 += player.tileX;
-				player.field1177 += player.tileY;
-				player.field1176 += player.tileX;
-				player.field1178 += player.tileY;
-				player.pathLength = 0;
-			} else {
+            player.field1175 = buf.readByteADD();
+            player.field1177 = buf.readByte();
+            player.field1176 = buf.readByteSUB();
+            player.field1178 = buf.readByteNEG();
+            player.field1179 = buf.readUnsignedShortAdd() + Client.cycle;
+            player.field1180 = buf.readUnsignedShortLEAdd() + Client.cycle;
+            player.field1181 = buf.readUnsignedShortLE();
+            if (player.field1109) {
+                player.field1175 += player.tileX;
+                player.field1177 += player.tileY;
+                player.field1176 += player.tileX;
+                player.field1178 += player.tileY;
+                player.pathLength = 0;
+            } else {
 				player.field1175 += player.pathX[0];
 				player.field1177 += player.pathY[0];
 				player.field1176 += player.pathX[0];
@@ -185,13 +185,13 @@ public class HealthBarUpdate extends Node {
 				dataLength = -1;
 			}
 
-			var14 = buf.readUnsignedByteSub();
-			KeyHandler.performPlayerAnimation(player, dataLength, var14);
+            var14 = buf.readUnsignedByteSUB();
+            KeyHandler.performPlayerAnimation(player, dataLength, var14);
 		}
 
 		// Movement Type : 10 - 0x4000
 		if ((mask & 16384) != 0) {
-			Players.movementTypes[playerIndex] = (class193) ChatChannel.findEnumerated(class124.method2801(), buf.readByteNeg());
+            Players.movementTypes[playerIndex] = (class193) ChatChannel.findEnumerated(class124.method2801(), buf.readByteNEG());
 		}
 
 		// Interact : 11
@@ -204,7 +204,7 @@ public class HealthBarUpdate extends Node {
 
 		// Hitsplat : 12
 		if ((mask & 4) != 0) {
-			dataLength = buf.method7790();
+            dataLength = buf.readUnsignedByteNEG();
 			int var16;
 			int var18;
 			int var19;
@@ -237,9 +237,9 @@ public class HealthBarUpdate extends Node {
 					var9 = buf.readUShortSmart();
 					if (var9 != 32767) {
 						var19 = buf.readUShortSmart();
-						var16 = buf.readUnsignedByte();
-						var12 = var9 > 0 ? buf.method7790() : var16;
-						player.addHealthBar(var8, Client.cycle, var9, var19, var16, var12);
+                        var16 = buf.readUnsignedByte();
+                        var12 = var9 > 0 ? buf.readUnsignedByteNEG() : var16;
+                        player.addHealthBar(var8, Client.cycle, var9, var19, var16, var12);
 					} else {
 						player.removeHealthBar(var8);
 					}

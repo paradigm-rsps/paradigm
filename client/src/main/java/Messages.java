@@ -18,8 +18,8 @@ public class Messages {
 	static void resumePauseWidget(int var0, int var1) {
 		PacketBufferNode var2 = ItemContainer.getPacketBufferNode(ClientPacket.field2943, Client.packetWriter.isaacCipher);
 		var2.packetBuffer.writeIntME(var0);
-		var2.packetBuffer.method7795(var1);
-		Client.packetWriter.addNode(var2);
+        var2.packetBuffer.writeShortLE(var1);
+        Client.packetWriter.addNode(var2);
 	}
 
 	static final void drawSpriteOnMinimap(int var0, int var1, int var2, int var3, SpritePixels var4, SpriteMask var5) {

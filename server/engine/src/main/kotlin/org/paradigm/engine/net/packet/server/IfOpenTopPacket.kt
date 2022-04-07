@@ -9,9 +9,9 @@ import org.paradigm.util.buffer.ADD
 import org.paradigm.util.buffer.JagByteBuf
 
 @ServerPacket(opcode = 28, type = PacketType.FIXED)
-class IfOpenTop(val interfaceId: Int) : Packet {
-    companion object : Codec<IfOpenTop> {
-        override fun encode(session: Session, packet: IfOpenTop, out: JagByteBuf) {
+class IfOpenTopPacket(val interfaceId: Int) : Packet {
+    companion object : Codec<IfOpenTopPacket> {
+        override fun encode(session: Session, packet: IfOpenTopPacket, out: JagByteBuf) {
             out.writeShort(packet.interfaceId, transform = ADD)
         }
     }

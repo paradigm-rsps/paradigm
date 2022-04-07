@@ -44,8 +44,8 @@ public class VertexNormal {
 				PacketBufferNode var8;
 				if (var0 == 1) {
 					var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2913, Client.packetWriter.isaacCipher);
-					var8.packetBuffer.method7795(var3[var6]);
-					var8.packetBuffer.method7786(0);
+                    var8.packetBuffer.writeShortLE(var3[var6]);
+                    var8.packetBuffer.method7786(0);
 					Client.packetWriter.addNode(var8);
 				} else if (var0 == 4) {
 					var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2904, Client.packetWriter.isaacCipher);
@@ -53,9 +53,9 @@ public class VertexNormal {
 					var8.packetBuffer.writeShort(var3[var6]);
 					Client.packetWriter.addNode(var8);
 				} else if (var0 == 6) {
-					var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2903, Client.packetWriter.isaacCipher);
-					var8.packetBuffer.method7791(var3[var6]);
-					var8.packetBuffer.writeByte(0);
+                    var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2903, Client.packetWriter.isaacCipher);
+                    var8.packetBuffer.writeShortLEADD(var3[var6]);
+                    var8.packetBuffer.writeByte(0);
 					Client.packetWriter.addNode(var8);
 				} else if (var0 == 7) {
 					var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2898, Client.packetWriter.isaacCipher);

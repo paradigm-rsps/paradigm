@@ -41,12 +41,12 @@ public class Script extends DualNode {
 					int var10 = var5 * var8 - var4 * var7 >> 11;
 					int var11 = var9 + class19.localPlayer.x >> 7;
 					int var12 = class19.localPlayer.y - var10 >> 7;
-					PacketBufferNode var13 = ItemContainer.getPacketBufferNode(ClientPacket.field2963, Client.packetWriter.isaacCipher);
-					var13.packetBuffer.writeByte(18);
-					var13.packetBuffer.method7795(var11 + ApproximateRouteStrategy.baseX);
-					var13.packetBuffer.writeShort(var12 + class250.baseY);
-					var13.packetBuffer.method7788(KeyHandler.KeyHandler_pressedKeys[82] ? (KeyHandler.KeyHandler_pressedKeys[81] ? 2 : 1) : 0);
-					var13.packetBuffer.writeByte(var4);
+                    PacketBufferNode var13 = ItemContainer.getPacketBufferNode(ClientPacket.MOVE_MINIMAP_CLICK, Client.packetWriter.isaacCipher);
+                    var13.packetBuffer.writeByte(18);
+                    var13.packetBuffer.writeShortLE(var11 + ApproximateRouteStrategy.baseX);
+                    var13.packetBuffer.writeShort(var12 + class250.baseY);
+                    var13.packetBuffer.writeByteSUB(KeyHandler.KeyHandler_pressedKeys[82] ? (KeyHandler.KeyHandler_pressedKeys[81] ? 2 : 1) : 0);
+                    var13.packetBuffer.writeByte(var4);
 					var13.packetBuffer.writeByte(var5);
 					var13.packetBuffer.writeShort(Client.camAngleY);
 					var13.packetBuffer.writeByte(57);

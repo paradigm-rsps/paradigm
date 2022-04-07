@@ -3,8 +3,10 @@ package org.paradigm.engine.model.manager
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.map.Chunk
 import org.paradigm.engine.model.map.Region
+import org.paradigm.engine.model.map.Scene
 import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.net.packet.server.RebuildRegionNormal
+import org.paradigm.engine.net.packet.server.RebuildRegionNormalPacket
+import kotlin.math.abs
 
 class SceneManager(private val player: Player) {
 
@@ -31,11 +33,18 @@ class SceneManager(private val player: Player) {
 
     fun init() {
         baseTile = player.tile
-        player.session.write(RebuildRegionNormal(player, gpi = true))
+        player.session.write(RebuildRegionNormalPacket(player, gpi = true))
     }
 
     fun cycle() {
-
+        if (shouldRebuild()) {
+            baseTile = player.tile
+            player.session.write(RebuildRegionNormalPacket(player, gpi = false))
+        }
     }
 
+    private fun shouldRebuild(): Boolean {
+        return abs(baseTile.x - player.tile.x) > Scene.REBUILD_DISTANCE
+                || abs(baseTile.y - player.tile.y) > Scene.REBUILD_DISTANCE
+    }
 }

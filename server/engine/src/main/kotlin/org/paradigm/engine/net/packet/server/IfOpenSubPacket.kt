@@ -11,14 +11,14 @@ import org.paradigm.util.buffer.JagByteBuf
 import org.paradigm.util.buffer.LITTLE
 
 @ServerPacket(opcode = 81, type = PacketType.FIXED)
-class IfOpenSub(
+class IfOpenSubPacket(
     val parent: Int,
     val child: Int,
     val interfaceId: Int,
     val type: InterfaceType
 ) : Packet {
-    companion object : Codec<IfOpenSub> {
-        override fun encode(session: Session, packet: IfOpenSub, out: JagByteBuf) {
+    companion object : Codec<IfOpenSubPacket> {
+        override fun encode(session: Session, packet: IfOpenSubPacket, out: JagByteBuf) {
             out.writeByte(packet.type.id)
             out.writeInt((packet.parent shl 16) or packet.child)
             out.writeShort(packet.interfaceId, endian = LITTLE, transform = ADD)

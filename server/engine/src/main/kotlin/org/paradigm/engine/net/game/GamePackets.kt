@@ -51,9 +51,10 @@ class GamePackets {
                     val annotation = classInfo.getAnnotationInfo(ClientPacket::class.qualifiedName)
                         .loadClassAndInstantiate() as ClientPacket
                     val opcode = annotation.opcode
-                    val length = annotation.length
+                    val type = annotation.type
                     val packet = classInfo.loadClass().kotlin as KClass<Packet>
                     val codec = packet.companionObjectInstance as Codec<Packet>
+                    val length = type.length
                     clientPackets.register(packet, opcode, codec, length)
                 }
             }

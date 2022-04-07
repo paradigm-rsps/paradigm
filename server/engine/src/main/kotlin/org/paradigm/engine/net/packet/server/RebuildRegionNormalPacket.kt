@@ -10,17 +10,17 @@ import org.paradigm.engine.net.game.ServerPacket
 import org.paradigm.util.buffer.*
 
 @ServerPacket(opcode = 0, type = PacketType.VARIABLE_SHORT)
-class RebuildRegionNormal(
+class RebuildRegionNormalPacket(
     val player: Player,
     val gpi: Boolean = false
 ) : Packet {
-    companion object : Codec<RebuildRegionNormal> {
-        override fun encode(session: Session, packet: RebuildRegionNormal, out: JagByteBuf) {
-            if(packet.gpi) {
+    companion object : Codec<RebuildRegionNormalPacket> {
+        override fun encode(session: Session, packet: RebuildRegionNormalPacket, out: JagByteBuf) {
+            if (packet.gpi) {
                 out.switchWriteMode(BIT_MODE)
                 out.writeBits(packet.player.tile.to30BitInteger(), 30)
-                for(i in 1 until PlayerList.MAX_PLAYERS) {
-                    if(i == packet.player.index) continue
+                for (i in 1 until PlayerList.MAX_PLAYERS) {
+                    if (i == packet.player.index) continue
                     out.writeBits(packet.player.gpi.tiles[i], 18)
                 }
                 out.switchWriteMode(BYTE_MODE)

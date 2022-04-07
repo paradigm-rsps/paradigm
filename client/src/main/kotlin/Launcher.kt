@@ -6,6 +6,8 @@ import java.awt.Dimension
 import java.awt.GridLayout
 import java.net.URL
 import javax.swing.JFrame
+import kotlin.reflect.full.staticProperties
+import kotlin.reflect.jvm.isAccessible
 
 object Launcher {
 

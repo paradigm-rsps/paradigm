@@ -5,7 +5,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.paradigm.common.inject
 import org.paradigm.engine.Engine
-import org.paradigm.engine.coroutine.EngineCoroutineScope
 import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.World
 import org.paradigm.engine.model.entity.Player
@@ -13,7 +12,7 @@ import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.list.PlayerList
 import org.paradigm.engine.model.map.Scene
 import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.net.packet.server.UpdatePlayers
+import org.paradigm.engine.net.packet.server.UpdatePlayersPacket
 import org.paradigm.engine.sync.SyncTask
 import org.paradigm.util.buffer.BIT_MODE
 import org.paradigm.util.buffer.BYTE_MODE
@@ -36,7 +35,7 @@ class PlayerSyncTask : SyncTask {
         world.players.forEach { player ->
             launch {
                 val buf = player.encodeSync()
-                player.session.write(UpdatePlayers(buf))
+                player.session.write(UpdatePlayersPacket(buf))
             }
         }
     }

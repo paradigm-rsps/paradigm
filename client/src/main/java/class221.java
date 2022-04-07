@@ -17,33 +17,33 @@ public class class221 {
 		int var13;
 		int var14;
 		if (class263.field3013 == var0) {
-			var2 = var1.method7789() * 4;
-			var3 = var1.readUnsignedShortAdd();
-			var4 = var1.method7802();
-			var5 = var1.method7790();
-			var6 = (var5 >> 4 & 7) + FriendSystem.field803;
-			var7 = (var5 & 7) + class9.field34;
-			var8 = var1.readUnsignedShortAdd();
-			byte var41 = var1.readByteNeg();
-			var10 = var1.readUnsignedByteSub();
-            byte var42 = var1.readByteSub();
-			var12 = var1.readUnsignedByte() * 4;
-			var13 = var1.method7790();
-			var14 = var1.readUnsignedShortAdd();
-			var9 = var41 + var6;
-			var11 = var42 + var7;
-			if (var6 >= 0 && var7 >= 0 && var6 < 104 && var7 < 104 && var9 >= 0 && var11 >= 0 && var9 < 104 && var11 < 104 && var14 != 65535) {
-				var6 = var6 * 128 + 64;
-				var7 = var7 * 128 + 64;
-				var9 = var9 * 128 + 64;
-				var11 = var11 * 128 + 64;
+            var2 = var1.method7789() * 4;
+            var3 = var1.readUnsignedShortAdd();
+            var4 = var1.method7802();
+            var5 = var1.readUnsignedByteNEG();
+            var6 = (var5 >> 4 & 7) + FriendSystem.field803;
+            var7 = (var5 & 7) + class9.field34;
+            var8 = var1.readUnsignedShortAdd();
+            byte var41 = var1.readByteNEG();
+            var10 = var1.readUnsignedByteSUB();
+            byte var42 = var1.readByteSUB();
+            var12 = var1.readUnsignedByte() * 4;
+            var13 = var1.readUnsignedByteNEG();
+            var14 = var1.readUnsignedShortAdd();
+            var9 = var41 + var6;
+            var11 = var42 + var7;
+            if (var6 >= 0 && var7 >= 0 && var6 < 104 && var7 < 104 && var9 >= 0 && var11 >= 0 && var9 < 104 && var11 < 104 && var14 != 65535) {
+                var6 = var6 * 128 + 64;
+                var7 = var7 * 128 + 64;
+                var9 = var9 * 128 + 64;
+                var11 = var11 * 128 + 64;
 				Projectile var36 = new Projectile(var14, class160.Client_plane, var6, var7, Archive.getTileHeight(var6, var7, class160.Client_plane) - var2, var3 + Client.cycle, var8 + Client.cycle, var10, var13, var4, var12);
 				var36.setDestination(var9, var11, Archive.getTileHeight(var9, var11, class160.Client_plane) - var12, var3 + Client.cycle);
 				Client.projectiles.addFirst(var36);
 			}
 
 		} else if (class263.field3011 == var0) {
-            var2 = var1.readUnsignedByteSub();
+            var2 = var1.readUnsignedByteSUB();
             var3 = (var2 >> 4 & 7) + FriendSystem.field803;
 			var4 = (var2 & 7) + class9.field34;
 			var5 = var1.readUnsignedByte();
@@ -76,9 +76,9 @@ public class class221 {
 			}
 
 		} else if (class263.field3004 == var0) {
-			var2 = var1.readUnsignedShortAdd();
-			var3 = var1.method7790();
-			var4 = var3 >> 2;
+            var2 = var1.readUnsignedShortAdd();
+            var3 = var1.readUnsignedByteNEG();
+            var4 = var3 >> 2;
 			var5 = var3 & 3;
 			var6 = Client.field711[var4];
 			var7 = var1.method7789();
@@ -138,11 +138,11 @@ public class class221 {
 
 		} else {
 			if (class263.field3010 == var0) {
-                var2 = var1.readUnsignedByteSub();
+                var2 = var1.readUnsignedByteSUB();
                 var3 = var1.method7789();
 				var4 = (var3 >> 4 & 7) + FriendSystem.field803;
                 var5 = (var3 & 7) + class9.field34;
-                var6 = var1.readUnsignedByteSub();
+                var6 = var1.readUnsignedByteSUB();
                 var7 = var6 >> 4 & 15;
 				var8 = var6 & 7;
 				var9 = var1.readUnsignedShortLE();
@@ -182,17 +182,17 @@ public class class221 {
 				if (class263.field3009 == var0) {
 					byte var37 = var1.readByte();
 					var3 = var1.readUnsignedShort();
-					byte var38 = var1.method7792();
-					byte var39 = var1.readByte();
+                    byte var38 = var1.readByteADD();
+                    byte var39 = var1.readByte();
 					var6 = var1.readUnsignedShortLEAdd();
-					byte var40 = var1.method7792();
-					var8 = var1.readUnsignedShortAdd();
-					var9 = var1.method7790();
-					var10 = var9 >> 2;
+                    byte var40 = var1.readByteADD();
+                    var8 = var1.readUnsignedShortAdd();
+                    var9 = var1.readUnsignedByteNEG();
+                    var10 = var9 >> 2;
 					var11 = var9 & 3;
-					var12 = Client.field711[var10];
-					var13 = var1.method7790();
-					var14 = (var13 >> 4 & 7) + FriendSystem.field803;
+                    var12 = Client.field711[var10];
+                    var13 = var1.readUnsignedByteNEG();
+                    var14 = (var13 >> 4 & 7) + FriendSystem.field803;
 					int var15 = (var13 & 7) + class9.field34;
 					int var16 = var1.readUnsignedShortAdd();
 					Player var17;
@@ -253,8 +253,8 @@ public class class221 {
 				}
 
 				if (class263.field3005 == var0) {
-					var2 = var1.method7790();
-					var3 = var1.readUnsignedShort();
+                    var2 = var1.readUnsignedByteNEG();
+                    var3 = var1.readUnsignedShort();
 					var4 = var1.readUnsignedShortLEAdd();
 					var5 = var1.method7789();
 					var6 = (var5 >> 4 & 7) + FriendSystem.field803;
@@ -267,10 +267,10 @@ public class class221 {
 					}
 
 				} else if (class263.field3012 == var0) {
-                    var2 = var1.readUnsignedByteSub();
+                    var2 = var1.readUnsignedByteSUB();
                     var3 = (var2 >> 4 & 7) + FriendSystem.field803;
                     var4 = (var2 & 7) + class9.field34;
-                    var5 = var1.readUnsignedByteSub();
+                    var5 = var1.readUnsignedByteSUB();
                     var6 = var5 >> 2;
 					var7 = var5 & 3;
 					var8 = Client.field711[var6];

@@ -204,8 +204,8 @@ class class17 implements SSLSession {
 							var6.packetBuffer.writeShort(1 + ItemLayer.stringCp1252NullTerminatedByteSize(var4) + ItemLayer.stringCp1252NullTerminatedByteSize(var5));
 							var6.packetBuffer.writeStringCp1252NullTerminated(var5);
 							var6.packetBuffer.writeStringCp1252NullTerminated(var4);
-							var6.packetBuffer.method7788(var10);
-							Client.packetWriter.addNode(var6);
+                            var6.packetBuffer.writeByteSUB(var10);
+                            Client.packetWriter.addNode(var6);
 							return 1;
 						}
 					} else if (var0 == ScriptOpcodes.SETSHIFTCLICKDROP) {

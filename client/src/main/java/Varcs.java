@@ -604,8 +604,8 @@ public class Varcs {
 											if (var22 != null) {
 												PacketBufferNode var23 = ItemContainer.getPacketBufferNode(ClientPacket.field2999, Client.packetWriter.isaacCipher);
 												var23.packetBuffer.writeIntME(var22[0]);
-												var23.packetBuffer.method7795(var9.childIndex);
-												var23.packetBuffer.method7806(var22[1]);
+                                                var23.packetBuffer.writeShortLE(var9.childIndex);
+                                                var23.packetBuffer.method7806(var22[1]);
 												var23.packetBuffer.method7746(var9.method5699());
 												var23.packetBuffer.method7806(var22[2]);
 												var23.packetBuffer.writeInt(var9.id);

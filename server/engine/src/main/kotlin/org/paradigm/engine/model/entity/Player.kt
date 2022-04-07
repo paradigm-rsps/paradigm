@@ -2,7 +2,7 @@ package org.paradigm.engine.model.entity
 
 import org.paradigm.config.ServerConfig
 import org.paradigm.engine.event.EventBus
-import org.paradigm.engine.event.impl.PlayerLogoutEvent
+import org.paradigm.engine.event.impl.LogoutEvent
 import org.paradigm.engine.model.Appearance
 import org.paradigm.engine.model.manager.GpiManager
 import org.paradigm.engine.model.manager.SceneManager
@@ -12,6 +12,7 @@ import org.paradigm.engine.model.manager.InterfaceManager
 import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.model.ui.DisplayMode
 import org.paradigm.engine.net.Session
+import org.paradigm.engine.net.packet.server.RunClientScriptPacket
 import org.tinylog.kotlin.Logger
 
 class Player internal constructor(val session: Session) : LivingEntity() {
@@ -30,7 +31,7 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     var passwordHash: String = ""
     var displayName: String = ""
     var privilege: Privilege = Privilege.DEVELOPER
-    var displayMode: DisplayMode = DisplayMode.FIXED
+    var displayMode: DisplayMode = DisplayMode.RESIZABLE_MODERN
     var pid: Int = -1
     var skullIcon: Int = -1
     var prayerIcon: Int = -1
@@ -57,11 +58,14 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     fun logout() {
         Logger.info("[$username] has disconnected from the server.")
         world.players.removePlayer(this)
-        EventBus.publish(PlayerLogoutEvent(this))
+        EventBus.publish(LogoutEvent(this))
     }
 
     override suspend fun cycle() {
         queueCycle()
     }
 
+    fun runClientScript(id: Int, vararg params: Any) {
+        session.write(RunClientScriptPacket(id, params))
+    }
 }

@@ -224,7 +224,7 @@ public class DynamicObject extends Renderable {
 					}
 				}
 
-				var7 = var1.method7790();
+				var7 = var1.readUnsignedByteNEG();
 				if (var7 > 0) {
 					for (var8 = 0; var8 < var7; ++var8) {
 						var9 = var1.readUShortSmart();
@@ -242,29 +242,29 @@ public class DynamicObject extends Renderable {
 			}
 
 			if (class162.field1768 && (var5 & 256) != 0 || !class162.field1768 && (var5 & 64) != 0) {
-				var4.field1175 = var1.readByteSub();
-                var4.field1177 = var1.method7792();
-				var4.field1176 = var1.readByte();
-				var4.field1178 = var1.readByte();
-				var4.field1179 = var1.readUnsignedShortLEAdd() + Client.cycle;
-				var4.field1180 = var1.readUnsignedShort() + Client.cycle;
-				var4.field1181 = var1.readUnsignedShortLEAdd();
-				var4.pathLength = 1;
-				var4.field1134 = 0;
-				var4.field1175 += var4.pathX[0];
-				var4.field1177 += var4.pathY[0];
-				var4.field1176 += var4.pathX[0];
+                var4.field1175 = var1.readByteSUB();
+                var4.field1177 = var1.readByteADD();
+                var4.field1176 = var1.readByte();
+                var4.field1178 = var1.readByte();
+                var4.field1179 = var1.readUnsignedShortLEAdd() + Client.cycle;
+                var4.field1180 = var1.readUnsignedShort() + Client.cycle;
+                var4.field1181 = var1.readUnsignedShortLEAdd();
+                var4.pathLength = 1;
+                var4.field1134 = 0;
+                var4.field1175 += var4.pathX[0];
+                var4.field1177 += var4.pathY[0];
+                var4.field1176 += var4.pathX[0];
 				var4.field1178 += var4.pathY[0];
 			}
 
 			if ((var5 & 512) != 0) {
-				var4.field1133 = Client.cycle + var1.readUnsignedShortLE();
-				var4.field1185 = Client.cycle + var1.readUnsignedShortAdd();
-				var4.field1146 = var1.readByte();
-				var4.field1187 = var1.method7792();
-				var4.field1188 = var1.method7792();
-                var4.field1189 = (byte) var1.readUnsignedByteSub();
-			}
+                var4.field1133 = Client.cycle + var1.readUnsignedShortLE();
+                var4.field1185 = Client.cycle + var1.readUnsignedShortAdd();
+                var4.field1146 = var1.readByte();
+                var4.field1187 = var1.readByteADD();
+                var4.field1188 = var1.readByteADD();
+                var4.field1189 = (byte) var1.readUnsignedByteSUB();
+            }
 
 			if ((var5 & 2) != 0) {
 				var4.overheadText = var1.readStringCp1252NullTerminated();

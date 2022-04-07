@@ -9,9 +9,9 @@ import org.paradigm.engine.net.game.ServerPacket
 import org.paradigm.util.buffer.JagByteBuf
 
 @ServerPacket(opcode = 37, type = PacketType.VARIABLE_SHORT)
-class UpdatePlayers(val buf: ByteBuf) : Packet {
-    companion object : Codec<UpdatePlayers> {
-        override fun encode(session: Session, packet: UpdatePlayers, out: JagByteBuf) {
+class UpdatePlayersPacket(val buf: ByteBuf) : Packet {
+    companion object : Codec<UpdatePlayersPacket> {
+        override fun encode(session: Session, packet: UpdatePlayersPacket, out: JagByteBuf) {
             out.writeBytes(packet.buf)
             packet.buf.release()
         }

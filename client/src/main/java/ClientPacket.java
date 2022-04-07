@@ -16,8 +16,8 @@ public class ClientPacket implements class261 {
 	public static final ClientPacket field2907;
 	public static final ClientPacket field2908;
 	public static final ClientPacket field2931;
-	public static final ClientPacket field2963;
-	public static final ClientPacket field2911;
+	public static final ClientPacket MOVE_MINIMAP_CLICK;
+	public static final ClientPacket MOVE_GAME_CLICK;
 	public static final ClientPacket field2923;
 	public static final ClientPacket field2913;
 	public static final ClientPacket field2978;
@@ -127,8 +127,8 @@ public class ClientPacket implements class261 {
 		field2907 = new ClientPacket(14, 3);
 		field2908 = new ClientPacket(15, 8);
 		field2931 = new ClientPacket(16, 8);
-		field2963 = new ClientPacket(17, -1);
-		field2911 = new ClientPacket(18, -1);
+		MOVE_MINIMAP_CLICK = new ClientPacket(17, -1);
+		MOVE_GAME_CLICK = new ClientPacket(18, -1);
 		field2923 = new ClientPacket(19, -1);
 		field2913 = new ClientPacket(20, 3);
 		field2978 = new ClientPacket(21, 7);

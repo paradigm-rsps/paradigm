@@ -8,7 +8,7 @@ import org.tinylog.kotlin.Logger
 class GamePacketHandler(private val session: Session) : SimpleChannelInboundHandler<Packet>() {
 
     override fun channelRead0(ctx: ChannelHandlerContext, msg: Packet) {
-
+        msg.handle(session)
     }
 
     override fun channelInactive(ctx: ChannelHandlerContext) {

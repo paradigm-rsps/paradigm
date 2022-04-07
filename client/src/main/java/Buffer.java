@@ -562,47 +562,47 @@ public class Buffer extends Node {
 		this.array[++this.offset - 1] = (byte)(0 - var1);
 	}
 
-	public void method7788(int var1) {
-		this.array[++this.offset - 1] = (byte)(128 - var1);
+	public void writeByteSUB(int var1) {
+		this.array[++this.offset - 1] = (byte) (128 - var1);
 	}
 
 	public int method7789() {
 		return this.array[++this.offset - 1] - 128 & 255;
 	}
 
-	public int method7790() {
+	public int readUnsignedByteNEG() {
 		return 0 - this.array[++this.offset - 1] & 255;
 	}
 
-	public int readUnsignedByteSub() {
+	public int readUnsignedByteSUB() {
 		return 128 - this.array[++this.offset - 1] & 255;
 	}
 
-	public byte method7792() {
-		return (byte)(this.array[++this.offset - 1] - 128);
+	public byte readByteADD() {
+		return (byte) (this.array[++this.offset - 1] - 128);
 	}
 
-	public byte readByteNeg() {
+	public byte readByteNEG() {
 		return (byte) (0 - this.array[++this.offset - 1]);
 	}
 
-	public byte readByteSub() {
+	public byte readByteSUB() {
 		return (byte) (128 - this.array[++this.offset - 1]);
 	}
 
-	public void method7795(int var1) {
-		this.array[++this.offset - 1] = (byte)var1;
-		this.array[++this.offset - 1] = (byte)(var1 >> 8);
+	public void writeShortLE(int var1) {
+		this.array[++this.offset - 1] = (byte) var1;
+		this.array[++this.offset - 1] = (byte) (var1 >> 8);
 	}
 
-	public void method7796(int var1) {
-		this.array[++this.offset - 1] = (byte)(var1 >> 8);
-		this.array[++this.offset - 1] = (byte)(var1 + 128);
+	public void writeShortADD(int var1) {
+		this.array[++this.offset - 1] = (byte) (var1 >> 8);
+		this.array[++this.offset - 1] = (byte) (var1 + 128);
 	}
 
-	public void method7791(int var1) {
-		this.array[++this.offset - 1] = (byte)(var1 + 128);
-		this.array[++this.offset - 1] = (byte)(var1 >> 8);
+	public void writeShortLEADD(int var1) {
+		this.array[++this.offset - 1] = (byte) (var1 + 128);
+		this.array[++this.offset - 1] = (byte) (var1 >> 8);
 	}
 
 	public int readUnsignedShortLE() {
