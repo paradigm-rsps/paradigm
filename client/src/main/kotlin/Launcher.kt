@@ -25,7 +25,7 @@ object Launcher {
     val MODULUS = Launcher::class.java.getResource("/modulus.txt")!!.readText()
 
     val DEFAULT_WORLD = 1
-    val TITLE = "Old School RuneScape"
+    val TITLE = "Paradigm"
     val JAGEX_OLDSCHOOL_URL = "http://oldschool1.runescape.com/"
 
     private val params = mutableMapOf<String, String>()

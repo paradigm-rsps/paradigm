@@ -12,6 +12,7 @@ rootProject.name = "paradigm"
  * ===== CLIENT MODULES =====
  */
 include(":client")
+include(":nxt-client")
 
 /*
  * ===== SERVER MODULES =====

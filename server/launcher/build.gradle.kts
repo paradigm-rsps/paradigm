@@ -23,6 +23,7 @@ tasks {
     }
 
     register<JavaExec>("setup server") {
+        finalizedBy(project(":nxt-client").tasks.getByName("patch"))
         group = "paradigm"
         workingDir = rootProject.projectDir
         mainClass.set("org.paradigm.launcher.Setup")

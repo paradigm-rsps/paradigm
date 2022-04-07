@@ -75,8 +75,15 @@ object Setup {
         Logger.info("Copying RSA public modulus into client.")
 
         val modulusFile = File("data/rsa/modulus.txt")
+
         modulusFile.inputStream().use { input ->
             File("client/src/main/resources/modulus.txt").outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        modulusFile.inputStream().use { input ->
+            File("nxt-client/src/main/resources/modulus.txt").outputStream().use { output ->
                 input.copyTo(output)
             }
         }
