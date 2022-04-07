@@ -4,6 +4,7 @@ dependencies {
     implementation(project(":server:logger"))
     implementation(project(":server:config"))
     implementation(project(":server:cache"))
+    implementation(project(":server:content"))
     implementation("com.google.guava:guava:_")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
     implementation("io.netty:netty-all:_")

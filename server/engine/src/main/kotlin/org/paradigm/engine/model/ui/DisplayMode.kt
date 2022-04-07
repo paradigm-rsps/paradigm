@@ -13,10 +13,10 @@ val Int.enum: Map<EnumConfig.Component, EnumConfig.Component?>
         return cache.configArchive.enumConfigs[this]!! as Map<EnumConfig.Component, EnumConfig.Component?>
     }
 
-enum class DisplayMode(val interfaceId: Int, val moves: Map<EnumConfig.Component, EnumConfig.Component?>) {
-    FIXED(interfaceId = 548, moves = 1129.enum),
-    RESIZABLE_CLASSIC(interfaceId = 161, moves = 1130.enum),
-    RESIZABLE_MODERN(interfaceId = 164, moves = 1131.enum),
-    FULLSCREEN(interfaceId = 165, moves = 1132.enum),
-    MOBILE(interfaceId = 601, moves = 1745.enum);
+enum class DisplayMode(val interfaceId: Int, val enum: Map<EnumConfig.Component, EnumConfig.Component?>) {
+    FIXED(interfaceId = 548, enum = 1129.enum),
+    RESIZABLE_CLASSIC(interfaceId = 161, enum = 1130.enum),
+    RESIZABLE_MODERN(interfaceId = 164, enum = 1131.enum),
+    FULLSCREEN(interfaceId = 165, enum = 1132.enum),
+    MOBILE(interfaceId = 601, enum = 1745.enum);
 }

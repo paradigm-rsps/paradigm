@@ -2,6 +2,8 @@ package org.paradigm.engine.service.auth
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.paradigm.common.inject
+import org.paradigm.engine.event.EventBus
+import org.paradigm.engine.event.impl.PlayerLoginEvent
 import org.paradigm.engine.model.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.net.Session
@@ -83,7 +85,7 @@ class LoginService : Service {
             p.replace("login-handler", "packet-handler", GamePacketHandler(session))
 
             this.init()
-
+            EventBus.publish(PlayerLoginEvent(this))
             Logger.info("[$username] has connected to the server.")
         }
     }

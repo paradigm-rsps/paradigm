@@ -5,6 +5,13 @@ dependencies {
     implementation(project(":server:engine"))
     implementation(project(":server:config"))
     implementation(project(":server:cache"))
+    implementation(project(":server:api"))
+    implementation(project(":server:content"))
+    project(":server:content").dependencyProject.subprojects.forEach { subproject ->
+        if (subproject.buildFile.exists()) {
+            implementation(subproject)
+        }
+    }
 }
 
 tasks {

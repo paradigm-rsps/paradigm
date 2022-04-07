@@ -6,6 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
+import org.paradigm.content.ContentScriptManager
 import org.paradigm.engine.coroutine.EngineCoroutineScope
 import org.paradigm.engine.model.World
 import org.paradigm.engine.net.NetworkServer
@@ -21,6 +22,7 @@ class Engine {
     private val networkServer: NetworkServer by inject()
     private val serviceManager: ServiceManager by inject()
     private val world: World by inject()
+    private val scriptManager: ContentScriptManager by inject()
 
     private val updateTasks = SyncTaskList()
     private var running = false
@@ -36,6 +38,8 @@ class Engine {
         serviceManager.start()
         updateTasks.init()
         engineCoroutine.start()
+        scriptManager.loadScripts()
+        scriptManager.enableScripts()
         networkServer.start()
     }
 
@@ -43,6 +47,7 @@ class Engine {
         Logger.info("Stopping server engine.")
         running = false
         serviceManager.stop()
+        scriptManager.disableScripts()
         networkServer.stop()
     }
 
