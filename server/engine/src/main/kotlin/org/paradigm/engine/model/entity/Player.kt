@@ -10,6 +10,8 @@ import org.paradigm.engine.model.Privilege
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.manager.InterfaceManager
 import org.paradigm.engine.model.map.Tile
+import org.paradigm.engine.model.pathfinder.Pathfinder
+import org.paradigm.engine.model.pathfinder.PlayerPathfinder
 import org.paradigm.engine.model.ui.DisplayMode
 import org.paradigm.engine.net.Session
 import org.paradigm.engine.net.packet.server.RunClientScriptPacket
@@ -31,7 +33,7 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     var passwordHash: String = ""
     var displayName: String = ""
     var privilege: Privilege = Privilege.DEVELOPER
-    var displayMode: DisplayMode = DisplayMode.RESIZABLE_MODERN
+    var displayMode: DisplayMode = DisplayMode.FIXED
     var pid: Int = -1
     var skullIcon: Int = -1
     var prayerIcon: Int = -1
@@ -48,7 +50,10 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     )
 
     override var prevTile: Tile = tile
+
     override var followTile: Tile = tile
+
+    override val pathfinder = PlayerPathfinder()
 
     internal fun init() {
         gpi.init()

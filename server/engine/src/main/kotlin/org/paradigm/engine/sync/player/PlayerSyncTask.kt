@@ -131,7 +131,9 @@ class PlayerSyncTask : SyncTask {
             buf.writeSkipCount(skipCount)
         }
 
+        skipCount = 0
         buf.switchWriteMode(BIT_MODE)
+
         for (i in 0 until gpi.localPlayerCount) {
             val localIndex = gpi.localPlayerIndexes[i]
             if (wasSkipped(localIndex, activeMode)) {
@@ -151,6 +153,7 @@ class PlayerSyncTask : SyncTask {
                 }
             }
         }
+
         buf.switchWriteMode(BYTE_MODE)
         return local
     }
@@ -182,7 +185,11 @@ class PlayerSyncTask : SyncTask {
                 buf.writeBits(externalPlayer.tile.x, 13)
                 buf.writeBits(externalPlayer.tile.y, 13)
                 buf.writeBoolean(true)
-                encodeUpdateFlags(externalPlayer, maskBuf, sortedSetOf(PlayerUpdateFlag.APPEARANCE))
+                encodeUpdateFlags(
+                    externalPlayer,
+                    maskBuf,
+                    sortedSetOf(PlayerUpdateFlag.APPEARANCE, PlayerUpdateFlag.MOVEMENT_MODE)
+                )
                 gpi.localPlayers[externalPlayer.index] = externalPlayer
             } else {
                 writeTileUpdate(externalPlayer, buf)
@@ -202,7 +209,9 @@ class PlayerSyncTask : SyncTask {
             buf.writeSkipCount(skipCount)
         }
 
+        skipCount = 0
         buf.switchWriteMode(BIT_MODE)
+
         for (i in 0 until gpi.externalPlayerCount) {
             val externalIndex = gpi.externalPlayerIndexes[i]
             if (wasSkipped(externalIndex, activeMode)) {
@@ -225,6 +234,7 @@ class PlayerSyncTask : SyncTask {
                 }
             }
         }
+
         buf.switchWriteMode(BYTE_MODE)
         return additions
     }

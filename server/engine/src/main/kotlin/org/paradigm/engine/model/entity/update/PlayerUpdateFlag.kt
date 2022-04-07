@@ -61,7 +61,7 @@ class PlayerUpdateFlag(
         /**
          * Movement Type Flag
          */
-        val MOVEMENT_TYPE = PlayerUpdateFlag(order = 10, mask = 0x4000) { player ->
+        val MOVEMENT_MODE = PlayerUpdateFlag(order = 10, mask = 0x4000) { player ->
             writeByte(if (player.running) 2 else 1, transform = NEG)
         }
 

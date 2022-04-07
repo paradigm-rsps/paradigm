@@ -11,15 +11,15 @@ import org.paradigm.config.ServerConfig
 import org.paradigm.engine.net.game.GamePackets
 import org.paradigm.engine.net.handshake.HandshakeDecoder
 import org.paradigm.engine.net.handshake.HandshakeHandler
-import org.paradigm.engine.net.worldlist.WorldListServer
+import org.paradigm.engine.net.http.HttpServer
 import org.tinylog.kotlin.Logger
 import java.net.InetSocketAddress
 import kotlin.system.exitProcess
 
 class NetworkServer {
 
-    private val worldListServer: WorldListServer by inject()
     private val gamePackets: GamePackets by inject()
+    private val httpServer: HttpServer by inject()
 
     internal val bootstrap = ServerBootstrap()
 
@@ -53,15 +53,13 @@ class NetworkServer {
 
     fun stop() {
         Logger.info("Stopping networking server.")
-        
         bossGroup.shutdownGracefully()
         workerGroup.shutdownGracefully()
-        worldListServer.stop()
     }
 
     private fun onBindSuccess(address: InetSocketAddress) {
         Logger.info("Network server listening for connections on ${address.hostString}:${address.port}...")
-        worldListServer.start()
+        httpServer.start()
     }
 
     private fun onBindFailure(address: InetSocketAddress, cause: Throwable) {

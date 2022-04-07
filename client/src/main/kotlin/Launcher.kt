@@ -1,3 +1,4 @@
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme
 import java.applet.Applet
 import java.applet.AppletContext
 import java.applet.AppletStub
@@ -5,6 +6,8 @@ import java.awt.Color
 import java.awt.Dimension
 import java.awt.GridLayout
 import java.net.URL
+import javax.swing.ImageIcon
+import javax.swing.JDialog
 import javax.swing.JFrame
 import kotlin.reflect.full.staticProperties
 import kotlin.reflect.jvm.isAccessible
@@ -22,13 +25,17 @@ object Launcher {
     val MODULUS = Launcher::class.java.getResource("/modulus.txt")!!.readText()
 
     val DEFAULT_WORLD = 1
-    val TITLE = "Paradigm"
+    val TITLE = "Old School RuneScape"
     val JAGEX_OLDSCHOOL_URL = "http://oldschool1.runescape.com/"
 
     private val params = mutableMapOf<String, String>()
 
     @JvmStatic
     fun main(args: Array<String>) {
+        JFrame.setDefaultLookAndFeelDecorated(true)
+        JDialog.setDefaultLookAndFeelDecorated(true)
+        FlatAtomOneDarkContrastIJTheme.setup()
+
         initParams()
         start()
     }
@@ -58,15 +65,15 @@ object Launcher {
     private fun start() {
         val applet = Client()
         applet.background = Color.BLACK
-        applet.size = Dimension(params["applet_minwidth"]!!.toInt(), params["applet_minheight"]!!.toInt())
-        applet.preferredSize = applet.size
-        applet.layout = null
+        applet.preferredSize = Dimension(params["applet_minwidth"]!!.toInt(), params["applet_minheight"]!!.toInt())
+        applet.size = applet.preferredSize
+        Dimension(params["applet_minwidth"]!!.toInt(), params["applet_minheight"]!!.toInt())
         applet.setStub(applet.createStub())
         applet.isVisible = true
         applet.init()
-        applet.start()
 
         val frame = JFrame(TITLE)
+        frame.iconImages = listOf(ImageIcon(Launcher::class.java.getResource("/icon.png")).image)
         frame.layout = GridLayout(1, 0)
         frame.add(applet)
         frame.pack()

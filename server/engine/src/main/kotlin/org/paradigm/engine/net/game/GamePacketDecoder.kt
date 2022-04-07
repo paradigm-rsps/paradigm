@@ -70,6 +70,7 @@ class GamePacketDecoder(private val session: Session) : ByteToMessageDecoder() {
             } else {
                 Logger.warn("Received unknown client packet. [opcode: $opcode, length: $length, remaining: ${readableBytes()}].")
             }
+            payload.release()
         }
     }
 
