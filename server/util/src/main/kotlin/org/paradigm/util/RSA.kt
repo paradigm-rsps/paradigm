@@ -43,7 +43,7 @@ class RSA {
     }
 
     companion object {
-        private const val KEY_SIZE = 2048
+        private const val KEY_SIZE = 1024
         private const val RADIX = 16
 
         fun generateKeyPair() {

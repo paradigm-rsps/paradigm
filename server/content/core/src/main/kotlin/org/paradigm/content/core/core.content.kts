@@ -22,7 +22,7 @@ onEvent<LoginEvent> {
 onEvent<MoveGameClickEvent> {
     when (type) {
         0 -> player.moveTo(tile)
-        else -> {
+        2 -> {
             if (player.privilege.id >= 2) {
                 player.teleport(tile)
             } else {

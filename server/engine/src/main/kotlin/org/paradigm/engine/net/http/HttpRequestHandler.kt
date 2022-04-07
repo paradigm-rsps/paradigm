@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.netty.handler.codec.http.QueryStringDecoder
 import org.paradigm.engine.net.http.endpoint.JavConfigEndpoint
+import org.paradigm.engine.net.http.endpoint.WorldListEndpoint
 
 @ChannelHandler.Sharable
 class HttpRequestHandler : SimpleChannelInboundHandler<FullHttpRequest>() {
@@ -28,6 +29,7 @@ class HttpRequestHandler : SimpleChannelInboundHandler<FullHttpRequest>() {
 
         when {
             query.path() == "/jav_config.ws" -> JavConfigEndpoint.handle(ctx, msg, query)
+            query.path() == "/world_list.ws" -> WorldListEndpoint.handle(ctx)
             else -> ctx.sendHttpError(HttpResponseStatus.NOT_FOUND)
         }
     }

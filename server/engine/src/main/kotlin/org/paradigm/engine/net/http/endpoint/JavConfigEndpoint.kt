@@ -71,7 +71,7 @@ object JavConfigEndpoint {
             "param=3=false\n" +
             "param=7=0\n" +
             "param=18=\n" +
-            "param=17=http://www.runescape.com/g=oldscape/slr.ws?order=LPWM\n" +
+            "param=17=http://127.0.0.1/world_list.ws\n" +
             "param=10=5\n" +
             "param=4=1\n" +
             "param=6=0\n" +
