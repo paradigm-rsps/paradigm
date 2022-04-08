@@ -12,7 +12,7 @@ import org.paradigm.engine.model.ui.GameInterface
 onEvent<LoginEvent> {
     player.updateAppearance()
     player.ui.openTopInterface(player.displayMode.interfaceId)
-    GameInterface.values().filter { it.interfaceId != -1 }.forEach { gameInterface ->
+    GameInterface.values().filter { it.interfaceId != -1 && it != GameInterface.CHAT_BOX }.forEach { gameInterface ->
         player.ui.openInterface(gameInterface)
     }
     player.runClientScript(ClientScript.SET_RESIZABLE_MODE, 1)
@@ -22,7 +22,7 @@ onEvent<LoginEvent> {
 onEvent<MoveGameClickEvent> {
     when (type) {
         0 -> player.moveTo(tile)
-        2 -> {
+        else -> {
             if (player.privilege.id >= 2) {
                 player.teleport(tile)
             } else {
