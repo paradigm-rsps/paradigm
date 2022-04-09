@@ -8,6 +8,7 @@ import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.model.ui.GameInterface
+import org.tinylog.kotlin.Logger
 
 onEvent<LoginEvent> {
     player.updateAppearance()
@@ -16,24 +17,18 @@ onEvent<LoginEvent> {
         player.ui.openInterface(gameInterface)
     }
     player.runClientScript(ClientScript.SET_RESIZABLE_MODE, 1)
-    player.toggleRun()
 }
 
 onEvent<MoveGameClickEvent> {
     when (type) {
         0 -> player.moveTo(tile)
         else -> {
-            if (player.privilege.id >= 2) {
-                player.teleport(tile)
-            } else {
-                player.moveTo(tile)
-            }
+            player.teleport(tile)
         }
     }
 }
 
 fun Player.teleport(tile: Tile) {
-    updateFlags.add(PlayerUpdateFlag.MOVEMENT)
     teleportTile = tile
     movementState = MovementState.TELEPORT
 }

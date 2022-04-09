@@ -8,7 +8,6 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
-import org.paradigm.engine.Engine
 import org.paradigm.engine.net.game.GamePackets
 import org.paradigm.engine.net.handshake.HandshakeDecoder
 import org.paradigm.engine.net.handshake.HandshakeHandler
@@ -17,7 +16,7 @@ import org.tinylog.kotlin.Logger
 import java.net.InetSocketAddress
 import kotlin.system.exitProcess
 
-class NetworkServer() {
+class NetworkServer {
 
     private val gamePackets: GamePackets by inject()
     private val httpServer: HttpServer by inject()

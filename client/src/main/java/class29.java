@@ -113,8 +113,8 @@ public class class29 {
 		}
 
 		if (cacheDir == null) {
-			cacheDir = Statics1.userHomeDirectory + File.separatorChar + Launcher.INSTANCE.getTITLE().toLowerCase() + "cache" + var3 + File.separatorChar + var0 + File.separatorChar + var1 + File.separatorChar;
-			var6 = true;
+			cacheDir = Statics1.userHomeDirectory + File.separatorChar + "jagexcache" + var3 + File.separatorChar + var0 + File.separatorChar + var1 + File.separatorChar;
+            var6 = true;
 		}
 
 		if (var5 != null) {

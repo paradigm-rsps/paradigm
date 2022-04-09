@@ -10,7 +10,7 @@ dependencies {
 }
 
 tasks {
-    register<JavaExec>("run client") {
+    register<JavaExec>("run java-client") {
         group = "paradigm"
         workingDir = rootProject.projectDir
         mainClass.set("Launcher")

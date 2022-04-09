@@ -1,14 +1,11 @@
 package org.paradigm.engine.net.js5
 
 enum class JS5RequestType(val opcode: Int) {
-    NORMAL(0),
-    PRIORITY(1),
-    LOGGED_IN(2),
-    LOGGED_OUT(3),
-    ENCRYPT_KEY_UPDATE(4);
+    NORMAL_REQUEST(0),
+    PRIORITY_REQUEST(1),
+    ENCRYPTION_KEY_UPDATE(3);
 
     companion object {
-        private val values = values()
-        fun fromOpcode(opcode: Int) = values.firstOrNull { it.opcode == opcode }
+        fun fromOpcode(opcode: Int): JS5RequestType = values().first { it.opcode == opcode }
     }
 }

@@ -57,7 +57,6 @@ object Launcher {
 
     private fun overrideParams() {
         params["codebase"] = "http://$CODEBASE/"
-        params["cachedir"] = TITLE.lowercase()
         params["12"] = DEFAULT_WORLD.toString()
         params["17"] = "http://$CODEBASE/"
     }

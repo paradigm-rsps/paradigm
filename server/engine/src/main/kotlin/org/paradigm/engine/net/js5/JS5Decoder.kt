@@ -3,31 +3,33 @@ package org.paradigm.engine.net.js5
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
-import org.tinylog.kotlin.Logger
 
 class JS5Decoder : ByteToMessageDecoder() {
 
     override fun decode(ctx: ChannelHandlerContext, buf: ByteBuf, out: MutableList<Any>) {
-        if(!buf.isReadable(4)) return
-
-        val opcode = buf.readUnsignedByte().toInt()
-        when(val type = JS5RequestType.fromOpcode(opcode)) {
-            JS5RequestType.NORMAL,
-            JS5RequestType.PRIORITY -> {
-                val archive = buf.readUnsignedByte().toInt()
-                val group = buf.readUnsignedShort()
-                val priority = type == JS5RequestType.PRIORITY
-                out.add(JS5Request(archive, group, priority))
-            }
-
-            JS5RequestType.LOGGED_IN,
-            JS5RequestType.LOGGED_OUT,
-            JS5RequestType.ENCRYPT_KEY_UPDATE -> {
-                Logger.info("Recieved xor key.")
-                buf.skipBytes(3)
-            }
-
-            else -> throw IllegalStateException("Unexpected JS5 request type opcode: $opcode.")
+        buf.markReaderIndex()
+        val opcode = buf.readByte().toInt()
+        when (JS5RequestType.fromOpcode(opcode)) {
+            JS5RequestType.NORMAL_REQUEST, JS5RequestType.PRIORITY_REQUEST -> buf.readFileRequest(out)
+            JS5RequestType.ENCRYPTION_KEY_UPDATE -> buf.readEncryptKeyUpdate(out)
         }
+    }
+
+    private fun ByteBuf.readFileRequest(out: MutableList<Any>) {
+        if (readableBytes() < Byte.SIZE_BYTES + Short.SIZE_BYTES) {
+            resetReaderIndex()
+            return
+        }
+        val archive = readUnsignedByte().toInt()
+        val group = readUnsignedShort()
+        val request = JS5Request.FileData(archive, group)
+        out.add(request)
+    }
+
+    private fun ByteBuf.readEncryptKeyUpdate(out: MutableList<Any>) {
+        val encryptionKey = readByte().toInt()
+        val offset = readUnsignedShort()
+        val request = JS5Request.EncryptKeyUpdate(encryptionKey, offset)
+        out.add(request)
     }
 }

@@ -6,33 +6,20 @@ import io.netty.handler.codec.MessageToByteEncoder
 
 class JS5Encoder : MessageToByteEncoder<JS5Response>() {
 
-    companion object {
-        private const val SECTOR_SIZE = 512
+    override fun encode(ctx: ChannelHandlerContext, msg: JS5Response, out: ByteBuf) {
+        out.writeByte(msg.archive xor msg.encryptionKey)
+        out.writeShort(msg.group xor msg.encryptionKey)
+        out.writeByte(msg.compressionType xor msg.encryptionKey)
+        out.writeInt(msg.compressedSize xor msg.encryptionKey)
+        msg.data.forEach { byte ->
+            if (out.writerIndex() % BLOCK_SIZE == 0) {
+                out.writeByte(-1 xor msg.encryptionKey)
+            }
+            out.writeByte(byte.toInt() xor msg.encryptionKey)
+        }
     }
 
-    override fun encode(ctx: ChannelHandlerContext, msg: JS5Response, out: ByteBuf) {
-        out.writeByte(msg.archive)
-        out.writeShort(msg.group)
-        out.writeByte(msg.compressionType)
-        out.writeInt(msg.compressedSize)
-
-        var dataSize = msg.data.readableBytes()
-        if(dataSize > SECTOR_SIZE - 8) {
-            dataSize = SECTOR_SIZE - 8
-        }
-
-        out.writeBytes(msg.data.slice(msg.data.readerIndex(), dataSize))
-        msg.data.readerIndex(msg.data.readerIndex() + dataSize)
-
-        while(msg.data.readableBytes() > 0) {
-            dataSize = msg.data.readableBytes()
-            if(dataSize > SECTOR_SIZE - 1) {
-                dataSize = SECTOR_SIZE - 1
-            }
-
-            out.writeByte(-1)
-            out.writeBytes(msg.data.slice(msg.data.readerIndex(), dataSize))
-            msg.data.readerIndex(msg.data.readerIndex() + dataSize)
-        }
+    companion object {
+        private const val BLOCK_SIZE = 512
     }
 }

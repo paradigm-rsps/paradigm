@@ -36,12 +36,12 @@ class Engine {
         running = true
 
         serviceManager.start()
-        updateTasks.init()
         world.init()
-        engineCoroutine.start()
+        updateTasks.init()
         scriptManager.loadScripts()
         scriptManager.enableScripts()
         networkServer.start()
+        engineCoroutine.start()
     }
 
     fun stop() {

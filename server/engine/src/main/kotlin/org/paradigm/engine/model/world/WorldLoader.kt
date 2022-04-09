@@ -31,16 +31,10 @@ object WorldLoader {
     internal fun loadRegions() {
         Logger.info("Loading game world data from cache.")
 
-        engine.ioCoroutine.launch {
-            val jobs = mutableListOf<Job>()
-            XteaConfig.regions.keys.forEach { regionId ->
-                jobs += launch loadJob@{
-                    val map = cache.mapArchive.regions[regionId]?.map?.data ?: return@loadJob
-                    val loc = cache.mapArchive.regions[regionId]?.loc?.data ?: return@loadJob
-                    Region(regionId).load(map, loc)
-                }
-            }
-            jobs.joinAll()
+        XteaConfig.regions.keys.forEach { regionId ->
+            val map = cache.mapArchive.regions[regionId]?.map?.data ?: return@forEach
+            val loc = cache.mapArchive.regions[regionId]?.loc?.data ?: return@forEach
+            Region(regionId).load(map, loc)
         }
     }
 
