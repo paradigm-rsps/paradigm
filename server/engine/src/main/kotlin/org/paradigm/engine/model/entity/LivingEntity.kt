@@ -3,7 +3,7 @@ package org.paradigm.engine.model.entity
 import org.paradigm.engine.model.Direction
 import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.model.pathfinder.PathFinder
+import org.paradigm.engine.model.entity.pathfinder.PathFinder
 import org.paradigm.engine.queue.PriorityQueueList
 import org.tinylog.kotlin.Logger
 
@@ -28,7 +28,7 @@ abstract class LivingEntity : Entity() {
 
     var movementState: MovementState = MovementState.NONE
 
-    var faceDirection: Direction = Direction.NORTH
+    var direction: Direction = Direction.NORTH
 
     var invisible: Boolean = false
 

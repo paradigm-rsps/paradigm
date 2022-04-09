@@ -6,6 +6,7 @@ import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
+import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.sync.SyncTask
 
 class PlayerPreSyncTask : SyncTask {
@@ -27,38 +28,39 @@ class PlayerPreSyncTask : SyncTask {
         }
     }
 
-    private fun Player.doTeleport() {
-        movementState = MovementState.TELEPORT
-        updateFlags.add(PlayerUpdateFlag.MOVEMENT)
-        tile = teleportTile!!
-        followTile = tile.translate(Direction.WEST)
-    }
-
     private fun Player.doStep() {
-        tile = when {
+        when {
             running -> when {
                 path.size == 1 -> {
                     movementState = MovementState.WALK
                     updateFlags.add(PlayerUpdateFlag.MOVEMENT)
-                    followTile = prevTile
-                    path.removeAt(0)
+                    followTile = tile
+                    tile = path.removeAt(0)
                 }
                 path.size > 1 && tile.isWithinRadius(path[1], 1) -> {
                     movementState = MovementState.WALK
                     followTile = path.removeAt(0)
-                    path.removeAt(0)
+                    tile = path.removeAt(0)
                 }
                 else -> {
                     movementState = MovementState.RUN
                     followTile = path.removeAt(0)
-                    path.removeAt(0)
+                    tile = path.removeAt(0)
                 }
             }
             else -> {
                 movementState = MovementState.WALK
                 followTile = tile
-                path.removeAt(0)
+                tile = path.removeAt(0)
             }
         }
+        direction = followTile.directionTo(tile)
+    }
+
+    private fun Player.doTeleport() {
+        path.clear()
+        movementState = MovementState.TELEPORT
+        followTile = teleportTile!!
+        updateFlags.add(PlayerUpdateFlag.MOVEMENT)
     }
 }

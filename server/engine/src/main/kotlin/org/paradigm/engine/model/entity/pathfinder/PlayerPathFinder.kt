@@ -1,4 +1,4 @@
-package org.paradigm.engine.model.pathfinder
+package org.paradigm.engine.model.entity.pathfinder
 
 import org.paradigm.common.inject
 import org.paradigm.engine.model.World
@@ -6,7 +6,6 @@ import org.paradigm.engine.model.map.Tile
 import org.rsmod.pathfinder.SmartPathFinder
 import org.rsmod.pathfinder.ZoneCoords
 import org.rsmod.pathfinder.ZoneFlags
-import org.rsmod.pathfinder.collision.CollisionStrategy
 
 class PlayerPathFinder : PathFinder {
 
@@ -19,18 +18,9 @@ class PlayerPathFinder : PathFinder {
         }
 
         val pf = SmartPathFinder(defaultFlag = 0, flags = flags)
-        val route = pf.findPath(src.x, src.y, dest.x, dest.y, src.plane)
-        val path = mutableListOf<Tile>()
-
-        var step = src
-        route.map { Tile(it.x, it.y, src.plane) }.forEach { waypoint ->
-            while (!step.sameAs(waypoint)) {
-                step = step.translate(step.directionTo(waypoint))
-                path.add(step)
-            }
-        }
-
-        return path
+        return pf.findPath(src.x, src.y, dest.x, dest.y, src.plane).pathCoords.map {
+            Tile(it.x, it.y, src.plane)
+        }.toList()
     }
 
 }

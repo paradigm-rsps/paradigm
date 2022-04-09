@@ -1,4 +1,4 @@
-package org.paradigm.engine.model.pathfinder
+package org.paradigm.engine.model.entity.pathfinder
 
 import org.paradigm.engine.model.map.Tile
 
