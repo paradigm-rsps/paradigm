@@ -2,7 +2,8 @@ package org.paradigm.engine.model.pathfinder
 
 import org.paradigm.engine.model.map.Tile
 
-interface Pathfinder {
+interface PathFinder {
 
-    fun calculatePath(start: Tile, dest: Tile): MutableList<Tile>
+    fun findPath(src: Tile, dest: Tile): List<Tile>
+
 }

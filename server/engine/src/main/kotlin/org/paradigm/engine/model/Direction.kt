@@ -17,24 +17,18 @@ enum class Direction(val mask: Int, val stepX: Int, val stepY: Int) {
 
         fun between(source: Tile, target: Tile): Direction {
             val dx = target.x - source.x
-            when (target.y - source.y) {
-                1 -> when (dx) {
-                    1 -> return NORTH_EAST
-                    0 -> return NORTH
-                    -1 -> return NORTH_WEST
-                }
-                -1 -> when (dx) {
-                    1 -> return SOUTH_EAST
-                    0 -> return SOUTH
-                    -1 -> return SOUTH_WEST
-                }
-                0 -> when (dx) {
-                    1 -> return EAST
-                    0 -> return NONE
-                    -1 -> return WEST
-                }
+            val dy = target.y - source.y
+            return when {
+                dx == 0 && dy == 0 -> NONE
+                dx > 0 && dy > 0 -> NORTH_EAST
+                dx > 0 && dy == 0 -> EAST
+                dx > 0 && dy < 0 -> SOUTH_EAST
+                dx < 0 && dy > 0 -> NORTH_WEST
+                dx < 0 && dy == 0 -> WEST
+                dx < 0 && dy < 0 -> SOUTH_WEST
+                dx == 0 && dy > 0 -> NORTH
+                else -> SOUTH
             }
-            throw IllegalArgumentException("Unable to get a direction between the provided tiles.")
         }
     }
 }

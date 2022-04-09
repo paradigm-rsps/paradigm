@@ -39,8 +39,7 @@ fun Player.teleport(tile: Tile) {
 }
 
 fun Player.moveTo(tile: Tile) {
-    pathfinder.cancelled = true
-    path = pathfinder.calculatePath(this.tile, tile)
+    path = pathfinder.findPath(this.tile, tile).toMutableList()
 }
 
 fun Player.toggleRun() {

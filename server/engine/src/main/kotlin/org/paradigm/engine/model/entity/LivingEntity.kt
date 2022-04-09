@@ -3,7 +3,7 @@ package org.paradigm.engine.model.entity
 import org.paradigm.engine.model.Direction
 import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.model.pathfinder.Pathfinder
+import org.paradigm.engine.model.pathfinder.PathFinder
 import org.paradigm.engine.queue.PriorityQueueList
 import org.tinylog.kotlin.Logger
 
@@ -32,7 +32,7 @@ abstract class LivingEntity : Entity() {
 
     var invisible: Boolean = false
 
-    abstract val pathfinder: Pathfinder
+    abstract val pathfinder: PathFinder
 
     internal val queue = PriorityQueueList()
 

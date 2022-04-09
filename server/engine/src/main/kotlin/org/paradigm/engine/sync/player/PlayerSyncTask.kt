@@ -1,8 +1,7 @@
 package org.paradigm.engine.sync.player
 
 import io.netty.buffer.ByteBuf
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.paradigm.common.inject
 import org.paradigm.engine.Engine
 import org.paradigm.engine.model.MovementState
@@ -27,17 +26,20 @@ class PlayerSyncTask : SyncTask {
     private val world: World by inject()
 
     override suspend fun execute() {
-        val sync = engine.ioCoroutine.launch { launchSync() }
-        sync.join()
+        engine.ioCoroutine.launch { runSync().joinAll() }.join()
     }
 
-    private fun CoroutineScope.launchSync() = launch {
+    private fun CoroutineScope.runSync(): List<Job> {
+        val jobs = mutableListOf<Job>()
+
         world.players.forEach { player ->
-            launch {
+            jobs += launch {
                 val buf = player.encodeSync()
                 player.session.write(UpdatePlayersPacket(buf))
             }
         }
+
+        return jobs
     }
 
     private fun Player.encodeSync(): ByteBuf {

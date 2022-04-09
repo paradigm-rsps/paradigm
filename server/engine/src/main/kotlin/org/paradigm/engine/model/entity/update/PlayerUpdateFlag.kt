@@ -1,6 +1,5 @@
 package org.paradigm.engine.model.entity.update
 
-import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.util.buffer.JagByteBuf
 import org.paradigm.util.buffer.NEG
@@ -19,7 +18,7 @@ class PlayerUpdateFlag(
          * Movement Flag
          */
         val MOVEMENT = PlayerUpdateFlag(order = 1, mask = 0x100) { player ->
-            writeByte(if (player.movementState == MovementState.TELEPORT) 127 else 0, transform = SUB)
+            writeByte(player.movementState.id, transform = SUB)
         }
 
         /**

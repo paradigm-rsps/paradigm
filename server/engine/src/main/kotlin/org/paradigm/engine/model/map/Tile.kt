@@ -28,9 +28,9 @@ value class Tile(val packed: Int) {
         this.plane + plane
     )
 
-    fun translate(direction: Direction) = Tile(
-        this.x + direction.stepX,
-        this.y + direction.stepY,
+    fun translate(direction: Direction, amount: Int = 1) = Tile(
+        this.x + (direction.stepX * amount),
+        this.y + (direction.stepY * amount),
         this.plane
     )
 
@@ -85,6 +85,10 @@ value class Tile(val packed: Int) {
         x / Scene.SIZE,
         y / Scene.SIZE
     )
+
+    override fun toString(): String {
+        return "TILE[x: $x, y: $y, plane: $plane]"
+    }
 
     companion object {
         const val SIZE = 1

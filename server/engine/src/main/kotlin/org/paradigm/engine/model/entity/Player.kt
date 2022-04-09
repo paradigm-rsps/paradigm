@@ -10,8 +10,7 @@ import org.paradigm.engine.model.Privilege
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.manager.InterfaceManager
 import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.model.pathfinder.Pathfinder
-import org.paradigm.engine.model.pathfinder.PlayerPathfinder
+import org.paradigm.engine.model.pathfinder.PlayerPathFinder
 import org.paradigm.engine.model.ui.DisplayMode
 import org.paradigm.engine.net.Session
 import org.paradigm.engine.net.packet.server.RunClientScriptPacket
@@ -50,10 +49,9 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     )
 
     override var prevTile: Tile = tile
-
     override var followTile: Tile = tile
 
-    override val pathfinder = PlayerPathfinder()
+    override val pathfinder = PlayerPathFinder()
 
     internal fun init() {
         gpi.init()

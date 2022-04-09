@@ -40,7 +40,7 @@ class PlayerPreSyncTask : SyncTask {
                 path.size == 1 -> {
                     movementState = MovementState.WALK
                     updateFlags.add(PlayerUpdateFlag.MOVEMENT)
-                    followTile = tile
+                    followTile = prevTile
                     path.removeAt(0)
                 }
                 path.size > 1 && tile.isWithinRadius(path[1], 1) -> {
@@ -60,6 +60,5 @@ class PlayerPreSyncTask : SyncTask {
                 path.removeAt(0)
             }
         }
-        faceDirection = followTile.directionTo(tile)
     }
 }
