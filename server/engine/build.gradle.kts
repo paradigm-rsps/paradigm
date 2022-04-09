@@ -9,4 +9,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
     implementation("io.netty:netty-all:_")
     implementation("io.github.classgraph:classgraph:_")
+    implementation("com.github.paradigm-rsps:pathfinder:_")
 }

@@ -11,6 +11,7 @@ class GameCache(private val directory: File) : AutoCloseable {
     lateinit var archiveCrcs: List<Int> private set
 
     lateinit var configArchive: ConfigArchive private set
+    lateinit var mapArchive: MapArchive private set
 
     val archiveCount: Int get() = cache.archiveCount
 
@@ -30,6 +31,7 @@ class GameCache(private val directory: File) : AutoCloseable {
 
     private fun loadArchives() {
         configArchive = ConfigArchive.load(cache.readArchive(ConfigArchive.id))
+        mapArchive = MapArchive.load(cache.readArchive(MapArchive.id))
     }
 
     override fun close() {

@@ -8,6 +8,7 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
+import org.paradigm.engine.Engine
 import org.paradigm.engine.net.game.GamePackets
 import org.paradigm.engine.net.handshake.HandshakeDecoder
 import org.paradigm.engine.net.handshake.HandshakeHandler
@@ -16,7 +17,7 @@ import org.tinylog.kotlin.Logger
 import java.net.InetSocketAddress
 import kotlin.system.exitProcess
 
-class NetworkServer {
+class NetworkServer() {
 
     private val gamePackets: GamePackets by inject()
     private val httpServer: HttpServer by inject()
@@ -40,6 +41,7 @@ class NetworkServer {
         Logger.info("Starting networking server.")
 
         gamePackets.loadPackets()
+        httpServer.start()
 
         val socketAddress = InetSocketAddress(ServerConfig.NETWORK.ADDRESS, ServerConfig.NETWORK.PORT)
         bootstrap.bind(socketAddress).addListener {
@@ -59,7 +61,6 @@ class NetworkServer {
 
     private fun onBindSuccess(address: InetSocketAddress) {
         Logger.info("Network server listening for connections on ${address.hostString}:${address.port}...")
-        httpServer.start()
     }
 
     private fun onBindFailure(address: InetSocketAddress, cause: Throwable) {

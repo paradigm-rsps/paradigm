@@ -3,6 +3,7 @@ package org.paradigm.config
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.toValue
 import org.paradigm.common.inject
+import org.tinylog.kotlin.Logger
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -14,12 +15,21 @@ class XteaConfig {
     private val xteaKeys = mutableMapOf<Int, IntArray>()
 
     fun load() {
-        if(!file.exists()) {
+        /*
+         * Don't load XTEA keys again if already loaded.
+         */
+        if (xteaKeys.isNotEmpty()) {
+            return
+        }
+
+        if (!file.exists()) {
             throw FileNotFoundException("Could not load region XTEA keys config file from: data/cache/xteas.json.")
         }
 
         val entries = config.from.json.file(file).toValue<Array<XteaEntry>>()
         entries.forEach { xteaKeys[it.mapsquare] = it.key }
+
+        Logger.info("Loaded ${xteaKeys.keys.size} region XTEA keys.")
     }
 
     operator fun get(regionId: Int): IntArray = xteaKeys[regionId] ?: IntArray(4) { 0 }
@@ -51,7 +61,7 @@ class XteaConfig {
             config.load()
         }
 
-        val keys = config.xteaKeys
+        val regions get() = config.xteaKeys
 
         fun getRegionKey(regionId: Int) = config[regionId]
     }

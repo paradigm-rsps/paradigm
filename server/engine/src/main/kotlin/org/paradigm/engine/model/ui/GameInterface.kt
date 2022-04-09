@@ -20,7 +20,8 @@ enum class GameInterface(val interfaceId: Int, val child: Int, val type: Interfa
     EMOTES(interfaceId = 216, child = 87, type = InterfaceType.OVERLAY),
     MUSIC(interfaceId = 239, child = 88, type = InterfaceType.OVERLAY),
     CLANS(interfaceId = 707, child = 82, type = InterfaceType.OVERLAY),
-    COMBAT(interfaceId = 593, child = 75, type = InterfaceType.OVERLAY);
+    COMBAT(interfaceId = 593, child = 75, type = InterfaceType.OVERLAY),
+    SIDE_BAR(interfaceId = 728, child = 34, type = InterfaceType.OVERLAY);
 
     fun child(displayMode: DisplayMode): Int =
         displayMode.enum[EnumConfig.Component(DisplayMode.RESIZABLE_CLASSIC.interfaceId, child)]?.child

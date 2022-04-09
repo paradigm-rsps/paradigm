@@ -5,7 +5,7 @@ import org.paradigm.engine.model.World
 import org.paradigm.engine.net.NetworkServer
 import org.paradigm.engine.net.game.GamePackets
 import org.paradigm.engine.net.http.HttpServer
-import org.paradigm.engine.net.worldlist.WorldList
+import org.paradigm.engine.model.worldlist.WorldList
 import org.paradigm.engine.service.ServiceManager
 import org.paradigm.util.RSA
 

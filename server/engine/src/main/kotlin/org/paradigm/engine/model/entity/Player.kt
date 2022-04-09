@@ -33,7 +33,7 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     var passwordHash: String = ""
     var displayName: String = ""
     var privilege: Privilege = Privilege.DEVELOPER
-    var displayMode: DisplayMode = DisplayMode.MOBILE
+    var displayMode: DisplayMode = DisplayMode.RESIZABLE_CLASSIC
     var pid: Int = -1
     var skullIcon: Int = -1
     var prayerIcon: Int = -1

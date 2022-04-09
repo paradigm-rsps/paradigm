@@ -12,6 +12,7 @@ dependencies {
             implementation(subproject)
         }
     }
+    implementation("ch.qos.logback:logback-classic:_")
 }
 
 tasks {

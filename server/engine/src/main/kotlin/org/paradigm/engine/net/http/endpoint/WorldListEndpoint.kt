@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.HttpHeaderNames.*
 import org.paradigm.common.inject
-import org.paradigm.engine.net.worldlist.WorldList
+import org.paradigm.engine.model.worldlist.WorldList
 import org.tinylog.kotlin.Logger
 
 object WorldListEndpoint {
@@ -14,8 +14,6 @@ object WorldListEndpoint {
     private val worldList: WorldList by inject()
 
     fun handle(ctx: ChannelHandlerContext) {
-        Logger.info("WOOO")
-
         val worldsBuf = ctx.encodeWorlds()
         val buf = ctx.alloc().buffer()
 

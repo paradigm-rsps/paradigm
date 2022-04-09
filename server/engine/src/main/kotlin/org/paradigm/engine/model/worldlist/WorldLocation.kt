@@ -1,4 +1,4 @@
-package org.paradigm.engine.net.worldlist
+package org.paradigm.engine.model.worldlist
 
 enum class WorldLocation(val id: Int) {
     UNITED_STATES(0),

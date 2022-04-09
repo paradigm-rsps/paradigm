@@ -1,4 +1,4 @@
-package org.paradigm.engine.net.worldlist
+package org.paradigm.engine.model.worldlist
 
 class WorldList(
     private val worlds: MutableList<WorldEntry> = mutableListOf()

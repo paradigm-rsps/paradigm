@@ -1,4 +1,4 @@
-package org.paradigm.engine.net.worldlist
+package org.paradigm.engine.model.worldlist
 
 enum class WorldType(val mask: Int) {
     FREE(0),

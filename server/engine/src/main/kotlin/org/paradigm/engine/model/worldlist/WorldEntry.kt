@@ -1,4 +1,4 @@
-package org.paradigm.engine.net.worldlist
+package org.paradigm.engine.model.worldlist
 
 data class WorldEntry(
     val id: Int,
