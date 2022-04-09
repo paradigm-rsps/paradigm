@@ -2,7 +2,7 @@ package org.paradigm.engine.sync.player
 
 import org.paradigm.common.inject
 import org.paradigm.engine.model.MovementState
-import org.paradigm.engine.model.World
+import org.paradigm.engine.model.world.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.sync.SyncTask
 

@@ -4,7 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.paradigm.common.inject
 import org.paradigm.engine.event.EventBus
 import org.paradigm.engine.event.impl.LoginEvent
-import org.paradigm.engine.model.World
+import org.paradigm.engine.model.world.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.net.Session
 import org.paradigm.engine.net.game.GamePacketDecoder

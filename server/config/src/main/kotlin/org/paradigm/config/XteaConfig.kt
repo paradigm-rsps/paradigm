@@ -9,18 +9,15 @@ import java.io.FileNotFoundException
 
 class XteaConfig {
 
+    private var loaded = false
     private var config = Config()
     private val file = File("data/cache/xteas.json")
 
     private val xteaKeys = mutableMapOf<Int, IntArray>()
 
     fun load() {
-        /*
-         * Don't load XTEA keys again if already loaded.
-         */
-        if (xteaKeys.isNotEmpty()) {
-            return
-        }
+        if (loaded) return
+        loaded = true
 
         if (!file.exists()) {
             throw FileNotFoundException("Could not load region XTEA keys config file from: data/cache/xteas.json.")
@@ -28,8 +25,6 @@ class XteaConfig {
 
         val entries = config.from.json.file(file).toValue<Array<XteaEntry>>()
         entries.forEach { xteaKeys[it.mapsquare] = it.key }
-
-        Logger.info("Loaded ${xteaKeys.keys.size} region XTEA keys.")
     }
 
     operator fun get(regionId: Int): IntArray = xteaKeys[regionId] ?: IntArray(4) { 0 }
@@ -57,9 +52,7 @@ class XteaConfig {
     companion object {
         private val config: XteaConfig by inject()
 
-        init {
-            config.load()
-        }
+        fun load() = config.load()
 
         val regions get() = config.xteaKeys
 

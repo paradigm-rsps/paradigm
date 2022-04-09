@@ -8,7 +8,7 @@ import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
 import org.paradigm.content.ContentScriptManager
 import org.paradigm.engine.coroutine.EngineCoroutineScope
-import org.paradigm.engine.model.World
+import org.paradigm.engine.model.world.World
 import org.paradigm.engine.net.NetworkServer
 import org.paradigm.engine.service.ServiceManager
 import org.paradigm.engine.sync.SyncTaskList
@@ -37,6 +37,7 @@ class Engine {
 
         serviceManager.start()
         updateTasks.init()
+        world.init()
         engineCoroutine.start()
         scriptManager.loadScripts()
         scriptManager.enableScripts()

@@ -1,30 +1,31 @@
 package org.paradigm.cache
 
 import io.guthix.js5.Js5Archive
-import org.paradigm.cache.map.RegionDefinition
+import io.guthix.js5.Js5File
 import org.paradigm.config.XteaConfig
 import java.io.FileNotFoundException
 
-class MapArchive(val regions: Map<Int, RegionDefinition>) {
+class MapArchive(val regions: Map<Int, RegionMapFiles>) {
+
+    class RegionMapFiles(val map: Js5File, val loc: Js5File)
+
     companion object {
         const val id: Int = 5
 
         fun load(archive: Js5Archive): MapArchive {
-            val regions = mutableMapOf<Int, RegionDefinition>()
-
+            val regions = mutableMapOf<Int, RegionMapFiles>()
             XteaConfig.regions.forEach { (regionId, xteaKey) ->
                 val regionX = regionId shr 8
                 val regionY = regionId and 0xFF
 
-                val mapFile = archive.readGroup("m${regionX}_${regionY}")[0]
-                    ?: throw FileNotFoundException("Failed to read region map data from group: 'm${regionX}_${regionY}'.")
+                val mapFile = archive.readGroup("m${regionX}_$regionY")[0]
+                    ?: throw FileNotFoundException("Failed to load map data for region: $regionId.")
 
-                val locFile = archive.readGroup("l${regionX}_${regionY}", xteaKey)[0]
-                    ?: throw FileNotFoundException("Failed to read region loc data from group: 'l${regionX}_${regionY}'.")
+                val locFile = archive.readGroup("l${regionX}_$regionY", xteaKey)[0]
+                    ?: throw FileNotFoundException("Failed to load loc data for region: $regionId.")
 
-                regions[regionId] = RegionDefinition.decode(mapFile.data, locFile.data, regionX, regionY)
+                regions[regionId] = RegionMapFiles(mapFile, locFile)
             }
-
             return MapArchive(regions)
         }
     }

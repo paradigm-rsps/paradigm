@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 import org.paradigm.common.inject
 import org.paradigm.engine.Engine
 import org.paradigm.engine.model.MovementState
-import org.paradigm.engine.model.World
+import org.paradigm.engine.model.world.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.list.PlayerList

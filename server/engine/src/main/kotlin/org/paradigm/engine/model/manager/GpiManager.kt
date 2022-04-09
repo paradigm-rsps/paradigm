@@ -1,7 +1,7 @@
 package org.paradigm.engine.model.manager
 
 import org.paradigm.common.inject
-import org.paradigm.engine.model.World
+import org.paradigm.engine.model.world.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.list.PlayerList
 

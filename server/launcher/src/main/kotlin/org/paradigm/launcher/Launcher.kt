@@ -14,7 +14,6 @@ object Launcher {
 
     private val engine: Engine by inject()
     private val serverConfig: ServerConfig by inject()
-    private val xteaConfig: XteaConfig by inject()
     private val cache: GameCache by inject()
     private val rsa: RSA by inject()
 
@@ -62,7 +61,7 @@ object Launcher {
     private fun loadConfigs() {
         Logger.info("Loading configurations files.")
         serverConfig.load()
-        xteaConfig.load()
+        XteaConfig.load()
     }
 
     private fun loadCache() {
