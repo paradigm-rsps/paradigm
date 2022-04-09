@@ -18,8 +18,8 @@ public class NetCache {
 	public static int NetCache_pendingResponsesCount;
 	public static NetFileRequest NetCache_currentResponse;
 	public static Buffer NetCache_responseHeaderBuffer;
-	public static int field3990;
-	static CRC32 NetCache_crc;
+    public static int currentBlockOffset;
+    static CRC32 NetCache_crc;
 	static Archive[] NetCache_archives;
 	public static byte NetCache_xorValue;
 	public static int NetCache_crcMismatches;
@@ -36,9 +36,9 @@ public class NetCache {
 		NetCache_pendingWritesCount = 0;
 		NetCache_pendingResponses = new NodeHashTable(4096);
 		NetCache_pendingResponsesCount = 0;
-		NetCache_responseHeaderBuffer = new Buffer(8);
-		field3990 = 0;
-		NetCache_crc = new CRC32();
+        NetCache_responseHeaderBuffer = new Buffer(8);
+        currentBlockOffset = 0;
+        NetCache_crc = new CRC32();
 		NetCache_archives = new Archive[256];
 		NetCache_xorValue = 0;
 		NetCache_crcMismatches = 0;

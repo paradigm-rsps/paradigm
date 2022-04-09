@@ -3,6 +3,7 @@ package org.paradigm.engine.net.js5
 import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.ByteToMessageDecoder
+import org.tinylog.kotlin.Logger
 
 class JS5Decoder : ByteToMessageDecoder() {
 
@@ -22,6 +23,7 @@ class JS5Decoder : ByteToMessageDecoder() {
             JS5RequestType.LOGGED_IN,
             JS5RequestType.LOGGED_OUT,
             JS5RequestType.ENCRYPT_KEY_UPDATE -> {
+                Logger.info("Recieved xor key.")
                 buf.skipBytes(3)
             }
 

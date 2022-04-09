@@ -67,14 +67,14 @@ public class class65 {
 						byte responseLength = 0;
 						if (NetCache.NetCache_currentResponse == null) {
 							responseLength = 8;
-						} else if (NetCache.field3990 == 0) {
+						} else if (NetCache.currentBlockOffset == 0) {
 							responseLength = 1;
 						}
 
 						int responseHeaderLength;
-						int i;
-						int var8;
-						int var10;
+						int archive;
+						int group;
+						int compressedLength;
 						byte[] responseHeaderBytes;
 						int responseHeaderOffset;
 						Buffer responseHeaderBuf;
@@ -86,9 +86,9 @@ public class class65 {
 
 							NetCache.NetCache_socket.read(NetCache.NetCache_responseHeaderBuffer.array, NetCache.NetCache_responseHeaderBuffer.offset, responseHeaderLength);
 							if (NetCache.NetCache_xorValue != 0) {
-								for (i = 0; i < responseHeaderLength; ++i) {
+								for (archive = 0; archive < responseHeaderLength; ++archive) {
 									responseHeaderBytes = NetCache.NetCache_responseHeaderBuffer.array;
-									responseHeaderOffset = i + NetCache.NetCache_responseHeaderBuffer.offset;
+									responseHeaderOffset = archive + NetCache.NetCache_responseHeaderBuffer.offset;
 									responseHeaderBytes[responseHeaderOffset] ^= NetCache.NetCache_xorValue;
 								}
 							}
@@ -101,15 +101,15 @@ public class class65 {
 
 							if (NetCache.NetCache_currentResponse == null) {
 								NetCache.NetCache_responseHeaderBuffer.offset = 0;
-								i = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
-								var8 = NetCache.NetCache_responseHeaderBuffer.readUnsignedShort();
-								int var9 = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
-								var10 = NetCache.NetCache_responseHeaderBuffer.readInt();
-								long var11 = var8 + (i << 16);
-								NetFileRequest var13 = (NetFileRequest)NetCache.NetCache_pendingPriorityResponses.get(var11);
+								archive = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
+								group = NetCache.NetCache_responseHeaderBuffer.readUnsignedShort();
+								int compressionType = NetCache.NetCache_responseHeaderBuffer.readUnsignedByte();
+								compressedLength = NetCache.NetCache_responseHeaderBuffer.readInt();
+								long packedIndex = group + (archive << 16);
+								NetFileRequest var13 = (NetFileRequest) NetCache.NetCache_pendingPriorityResponses.get(packedIndex);
 								ClanChannel.field1673 = true;
 								if (var13 == null) {
-									var13 = (NetFileRequest)NetCache.NetCache_pendingResponses.get(var11);
+									var13 = (NetFileRequest) NetCache.NetCache_pendingResponses.get(packedIndex);
 									ClanChannel.field1673 = false;
 								}
 
@@ -117,16 +117,16 @@ public class class65 {
 									throw new IOException();
 								}
 
-								int var14 = var9 == 0 ? 5 : 9;
+								int compressionHeaderLength = compressionType == 0 ? 5 : 9;
 								NetCache.NetCache_currentResponse = var13;
-								class291.NetCache_responseArchiveBuffer = new Buffer(var14 + var10 + NetCache.NetCache_currentResponse.padding);
-								class291.NetCache_responseArchiveBuffer.writeByte(var9);
-								class291.NetCache_responseArchiveBuffer.writeInt(var10);
-								NetCache.field3990 = 8;
+								class291.NetCache_responseArchiveBuffer = new Buffer(compressionHeaderLength + compressedLength + NetCache.NetCache_currentResponse.padding);
+								class291.NetCache_responseArchiveBuffer.writeByte(compressionType);
+								class291.NetCache_responseArchiveBuffer.writeInt(compressedLength);
+								NetCache.currentBlockOffset = 8;
 								NetCache.NetCache_responseHeaderBuffer.offset = 0;
-							} else if (NetCache.field3990 == 0) {
+							} else if (NetCache.currentBlockOffset == 0) {
 								if (NetCache.NetCache_responseHeaderBuffer.array[0] == -1) {
-									NetCache.field3990 = 1;
+									NetCache.currentBlockOffset = 1;
 									NetCache.NetCache_responseHeaderBuffer.offset = 0;
 								} else {
 									NetCache.NetCache_currentResponse = null;
@@ -134,45 +134,45 @@ public class class65 {
 							}
 						} else {
 							responseHeaderLength = class291.NetCache_responseArchiveBuffer.array.length - NetCache.NetCache_currentResponse.padding;
-							i = 512 - NetCache.field3990;
-							if (i > responseHeaderLength - class291.NetCache_responseArchiveBuffer.offset) {
-								i = responseHeaderLength - class291.NetCache_responseArchiveBuffer.offset;
+							archive = 512 - NetCache.currentBlockOffset;
+							if (archive > responseHeaderLength - class291.NetCache_responseArchiveBuffer.offset) {
+								archive = responseHeaderLength - class291.NetCache_responseArchiveBuffer.offset;
 							}
 
-							if (i > availableBytes) {
-								i = availableBytes;
+							if (archive > availableBytes) {
+								archive = availableBytes;
 							}
 
-							NetCache.NetCache_socket.read(class291.NetCache_responseArchiveBuffer.array, class291.NetCache_responseArchiveBuffer.offset, i);
+							NetCache.NetCache_socket.read(class291.NetCache_responseArchiveBuffer.array, class291.NetCache_responseArchiveBuffer.offset, archive);
 							if (NetCache.NetCache_xorValue != 0) {
-								for (var8 = 0; var8 < i; ++var8) {
+								for (group = 0; group < archive; ++group) {
 									responseHeaderBytes = class291.NetCache_responseArchiveBuffer.array;
-									responseHeaderOffset = class291.NetCache_responseArchiveBuffer.offset + var8;
+									responseHeaderOffset = class291.NetCache_responseArchiveBuffer.offset + group;
 									responseHeaderBytes[responseHeaderOffset] ^= NetCache.NetCache_xorValue;
 								}
 							}
 
 							responseHeaderBuf = class291.NetCache_responseArchiveBuffer;
-							responseHeaderBuf.offset += i;
-							NetCache.field3990 += i;
+							responseHeaderBuf.offset += archive;
+							NetCache.currentBlockOffset += archive;
 							if (responseHeaderLength == class291.NetCache_responseArchiveBuffer.offset) {
 								if (NetCache.NetCache_currentResponse.key == 16711935L) {
 									class122.NetCache_reference = class291.NetCache_responseArchiveBuffer;
 
-									for (var8 = 0; var8 < 256; ++var8) {
-										Archive var17 = NetCache.NetCache_archives[var8];
+									for (group = 0; group < 256; ++group) {
+										Archive var17 = NetCache.NetCache_archives[group];
 										if (var17 != null) {
-											class122.NetCache_reference.offset = var8 * 8 + 5;
-											var10 = class122.NetCache_reference.readInt();
+											class122.NetCache_reference.offset = group * 8 + 5;
+											compressedLength = class122.NetCache_reference.readInt();
 											int var18 = class122.NetCache_reference.readInt();
-											var17.loadIndex(var10, var18);
+											var17.loadIndex(compressedLength, var18);
 										}
 									}
 								} else {
 									NetCache.NetCache_crc.reset();
 									NetCache.NetCache_crc.update(class291.NetCache_responseArchiveBuffer.array, 0, responseHeaderLength);
-									var8 = (int)NetCache.NetCache_crc.getValue();
-									if (var8 != NetCache.NetCache_currentResponse.crc) {
+									group = (int) NetCache.NetCache_crc.getValue();
+									if (group != NetCache.NetCache_currentResponse.crc) {
 										try {
 											NetCache.NetCache_socket.close();
 										} catch (Exception var20) {
@@ -180,7 +180,7 @@ public class class65 {
 
 										++NetCache.NetCache_crcMismatches;
 										NetCache.NetCache_socket = null;
-										NetCache.NetCache_xorValue = (byte)((int)(Math.random() * 255.0D + 1.0D));
+										NetCache.NetCache_xorValue = (byte) ((int) (Math.random() * 255.0D + 1.0D));
 										return false;
 									}
 
@@ -196,15 +196,15 @@ public class class65 {
 									--NetCache.NetCache_pendingResponsesCount;
 								}
 
-								NetCache.field3990 = 0;
+								NetCache.currentBlockOffset = 0;
 								NetCache.NetCache_currentResponse = null;
 								class291.NetCache_responseArchiveBuffer = null;
 							} else {
-								if (NetCache.field3990 != 512) {
+								if (NetCache.currentBlockOffset != 512) {
 									break;
 								}
 
-								NetCache.field3990 = 0;
+								NetCache.currentBlockOffset = 0;
 							}
 						}
 					}

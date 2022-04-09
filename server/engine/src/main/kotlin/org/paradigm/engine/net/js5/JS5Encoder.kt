@@ -30,7 +30,7 @@ class JS5Encoder : MessageToByteEncoder<JS5Response>() {
                 dataSize = SECTOR_SIZE - 1
             }
 
-            out.writeByte(255)
+            out.writeByte(-1)
             out.writeBytes(msg.data.slice(msg.data.readerIndex(), dataSize))
             msg.data.readerIndex(msg.data.readerIndex() + dataSize)
         }

@@ -983,7 +983,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 						NetCache.NetCache_responseHeaderBuffer.offset = 0;
 						NetCache.NetCache_currentResponse = null;
 						class291.NetCache_responseArchiveBuffer = null;
-						NetCache.field3990 = 0;
+						NetCache.currentBlockOffset = 0;
 
 						while (true) {
 							NetFileRequest var3 = (NetFileRequest)NetCache.NetCache_pendingPriorityResponses.first();
