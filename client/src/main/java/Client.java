@@ -2755,9 +2755,9 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					return true;
 				}
 
-				if (ServerPacket.field3034 == packetWriter.serverPacket) {
-					interfaceType = packetBuf.readUnsignedShort();
-					byte var72 = packetBuf.readByteADD();
+				if (ServerPacket.VARP_SMALL == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readUnsignedShort(); // id
+					byte var72 = packetBuf.readByteADD(); // value
 					Varps.Varps_temp[interfaceType] = var72;
 					if (Varps.Varps_main[interfaceType] != var72) {
 						Varps.Varps_main[interfaceType] = var72;
@@ -2791,9 +2791,9 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					return true;
 				}
 
-				if (ServerPacket.field3058 == packetWriter.serverPacket) {
-					interfaceType = packetBuf.readIntME();
-					component = packetBuf.readUnsignedShort();
+				if (ServerPacket.VARP_LARGE == packetWriter.serverPacket) {
+					interfaceType = packetBuf.readIntME(); // value
+					component = packetBuf.readUnsignedShort(); // id
 					Varps.Varps_temp[component] = interfaceType;
 					if (Varps.Varps_main[component] != interfaceType) {
 						Varps.Varps_main[component] = interfaceType;
@@ -4138,7 +4138,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					return true;
 				}
 
-				if (ServerPacket.RUN_SCRIPT == packetWriter.serverPacket) {
+				if (ServerPacket.RUN_CLIENT_SCRIPT == packetWriter.serverPacket) {
 					str = packetBuf.readStringCp1252NullTerminated();
 					Object[] var73 = new Object[str.length() + 1];
 

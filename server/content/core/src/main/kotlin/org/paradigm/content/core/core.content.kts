@@ -1,5 +1,6 @@
 import org.paradigm.api.onEvent
 import org.paradigm.api.type.ClientScript
+import org.paradigm.api.type.Varbit
 import org.paradigm.api.updateAppearance
 import org.paradigm.engine.event.impl.LoginEvent
 import org.paradigm.engine.event.impl.MoveGameClickEvent
@@ -16,7 +17,9 @@ onEvent<LoginEvent> {
     GameInterface.values().filter { it.interfaceId != -1 }.forEach { gameInterface ->
         player.ui.openInterface(gameInterface)
     }
+    player.varps.updateVarbit(Varbit.HAS_DISPLAY_NAME, 1)
     player.runClientScript(ClientScript.SET_RESIZABLE_MODE, 1)
+    player.toggleRun()
 }
 
 onEvent<MoveGameClickEvent> {

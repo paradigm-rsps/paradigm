@@ -11,20 +11,14 @@ import org.paradigm.util.buffer.JagByteBuf
 class RunClientScriptPacket(val id: Int, vararg val params: Any) : Packet {
     companion object : Codec<RunClientScriptPacket> {
         override fun encode(session: Session, packet: RunClientScriptPacket, out: JagByteBuf) {
-            val builder = StringBuilder()
-            packet.params.reversed().forEach { param ->
-                if (param is String) {
-                    builder.append("s")
-                } else {
-                    builder.append("i")
-                }
-            }
-            out.writeString(builder.toString())
-            packet.params.forEach { param ->
+            val types = CharArray(packet.params.size) { i -> if (packet.params[i] is String) 's' else 'i' }
+            out.writeString(String(types))
+            for (i in packet.params.size - 1 downTo 0) {
+                val param = packet.params[i]
                 if (param is String) {
                     out.writeString(param)
-                } else {
-                    out.writeInt(param as Int)
+                } else if (param is Number) {
+                    out.writeInt(param.toInt())
                 }
             }
             out.writeInt(packet.id)

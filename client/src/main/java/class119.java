@@ -104,6 +104,7 @@ public class class119 implements MouseWheel {
 					var4 = (class19.localPlayer.x >> 7) + ApproximateRouteStrategy.baseX;
 					var5 = (class19.localPlayer.y >> 7) + class250.baseY;
 					Interpreter.Interpreter_intStack[++class295.Interpreter_intStackSize - 1] = (var4 << 14) + var5 + (var3 << 28);
+					// (x shl 14) + y + (plane shl 28)
 					return 1;
 				} else if (var0 == ScriptOpcodes.COORDX) {
 					var3 = Interpreter.Interpreter_intStack[--class295.Interpreter_intStackSize];

@@ -11,6 +11,7 @@ import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.manager.InterfaceManager
 import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.model.entity.pathfinder.PlayerPathFinder
+import org.paradigm.engine.model.manager.VarpManager
 import org.paradigm.engine.model.ui.DisplayMode
 import org.paradigm.engine.net.Session
 import org.paradigm.engine.net.packet.server.RunClientScriptPacket
@@ -25,6 +26,7 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     val gpi = GpiManager(this)
     val scene = SceneManager(this)
     val ui = InterfaceManager(this)
+    val varps = VarpManager(this)
 
     override val size: Int = 1
 
@@ -65,6 +67,7 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     }
 
     override suspend fun cycle() {
+        varps.cycle()
         queueCycle()
     }
 

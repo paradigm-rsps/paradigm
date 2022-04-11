@@ -7,9 +7,9 @@ public class ServerPacket {
 	public static final ServerPacket field3029;
 	public static final ServerPacket field3060;
 	public static final ServerPacket field3031;
-	public static final ServerPacket field3058;
+	public static final ServerPacket VARP_LARGE;
 	public static final ServerPacket field3033;
-	public static final ServerPacket field3034;
+	public static final ServerPacket VARP_SMALL;
 	public static final ServerPacket field3129;
 	public static final ServerPacket field3036;
 	public static final ServerPacket field3037;
@@ -34,7 +34,7 @@ public class ServerPacket {
 	public static final ServerPacket field3041;
 	public static final ServerPacket field3057;
 	public static final ServerPacket field3110;
-	public static final ServerPacket RUN_SCRIPT;
+	public static final ServerPacket RUN_CLIENT_SCRIPT;
 	public static final ServerPacket field3093;
     public static final ServerPacket UPDATE_PLAYERS;
     public static final ServerPacket field3062;
@@ -115,9 +115,9 @@ public class ServerPacket {
 		field3029 = new ServerPacket(5, 1);
 		field3060 = new ServerPacket(6, 1);
 		field3031 = new ServerPacket(7, -2);
-		field3058 = new ServerPacket(8, 6);
+		VARP_LARGE = new ServerPacket(8, 6);
 		field3033 = new ServerPacket(9, 1);
-		field3034 = new ServerPacket(10, 3);
+		VARP_SMALL = new ServerPacket(10, 3);
 		field3129 = new ServerPacket(11, 4);
 		field3036 = new ServerPacket(12, -2);
 		field3037 = new ServerPacket(13, 2);
@@ -142,7 +142,7 @@ public class ServerPacket {
 		field3041 = new ServerPacket(32, 8);
 		field3057 = new ServerPacket(33, 0);
 		field3110 = new ServerPacket(34, -1);
-		RUN_SCRIPT = new ServerPacket(35, -2);
+		RUN_CLIENT_SCRIPT = new ServerPacket(35, -2);
 		field3093 = new ServerPacket(36, 5);
         UPDATE_PLAYERS = new ServerPacket(37, -2);
         field3062 = new ServerPacket(38, 10);

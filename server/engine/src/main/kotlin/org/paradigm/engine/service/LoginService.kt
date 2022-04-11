@@ -1,4 +1,4 @@
-package org.paradigm.engine.service.auth
+package org.paradigm.engine.service
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.paradigm.common.inject
@@ -12,7 +12,6 @@ import org.paradigm.engine.net.game.GamePacketEncoder
 import org.paradigm.engine.net.game.GamePacketHandler
 import org.paradigm.engine.net.login.LoginRequest
 import org.paradigm.engine.net.login.LoginResponse
-import org.paradigm.engine.service.Service
 import org.paradigm.util.SHA256
 import org.tinylog.kotlin.Logger
 import java.util.concurrent.Executors
@@ -22,10 +21,11 @@ class LoginService : Service {
 
     private val world: World by inject()
 
-    private val executor = Executors.newFixedThreadPool(LOGIN_THREADS, ThreadFactoryBuilder()
-        .setDaemon(false)
-        .setNameFormat("login-thread")
-        .build()
+    private val executor = Executors.newFixedThreadPool(
+        LOGIN_THREADS, ThreadFactoryBuilder()
+            .setDaemon(false)
+            .setNameFormat("login-thread")
+            .build()
     )
 
     private val queue = LinkedBlockingQueue<LoginRequest>()
