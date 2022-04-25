@@ -1,6 +1,7 @@
 package org.paradigm.engine.sync.player
 
 import org.paradigm.common.inject
+import org.paradigm.engine.model.Direction
 import org.paradigm.engine.model.MovementState
 import org.paradigm.engine.model.world.World
 import org.paradigm.engine.model.entity.Player
@@ -58,7 +59,8 @@ class PlayerPreSyncTask : SyncTask {
     private fun Player.doTeleport() {
         path.clear()
         movementState = MovementState.TELEPORT
-        followTile = teleportTile!!
         updateFlags.add(PlayerUpdateFlag.MOVEMENT)
+        tile = teleportTile!!
+        followTile = teleportTile!!.translate(Direction.SOUTH)
     }
 }
