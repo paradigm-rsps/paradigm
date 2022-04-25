@@ -24,8 +24,8 @@ tasks {
     }
 
     register<JavaExec>("setup server") {
-        finalizedBy(project(":nxt-client").tasks.getByName("patch"))
         group = "paradigm"
+        finalizedBy(project(":nxt-client").tasks.getByName("patch nxt-client"))
         workingDir = rootProject.projectDir
         mainClass.set("org.paradigm.launcher.Setup")
         classpath = sourceSets["main"].runtimeClasspath

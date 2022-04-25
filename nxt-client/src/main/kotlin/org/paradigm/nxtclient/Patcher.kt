@@ -3,6 +3,7 @@ package org.paradigm.nxtclient
 import org.tinylog.kotlin.Logger
 import java.io.File
 import java.nio.file.Files
+import java.util.zip.ZipFile
 
 object Patcher {
 
@@ -31,6 +32,7 @@ object Patcher {
         patchRsa(data)
         patchJavConfig(data)
         patchTitle(data)
+        patchCache()
 
         Logger.info("Exporting patched Old School RuneScape NXT client to file: ${output.path}.")
         Files.write(output.toPath(), data)
@@ -63,6 +65,34 @@ object Patcher {
 
         if (!data.replaceFirst(oldTitle.toByteArray(Charsets.US_ASCII), newTitle.toByteArray(Charsets.US_ASCII))) {
             throw IllegalStateException("Failed to patch window title bytes.")
+        }
+    }
+
+    private fun patchCache() {
+        Logger.info("Patching OSRS NXT client cache. This is a workaround for the XOR JS5 implementation.")
+
+        val dir = File(System.getProperty("user.home")).resolve("AppData/Local/Jagex/Old School RuneScape/data/")
+
+        dir.deleteRecursively()
+        dir.mkdirs()
+        this.extractCache(dir)
+    }
+
+    private fun extractCache(dir: File) {
+        Logger.info("Extracting cache files...")
+
+        val file = File("cache.zip")
+        ZipFile(file).use { zip ->
+            zip.entries().asSequence().forEach { entry ->
+                if (!entry.isDirectory) {
+                    zip.getInputStream(entry).use { input ->
+                        dir.resolve(entry.name).outputStream().use { output ->
+                            Logger.info("Copying file: ${entry.name}.")
+                            input.copyTo(output)
+                        }
+                    }
+                }
+            }
         }
     }
 

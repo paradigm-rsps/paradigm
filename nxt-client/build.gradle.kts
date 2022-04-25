@@ -28,7 +28,7 @@ tasks {
         })
     }
 
-    register<JavaExec>("patch") {
+    register<JavaExec>("patch nxt-clinet") {
         group = "paradigm"
         workingDir = rootProject.projectDir
         mainClass.set("org.paradigm.nxtclient.Patcher")
