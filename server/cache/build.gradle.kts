@@ -4,4 +4,5 @@ dependencies {
     implementation(project(":server:config"))
     implementation(project(":server:logger"))
     api("io.guthix:js5-filestore:_")
+    api("net.runelite:cache:_")
 }

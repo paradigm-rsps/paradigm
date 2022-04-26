@@ -24,6 +24,7 @@ class JS5Handler : ChannelInboundHandlerAdapter() {
 
     private fun ChannelHandlerContext.requestFileData(archive: Int, group: Int) {
         val buf = cache.store.read(archive, group).retain()
+
         val compressionType = buf.readUnsignedByte().toInt()
         val compressedSize = buf.readInt()
 

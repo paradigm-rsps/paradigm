@@ -16,6 +16,7 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven(url = "https://jitpack.io")
+        maven(url = "https://repo.runelite.net")
     }
 
     dependencies {
