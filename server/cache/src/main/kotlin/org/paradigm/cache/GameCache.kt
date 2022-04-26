@@ -2,8 +2,6 @@ package org.paradigm.cache
 
 import net.runelite.cache.fs.Store
 import net.runelite.cache.fs.jagex.DiskStorage
-import net.runelite.cache.region.Region
-import net.runelite.cache.region.RegionLoader
 import java.io.File
 
 class GameCache {
