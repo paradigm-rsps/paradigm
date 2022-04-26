@@ -7,29 +7,25 @@ import io.netty.handler.codec.ByteToMessageDecoder
 class JS5Decoder : ByteToMessageDecoder() {
 
     override fun decode(ctx: ChannelHandlerContext, buf: ByteBuf, out: MutableList<Any>) {
+        if (!buf.isReadable) return
         buf.markReaderIndex()
-        val opcode = buf.readByte().toInt()
-        when (JS5RequestType.fromOpcode(opcode)) {
-            JS5RequestType.NORMAL_REQUEST, JS5RequestType.PRIORITY_REQUEST -> buf.readFileRequest(out)
-            JS5RequestType.ENCRYPTION_KEY_UPDATE -> buf.readEncryptKeyUpdate(out)
+
+        when (JS5RequestType.fromOpcode(buf.readByte().toInt())) {
+            JS5RequestType.NORMAL,
+            JS5RequestType.PRIORITY -> buf.readRequest(out)
+            else -> buf.skipBytes(3)
         }
     }
 
-    private fun ByteBuf.readFileRequest(out: MutableList<Any>) {
-        if (readableBytes() < Byte.SIZE_BYTES + Short.SIZE_BYTES) {
+    private fun ByteBuf.readRequest(out: MutableList<Any>) {
+        if (readableBytes() >= 3) {
+            val archive = readUnsignedByte().toInt()
+            val group = readUnsignedShort()
+            val request = JS5Request(archive, group)
+            out.add(request)
+        } else {
             resetReaderIndex()
-            return
         }
-        val archive = readUnsignedByte().toInt()
-        val group = readUnsignedShort()
-        val request = JS5Request.FileData(archive, group)
-        out.add(request)
     }
 
-    private fun ByteBuf.readEncryptKeyUpdate(out: MutableList<Any>) {
-        val encryptionKey = readByte().toInt()
-        val offset = readUnsignedShort()
-        val request = JS5Request.EncryptKeyUpdate(encryptionKey, offset)
-        out.add(request)
-    }
 }

@@ -4,7 +4,6 @@ import org.paradigm.cache.GameCache
 import org.paradigm.common.inject
 import org.paradigm.engine.model.collision.CollisionMap
 import org.paradigm.engine.model.list.PlayerList
-import org.paradigm.engine.model.obj.GameObjectMap
 import org.paradigm.engine.queue.QueueList
 
 class World {
@@ -14,7 +13,6 @@ class World {
     val players = PlayerList()
 
     val collision = CollisionMap()
-    val objects = GameObjectMap()
 
     internal val queue = QueueList()
 

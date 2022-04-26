@@ -1,39 +1,31 @@
 package org.paradigm.cache
 
-import io.guthix.js5.Js5Cache
-import io.guthix.js5.container.Js5Container
-import io.guthix.js5.container.disk.Js5DiskStore
-import io.guthix.js5.store.Js5CachedStore
+import net.runelite.cache.fs.Store
+import net.runelite.cache.fs.jagex.DiskStorage
+import net.runelite.cache.region.Region
+import net.runelite.cache.region.RegionLoader
 import java.io.File
 
-class GameCache(private val directory: File) : AutoCloseable {
-    lateinit var cache: Js5Cache
-    lateinit var disk: Js5DiskStore
-    lateinit var store: Js5CachedStore
-    lateinit var archiveCrcs: List<Int> private set
+class GameCache {
 
-    lateinit var configArchive: ConfigArchive private set
-    lateinit var mapArchive: MapArchive private set
+    lateinit var store: Store private set
 
-    val archiveCount: Int get() = cache.archiveCount
+    val disk: DiskStorage get() = store.storage as DiskStorage
+    val archiveCount get() = store.indexes.size
 
-    fun load() {
-        directory.mkdirs()
+    /*
+     * Cache Archive Data Models
+     */
+    lateinit var configs: ConfigArchive private set
 
-        disk = Js5DiskStore.open(directory.toPath())
-        store = Js5CachedStore.create(disk)
-        cache = Js5Cache(store)
+    fun load(directory: File) {
+        store = Store(directory)
+        store.load()
 
-        loadArchives()
+        /*
+         * Load Archive Data
+         */
+        configs = ConfigArchive.load()
     }
 
-    private fun loadArchives() {
-        configArchive = ConfigArchive.load(cache.readArchive(ConfigArchive.id))
-        mapArchive = MapArchive.load(cache.readArchive(MapArchive.id))
-    }
-
-    override fun close() {
-        cache.close()
-        store.close()
-    }
 }

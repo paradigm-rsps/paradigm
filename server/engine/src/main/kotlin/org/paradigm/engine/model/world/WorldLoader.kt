@@ -1,22 +1,10 @@
 package org.paradigm.engine.model.world
 
-import io.guthix.buffer.readIncrShortSmart
-import io.guthix.buffer.readUnsignedShortSmart
-import io.netty.buffer.ByteBuf
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
 import org.paradigm.cache.GameCache
 import org.paradigm.common.inject
-import org.paradigm.config.XteaConfig
+
 import org.paradigm.engine.Engine
-import org.paradigm.engine.coroutine.cancel
-import org.paradigm.engine.model.map.Region
-import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.model.obj.GameObject
-import org.rsmod.pathfinder.flag.CollisionFlag
 import org.tinylog.kotlin.Logger
-import java.io.FileNotFoundException
 
 object WorldLoader {
 
@@ -30,15 +18,9 @@ object WorldLoader {
 
     internal fun loadRegions() {
         Logger.info("Loading game world data from cache.")
-
-        XteaConfig.regions.keys.forEach { regionId ->
-            val map = cache.mapArchive.regions[regionId]?.map?.data ?: return@forEach
-            val loc = cache.mapArchive.regions[regionId]?.loc?.data ?: return@forEach
-            Region(regionId).load(map, loc)
-        }
     }
 
-    private fun Region.load(map: ByteBuf, loc: ByteBuf) {
+    /*private fun Region.load(map: ByteBuf, loc: ByteBuf) {
         val floorMask = mutableMapOf<Tile, Int>()
 
         /*
@@ -134,6 +116,6 @@ object WorldLoader {
                 }
             }
         }
-    }
+    }*/
 
 }

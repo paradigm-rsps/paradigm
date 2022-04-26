@@ -10,7 +10,6 @@ import kotlin.math.pow
 class VarpManager(private val player: Player) {
 
     private val cache: GameCache by inject()
-    private val varbitConfigs = cache.configArchive.varbitConfigs
 
     val varps = mutableMapOf<Int, Int>()
     private val changes = mutableMapOf<Int, Int>()
@@ -21,18 +20,7 @@ class VarpManager(private val player: Player) {
     }
 
     fun updateVarbit(id: Int, value: Int) {
-        val varbit = varbitConfigs[id] ?: throw IllegalArgumentException("Unknown varbit with id: $id.")
-        val bitsize = (varbit.msb - varbit.lsb) + 1
 
-        if (value > 2.0.pow(bitsize) - 1) {
-            throw IllegalArgumentException("Value $value is too large for varbit with id: $id.")
-        }
-
-        var currentVarp = varps[varbit.varpId] ?: 0
-        currentVarp = currentVarp.clearBits(varbit.lsb.toInt(), varbit.msb.toInt())
-        currentVarp = currentVarp or value shl varbit.lsb.toInt()
-        varps[varbit.varpId] = currentVarp
-        changes[varbit.varpId] = currentVarp
     }
 
     internal fun cycle() {

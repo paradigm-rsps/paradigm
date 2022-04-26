@@ -1,7 +1,5 @@
 package org.paradigm.engine.model.ui
 
-import org.paradigm.cache.config.EnumConfig
-
 enum class GameInterface(val interfaceId: Int, val child: Int, val type: InterfaceType = InterfaceType.OVERLAY) {
     CHAT_BOX(interfaceId = 162, child = 94, type = InterfaceType.OVERLAY),
     PRIVATE_CHAT(interfaceId = 163, child = 91, type = InterfaceType.OVERLAY),
@@ -23,7 +21,5 @@ enum class GameInterface(val interfaceId: Int, val child: Int, val type: Interfa
     COMBAT(interfaceId = 593, child = 75, type = InterfaceType.OVERLAY),
     SIDE_BAR(interfaceId = 728, child = 34, type = InterfaceType.OVERLAY);
 
-    fun child(displayMode: DisplayMode): Int =
-        displayMode.enum[EnumConfig.Component(DisplayMode.RESIZABLE_CLASSIC.interfaceId, child)]?.child
-            ?: throw IllegalArgumentException("Failed to find child component id for display mode: ${displayMode.name}.")
+    fun child(displayMode: DisplayMode): Int = this.child
 }

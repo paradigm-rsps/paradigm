@@ -2,7 +2,6 @@ package org.paradigm.engine.model.collision
 
 import org.paradigm.engine.model.map.Chunk
 import org.paradigm.engine.model.map.Tile
-import org.paradigm.engine.model.obj.GameObject
 import org.paradigm.engine.model.obj.ObjectShape
 import org.rsmod.pathfinder.flag.CollisionFlag
 
@@ -67,7 +66,7 @@ class CollisionMap {
      * === OBJECT COLLISION METHODS ===
      */
 
-    fun addObject(obj: GameObject) {
+    /*fun addObject(obj: GameObject) {
         changeObject(obj, add = true)
     }
 
@@ -101,7 +100,7 @@ class CollisionMap {
         } else if (shape in ObjectShape.GROUND_DECOR_SHAPES && clipType == 1) {
             changeFloorDecor(tile, add)
         }
-    }
+    }*/
 
     private fun changeWall(
         tile: Tile,

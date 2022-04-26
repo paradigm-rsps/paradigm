@@ -66,7 +66,7 @@ object Launcher {
 
     private fun loadCache() {
         Logger.info("Loading game cache files.")
-        cache.load()
+        cache.load(File("data/cache/"))
         Logger.info("Successfully loaded ${cache.archiveCount} cache archives.")
     }
 

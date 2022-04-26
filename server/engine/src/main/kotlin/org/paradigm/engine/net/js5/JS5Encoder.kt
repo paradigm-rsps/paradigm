@@ -7,19 +7,16 @@ import io.netty.handler.codec.MessageToByteEncoder
 class JS5Encoder : MessageToByteEncoder<JS5Response>() {
 
     override fun encode(ctx: ChannelHandlerContext, msg: JS5Response, out: ByteBuf) {
-        out.writeByte(msg.archive xor msg.encryptionKey)
-        out.writeShort(msg.group xor msg.encryptionKey)
-        out.writeByte(msg.compressionType xor msg.encryptionKey)
-        out.writeInt(msg.compressedSize xor msg.encryptionKey)
-        msg.data.forEach { byte ->
-            if (out.writerIndex() % BLOCK_SIZE == 0) {
-                out.writeByte(-1 xor msg.encryptionKey)
-            }
-            out.writeByte(byte.toInt() xor msg.encryptionKey)
-        }
-    }
+        out.writeByte(msg.archive)
+        out.writeShort(msg.group)
 
-    companion object {
-        private const val BLOCK_SIZE = 512
+        msg.data.forEach { byte ->
+            if (out.writerIndex() % 512 == 0) {
+                out.writeByte(-1)
+            }
+            out.writeByte(byte.toInt())
+        }
+
+        println("encoded: ${msg.archive}, ${msg.group}")
     }
 }

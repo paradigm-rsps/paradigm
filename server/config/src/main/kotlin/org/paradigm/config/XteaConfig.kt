@@ -3,7 +3,6 @@ package org.paradigm.config
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.toValue
 import org.paradigm.common.inject
-import org.tinylog.kotlin.Logger
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -24,27 +23,27 @@ class XteaConfig {
         }
 
         val entries = config.from.json.file(file).toValue<Array<XteaEntry>>()
-        entries.forEach { xteaKeys[it.mapsquare] = it.key }
+        entries.forEach { xteaKeys[it.region] = it.keys }
     }
 
     operator fun get(regionId: Int): IntArray = xteaKeys[regionId] ?: IntArray(4) { 0 }
 
-    data class XteaEntry(val mapsquare: Int, val key: IntArray) {
+    data class XteaEntry(val region: Int, val keys: IntArray) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
 
             other as XteaEntry
 
-            if (mapsquare != other.mapsquare) return false
-            if (!key.contentEquals(other.key)) return false
+            if (region != other.region) return false
+            if (!keys.contentEquals(other.keys)) return false
 
             return true
         }
 
         override fun hashCode(): Int {
-            var result = mapsquare
-            result = 31 * result + key.contentHashCode()
+            var result = region
+            result = 31 * result + keys.contentHashCode()
             return result
         }
     }
