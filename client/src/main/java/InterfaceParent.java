@@ -77,22 +77,22 @@ public class InterfaceParent extends Node {
 	}
 
 	static final void method2100(int var0, int var1, int var2, int var3) {
-		Client.overheadTextCount = 0;
-		boolean var4 = false;
-		int var5 = -1;
-		int var6 = -1;
-		int var7 = Players.Players_count;
-		int[] var8 = Players.Players_indices;
+        Client.overheadTextCount = 0;
+        boolean var4 = false;
+        int var5 = -1;
+        int var6 = -1;
+        int var7 = Players.localPlayerCount;
+        int[] var8 = Players.localPlayerIndexes;
 
-		int var9;
-		for (var9 = 0; var9 < var7 + Client.npcCount; ++var9) {
-			Object var20;
-			if (var9 < var7) {
-				var20 = Client.players[var8[var9]];
-				if (var8[var9] == Client.combatTargetPlayerIndex) {
-					var4 = true;
-					var5 = var9;
-					continue;
+        int var9;
+        for (var9 = 0; var9 < var7 + Client.npcCount; ++var9) {
+            Object var20;
+            if (var9 < var7) {
+                var20 = Client.players[var8[var9]];
+                if (var8[var9] == Client.combatTargetPlayerIndex) {
+                    var4 = true;
+                    var5 = var9;
+                    continue;
 				}
 
 				if (var20 == class19.localPlayer) {

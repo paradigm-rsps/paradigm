@@ -367,7 +367,7 @@ public class NPCComposition extends DualNode {
 		return class19.method315(this.params, var1, var2);
 	}
 
-	static int method3491(PacketBuffer var0) {
+	static int readSkipCount(PacketBuffer var0) {
 		int var1 = var0.readBits(2);
 		int var2;
 		if (var1 == 0) {

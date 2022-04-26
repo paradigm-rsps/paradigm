@@ -38,7 +38,7 @@ public class class385 {
 
 	static final void method7028() {
 		PacketBuffer var0 = Client.packetWriter.packetBuffer;
-		var0.importIndex();
+		var0.toBitMode();
 		int var1 = var0.readBits(8);
 		int var2;
 		if (var1 < Client.npcCount) {

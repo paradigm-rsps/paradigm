@@ -640,23 +640,23 @@ public class class132 extends class128 {
 					}
 
 					if (var30.definition.size == 1 && (var30.x & 127) == 64 && (var30.y & 127) == 64) {
-						for (var26 = 0; var26 < Client.npcCount; ++var26) {
-							var27 = Client.npcs[Client.npcIndices[var26]];
-							if (var27 != null && var30 != var27 && var27.definition.size == 1 && var27.x == var30.x && var27.y == var30.y) {
-								NPCComposition.addNpcToMenu(var27, Client.npcIndices[var26], var24, var12);
-							}
-						}
+                        for (var26 = 0; var26 < Client.npcCount; ++var26) {
+                            var27 = Client.npcs[Client.npcIndices[var26]];
+                            if (var27 != null && var30 != var27 && var27.definition.size == 1 && var27.x == var30.x && var27.y == var30.y) {
+                                NPCComposition.addNpcToMenu(var27, Client.npcIndices[var26], var24, var12);
+                            }
+                        }
 
-						var26 = Players.Players_count;
-						var35 = Players.Players_indices;
+                        var26 = Players.localPlayerCount;
+                        var35 = Players.localPlayerIndexes;
 
-						for (var34 = 0; var34 < var26; ++var34) {
-							var20 = Client.players[var35[var34]];
-							if (var20 != null && var30.x == var20.x && var20.y == var30.y) {
-								WorldMapSprite.addPlayerToMenu(var20, var35[var34], var24, var12);
-							}
-						}
-					}
+                        for (var34 = 0; var34 < var26; ++var34) {
+                            var20 = Client.players[var35[var34]];
+                            if (var20 != null && var30.x == var20.x && var20.y == var30.y) {
+                                WorldMapSprite.addPlayerToMenu(var20, var35[var34], var24, var12);
+                            }
+                        }
+                    }
 
 					NPCComposition.addNpcToMenu(var30, var25, var24, var12);
 				}
@@ -668,23 +668,23 @@ public class class132 extends class128 {
 					}
 
 					if ((var31.x & 127) == 64 && (var31.y & 127) == 64) {
-						for (var26 = 0; var26 < Client.npcCount; ++var26) {
-							var27 = Client.npcs[Client.npcIndices[var26]];
-							if (var27 != null && var27.definition.size == 1 && var27.x == var31.x && var31.y == var27.y) {
-								NPCComposition.addNpcToMenu(var27, Client.npcIndices[var26], var24, var12);
-							}
-						}
+                        for (var26 = 0; var26 < Client.npcCount; ++var26) {
+                            var27 = Client.npcs[Client.npcIndices[var26]];
+                            if (var27 != null && var27.definition.size == 1 && var27.x == var31.x && var31.y == var27.y) {
+                                NPCComposition.addNpcToMenu(var27, Client.npcIndices[var26], var24, var12);
+                            }
+                        }
 
-						var26 = Players.Players_count;
-						var35 = Players.Players_indices;
+                        var26 = Players.localPlayerCount;
+                        var35 = Players.localPlayerIndexes;
 
-						for (var34 = 0; var34 < var26; ++var34) {
-							var20 = Client.players[var35[var34]];
-							if (var20 != null && var20 != var31 && var20.x == var31.x && var20.y == var31.y) {
-								WorldMapSprite.addPlayerToMenu(var20, var35[var34], var24, var12);
-							}
-						}
-					}
+                        for (var34 = 0; var34 < var26; ++var34) {
+                            var20 = Client.players[var35[var34]];
+                            if (var20 != null && var20 != var31 && var20.x == var31.x && var20.y == var31.y) {
+                                WorldMapSprite.addPlayerToMenu(var20, var35[var34], var24, var12);
+                            }
+                        }
+                    }
 
 					if (var25 != Client.combatTargetPlayerIndex) {
 						WorldMapSprite.addPlayerToMenu(var31, var25, var24, var12);

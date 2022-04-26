@@ -36,10 +36,10 @@ public class SecureRandomFuture {
 	}
 
 	static final void method1968() {
-		for (int var0 = 0; var0 < Players.Players_count; ++var0) {
-			Player var1 = Client.players[Players.Players_indices[var0]];
-			var1.method2143();
-		}
+        for (int var0 = 0; var0 < Players.localPlayerCount; ++var0) {
+            Player var1 = Client.players[Players.localPlayerIndexes[var0]];
+            var1.method2143();
+        }
 
-	}
+    }
 }

@@ -2033,8 +2033,8 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 							return;
 						}
 
-						var1 = Players.Players_count;
-						int[] var33 = Players.Players_indices;
+						var1 = Players.localPlayerCount;
+						int[] var33 = Players.localPlayerIndexes;
 
 						for (var3 = 0; var3 < var1; ++var3) {
 							Player var42 = players[var33[var3]];

@@ -23,7 +23,7 @@ public enum class83 implements MouseWheel {
 	static final void updatePlayers(PacketBuffer buf, int var1) {
 		int var2 = buf.offset;
 		Players.Players_pendingUpdateCount = 0;
-		UserComparator8.decodePlayerGpiUpdate(buf);
+		UserComparator8.updatePlayers(buf);
 
 		for (int i = 0; i < Players.Players_pendingUpdateCount; ++i) {
 			int playerIndex = Players.Players_pendingUpdateIndices[i];

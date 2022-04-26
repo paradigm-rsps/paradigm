@@ -61,17 +61,17 @@ public class UserComparator7 extends AbstractUserComparator {
 
 	static final void method2577() {
 		if (class345.ClanChat_inClanChat) {
-			if (Statics1.friendsChat != null) {
-				Statics1.friendsChat.sort();
-			}
+            if (Statics1.friendsChat != null) {
+                Statics1.friendsChat.sort();
+            }
 
-			for (int var0 = 0; var0 < Players.Players_count; ++var0) {
-				Player var1 = Client.players[Players.Players_indices[var0]];
-				var1.clearIsInFriendsChat();
-			}
+            for (int var0 = 0; var0 < Players.localPlayerCount; ++var0) {
+                Player var1 = Client.players[Players.localPlayerIndexes[var0]];
+                var1.clearIsInFriendsChat();
+            }
 
-			class345.ClanChat_inClanChat = false;
-		}
+            class345.ClanChat_inClanChat = false;
+        }
 
 	}
 }

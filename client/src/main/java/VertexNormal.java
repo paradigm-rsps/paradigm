@@ -33,8 +33,8 @@ public class VertexNormal {
 	}
 
 	static void method4497(int var0, String var1) {
-		int var2 = Players.Players_count;
-		int[] var3 = Players.Players_indices;
+		int var2 = Players.localPlayerCount;
+		int[] var3 = Players.localPlayerIndexes;
 		boolean var4 = false;
 		Username var5 = new Username(var1, class83.loginType);
 
@@ -44,7 +44,7 @@ public class VertexNormal {
 				PacketBufferNode var8;
 				if (var0 == 1) {
 					var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2913, Client.packetWriter.isaacCipher);
-                    var8.packetBuffer.writeShortLE(var3[var6]);
+					var8.packetBuffer.writeShortLE(var3[var6]);
                     var8.packetBuffer.method7786(0);
 					Client.packetWriter.addNode(var8);
 				} else if (var0 == 4) {

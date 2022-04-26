@@ -44,28 +44,28 @@ public enum class116 implements MouseWheel {
 	static final void drawActor2d(Actor var0, int var1, int var2, int var3, int var4, int var5) {
 		if (var0 != null && var0.isVisible()) {
 			if (var0 instanceof NPC) {
-				NPCComposition var6 = ((NPC)var0).definition;
-				if (var6.transforms != null) {
-					var6 = var6.transform();
-				}
+                NPCComposition var6 = ((NPC) var0).definition;
+                if (var6.transforms != null) {
+                    var6 = var6.transform();
+                }
 
-				if (var6 == null) {
-					return;
-				}
-			}
+                if (var6 == null) {
+                    return;
+                }
+            }
 
-			int var75 = Players.Players_count;
-			int[] var7 = Players.Players_indices;
-			byte var8 = 0;
-			if (var1 < var75 && var0.playerCycle == Client.cycle && ItemComposition.method3706((Player)var0)) {
-				Player var9 = (Player)var0;
-				if (var1 < var75) {
-					WorldMapLabelSize.method4533(var0, var0.defaultHeight + 15);
-					AbstractFont var10 = (AbstractFont)Client.fontsMap.get(FontName.FontName_plain12);
-					byte var11 = 9;
-					var10.drawCentered(var9.username.getName(), var2 + Client.viewportTempX, var3 + Client.viewportTempY - var11, 16777215, 0);
-					var8 = 18;
-				}
+            int var75 = Players.localPlayerCount;
+            int[] var7 = Players.localPlayerIndexes;
+            byte var8 = 0;
+            if (var1 < var75 && var0.playerCycle == Client.cycle && ItemComposition.method3706((Player) var0)) {
+                Player var9 = (Player) var0;
+                if (var1 < var75) {
+                    WorldMapLabelSize.method4533(var0, var0.defaultHeight + 15);
+                    AbstractFont var10 = (AbstractFont) Client.fontsMap.get(FontName.FontName_plain12);
+                    byte var11 = 9;
+                    var10.drawCentered(var9.username.getName(), var2 + Client.viewportTempX, var3 + Client.viewportTempY - var11, 16777215, 0);
+                    var8 = 18;
+                }
 			}
 
 			int var76 = -2;

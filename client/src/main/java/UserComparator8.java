@@ -21,132 +21,132 @@ public class UserComparator8 extends AbstractUserComparator {
 	}
 
 	public int compare(Object var1, Object var2) {
-		return this.compareBuddy((Buddy)var1, (Buddy)var2);
+		return this.compareBuddy((Buddy) var1, (Buddy) var2);
 	}
 
-	static final void decodePlayerGpiUpdate(PacketBuffer var0) {
-		int var1 = 0;
-		var0.importIndex();
+	static final void updatePlayers(PacketBuffer buf) {
+		int skipCount = 0;
+		buf.toBitMode();
 
-		byte[] var10000;
-		int var2;
-		int var4;
-		int var5;
-		for (var2 = 0; var2 < Players.Players_count; ++var2) {
-			var5 = Players.Players_indices[var2];
-			if ((Players.field1288[var5] & 1) == 0) {
-				if (var1 > 0) {
-					--var1;
-					var10000 = Players.field1288;
-					var10000[var5] = (byte)(var10000[var5] | 2);
+		byte[] skipFlags;
+		int i;
+		int shouldUpdate;
+		int playerIndex;
+		for (i = 0; i < Players.localPlayerCount; ++i) {
+			playerIndex = Players.localPlayerIndexes[i];
+			if ((Players.skipFlags[playerIndex] & 1) == 0) {
+				if (skipCount > 0) {
+					--skipCount;
+					skipFlags = Players.skipFlags;
+					skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 				} else {
-					var4 = var0.readBits(1);
-					if (var4 == 0) {
-						var1 = NPCComposition.method3491(var0);
-						var10000 = Players.field1288;
-						var10000[var5] = (byte)(var10000[var5] | 2);
+					shouldUpdate = buf.readBits(1);
+					if (shouldUpdate == 0) {
+						skipCount = NPCComposition.readSkipCount(buf);
+						skipFlags = Players.skipFlags;
+						skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 					} else {
-						WorldMapLabelSize.readPlayerUpdate(var0, var5);
+						WorldMapLabelSize.updateLocalPlayer(buf, playerIndex);
 					}
 				}
 			}
 		}
 
-		var0.exportIndex();
-		if (var1 != 0) {
+		buf.toByteMode();
+		if (skipCount != 0) {
 			throw new RuntimeException();
 		} else {
-			var0.importIndex();
+			buf.toBitMode();
 
-			for (var2 = 0; var2 < Players.Players_count; ++var2) {
-				var5 = Players.Players_indices[var2];
-				if ((Players.field1288[var5] & 1) != 0) {
-					if (var1 > 0) {
-						--var1;
-						var10000 = Players.field1288;
-						var10000[var5] = (byte)(var10000[var5] | 2);
+			for (i = 0; i < Players.localPlayerCount; ++i) {
+				playerIndex = Players.localPlayerIndexes[i];
+				if ((Players.skipFlags[playerIndex] & 1) != 0) {
+					if (skipCount > 0) {
+						--skipCount;
+						skipFlags = Players.skipFlags;
+						skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 					} else {
-						var4 = var0.readBits(1);
-						if (var4 == 0) {
-							var1 = NPCComposition.method3491(var0);
-							var10000 = Players.field1288;
-							var10000[var5] = (byte)(var10000[var5] | 2);
+						shouldUpdate = buf.readBits(1);
+						if (shouldUpdate == 0) {
+							skipCount = NPCComposition.readSkipCount(buf);
+							skipFlags = Players.skipFlags;
+							skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 						} else {
-							WorldMapLabelSize.readPlayerUpdate(var0, var5);
+							WorldMapLabelSize.updateLocalPlayer(buf, playerIndex);
 						}
 					}
 				}
 			}
 
-			var0.exportIndex();
-			if (var1 != 0) {
+			buf.toByteMode();
+			if (skipCount != 0) {
 				throw new RuntimeException();
 			} else {
-				var0.importIndex();
+				buf.toBitMode();
 
-				for (var2 = 0; var2 < Players.Players_emptyIdxCount; ++var2) {
-					var5 = Players.Players_emptyIndices[var2];
-					if ((Players.field1288[var5] & 1) != 0) {
-						if (var1 > 0) {
-							--var1;
-							var10000 = Players.field1288;
-							var10000[var5] = (byte)(var10000[var5] | 2);
+				for (i = 0; i < Players.externalPlayerCount; ++i) {
+					playerIndex = Players.externalPlayerIndexes[i];
+					if ((Players.skipFlags[playerIndex] & 1) != 0) {
+						if (skipCount > 0) {
+							--skipCount;
+							skipFlags = Players.skipFlags;
+							skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 						} else {
-							var4 = var0.readBits(1);
-							if (var4 == 0) {
-								var1 = NPCComposition.method3491(var0);
-								var10000 = Players.field1288;
-								var10000[var5] = (byte)(var10000[var5] | 2);
-							} else if (class9.updateExternalPlayer(var0, var5)) {
-								var10000 = Players.field1288;
-								var10000[var5] = (byte)(var10000[var5] | 2);
+							shouldUpdate = buf.readBits(1);
+							if (shouldUpdate == 0) {
+								skipCount = NPCComposition.readSkipCount(buf);
+								skipFlags = Players.skipFlags;
+								skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
+							} else if (class9.updateExternalPlayer(buf, playerIndex)) {
+								skipFlags = Players.skipFlags;
+								skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 							}
 						}
 					}
 				}
 
-				var0.exportIndex();
-				if (var1 != 0) {
+				buf.toByteMode();
+				if (skipCount != 0) {
 					throw new RuntimeException();
 				} else {
-					var0.importIndex();
+					buf.toBitMode();
 
-					for (var2 = 0; var2 < Players.Players_emptyIdxCount; ++var2) {
-						var5 = Players.Players_emptyIndices[var2];
-						if ((Players.field1288[var5] & 1) == 0) {
-							if (var1 > 0) {
-								--var1;
-								var10000 = Players.field1288;
-								var10000[var5] = (byte)(var10000[var5] | 2);
+					for (i = 0; i < Players.externalPlayerCount; ++i) {
+						playerIndex = Players.externalPlayerIndexes[i];
+						if ((Players.skipFlags[playerIndex] & 1) == 0) {
+							if (skipCount > 0) {
+								--skipCount;
+								skipFlags = Players.skipFlags;
+								skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 							} else {
-								var4 = var0.readBits(1);
-								if (var4 == 0) {
-									var1 = NPCComposition.method3491(var0);
-									var10000 = Players.field1288;
-									var10000[var5] = (byte)(var10000[var5] | 2);
-								} else if (class9.updateExternalPlayer(var0, var5)) {
-									var10000 = Players.field1288;
-									var10000[var5] = (byte)(var10000[var5] | 2);
+								shouldUpdate = buf.readBits(1);
+								if (shouldUpdate == 0) {
+									skipCount = NPCComposition.readSkipCount(buf);
+									skipFlags = Players.skipFlags;
+									skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
+								} else if (class9.updateExternalPlayer(buf, playerIndex)) {
+									skipFlags = Players.skipFlags;
+									skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 								}
 							}
 						}
 					}
 
-					var0.exportIndex();
-					if (var1 != 0) {
+					buf.toByteMode();
+					if (skipCount != 0) {
 						throw new RuntimeException();
 					} else {
-						Players.Players_count = 0;
-						Players.Players_emptyIdxCount = 0;
+						Players.localPlayerCount = 0;
+						Players.externalPlayerCount = 0;
 
-						for (var2 = 1; var2 < 2048; ++var2) {
-							var10000 = Players.field1288;
-							var10000[var2] = (byte)(var10000[var2] >> 1);
-							Player var3 = Client.players[var2];
+						for (i = 1; i < 2048; ++i) {
+							skipFlags = Players.skipFlags;
+							skipFlags[i] = (byte) (skipFlags[i] >> 1);
+							Player var3 = Client.players[i];
 							if (var3 != null) {
-								Players.Players_indices[++Players.Players_count - 1] = var2;
+								Players.localPlayerIndexes[++Players.localPlayerCount - 1] = i;
 							} else {
-								Players.Players_emptyIndices[++Players.Players_emptyIdxCount - 1] = var2;
+								Players.externalPlayerIndexes[++Players.externalPlayerCount - 1] = i;
 							}
 						}
 

@@ -44,9 +44,9 @@ public class PacketBuffer extends Buffer {
 
 	}
 
-	public void importIndex() {
-		this.bitIndex = super.offset * 8;
-	}
+	public void toBitMode() {
+        this.bitIndex = super.offset * 8;
+    }
 
 	public int readBits(int var1) {
 		int var2 = this.bitIndex >> 3;
@@ -67,9 +67,9 @@ public class PacketBuffer extends Buffer {
 		return var4;
 	}
 
-	public void exportIndex() {
-		super.offset = (this.bitIndex + 7) / 8;
-	}
+    public void toByteMode() {
+        super.offset = (this.bitIndex + 7) / 8;
+    }
 
 	public int bitsRemaining(int var1) {
 		return var1 * 8 - this.bitIndex;

@@ -224,7 +224,7 @@ public class SecureRandomCallable implements Callable {
 				}
 			}
 
-			var1.exportIndex();
+			var1.toByteMode();
 			return;
 		}
 	}

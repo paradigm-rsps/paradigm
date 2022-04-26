@@ -14,7 +14,7 @@ public class Strings {
 	}
 
 	static final void readPlayerGpi(PacketBuffer var0) {
-		var0.importIndex();
+		var0.toBitMode();
 		int var1 = Client.localPlayerIndex;
 		Player var2 = class19.localPlayer = Client.players[var1] = new Player();
         var2.index = var1;
@@ -31,26 +31,26 @@ public class Strings {
             var2.read(Players.cached_appearances[var1]);
         }
 
-        Players.Players_count = 0;
-        Players.Players_indices[++Players.Players_count - 1] = var1;
-        Players.field1288[var1] = 0;
-        Players.Players_emptyIdxCount = 0;
+        Players.localPlayerCount = 0;
+        Players.localPlayerIndexes[++Players.localPlayerCount - 1] = var1;
+        Players.skipFlags[var1] = 0;
+        Players.externalPlayerCount = 0;
 
         for (int var7 = 1; var7 < 2048; ++var7) {
             if (var7 != var1) {
                 int var8 = var0.readBits(18);
-				int var9 = var8 >> 16;
-				int var10 = var8 >> 8 & 597;
-				int var11 = var8 & 597;
-				Players.Players_regions[var7] = (var10 << 14) + var11 + (var9 << 28);
-				Players.Players_orientations[var7] = 0;
-				Players.Players_targetIndices[var7] = -1;
-				Players.Players_emptyIndices[++Players.Players_emptyIdxCount - 1] = var7;
-				Players.field1288[var7] = 0;
-			}
+                int var9 = var8 >> 16;
+                int var10 = var8 >> 8 & 597;
+                int var11 = var8 & 597;
+                Players.Players_regions[var7] = (var10 << 14) + var11 + (var9 << 28);
+                Players.Players_orientations[var7] = 0;
+                Players.Players_targetIndices[var7] = -1;
+                Players.externalPlayerIndexes[++Players.externalPlayerCount - 1] = var7;
+                Players.skipFlags[var7] = 0;
+            }
 		}
 
-		var0.exportIndex();
+        var0.toByteMode();
 	}
 
 	static Message Messages_getMessage(int var0) {
@@ -58,17 +58,17 @@ public class Strings {
 	}
 
 	static final void method5795() {
-		for (int var0 = 0; var0 < Players.Players_count; ++var0) {
-			Player var1 = Client.players[Players.Players_indices[var0]];
-			var1.clearIsFriend();
-		}
+        for (int var0 = 0; var0 < Players.localPlayerCount; ++var0) {
+            Player var1 = Client.players[Players.localPlayerIndexes[var0]];
+            var1.clearIsFriend();
+        }
 
-		class20.method326();
-		if (Statics1.friendsChat != null) {
-			Statics1.friendsChat.clearFriends();
-		}
+        class20.method326();
+        if (Statics1.friendsChat != null) {
+            Statics1.friendsChat.clearFriends();
+        }
 
-	}
+    }
 
 	static final void method5798() {
 		Client.field726 = Client.cycleCntr;

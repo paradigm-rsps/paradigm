@@ -134,7 +134,7 @@ public class PacketWriter {
 		Client.playerAttackOption = AttackOption.AttackOption_hidden;
 		Client.npcAttackOption = AttackOption.AttackOption_hidden;
 		Client.npcCount = 0;
-		Players.Players_count = 0;
+		Players.localPlayerCount = 0;
 
 		int var0;
 		for (var0 = 0; var0 < 2048; ++var0) {

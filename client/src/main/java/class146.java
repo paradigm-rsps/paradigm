@@ -198,7 +198,7 @@ public class class146 extends class128 {
 			chunkY = buf.readUnsignedShortLE();
 			boolean var15 = buf.readUnsignedByte() == 1;
 			regionX = buf.readUnsignedShort();
-			buf.importIndex();
+            buf.toBitMode();
 
 			int var9;
 			for (regionY = 0; regionY < 4; ++regionY) {
@@ -214,8 +214,8 @@ public class class146 extends class128 {
 				}
 			}
 
-			buf.exportIndex();
-			Message.xteaKeys = new int[regionX][4];
+            buf.toByteMode();
+            Message.xteaKeys = new int[regionX][4];
 
 			for (regionY = 0; regionY < regionX; ++regionY) {
 				for (var7 = 0; var7 < 4; ++var7) {

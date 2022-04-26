@@ -38,7 +38,7 @@ public abstract class class166 {
 
 	static void addPlayerToScene(Player var0, boolean var1) {
 		if (var0 != null && var0.isVisible() && !var0.isHidden) {
-            var0.isUnanimated = (Client.isLowDetail && Players.Players_count > 50 || Players.Players_count > 200) && var1 && var0.movementSequence == var0.idleSequence;
+            var0.isUnanimated = (Client.isLowDetail && Players.localPlayerCount > 50 || Players.localPlayerCount > 200) && var1 && var0.movementSequence == var0.idleSequence;
 
 			int var2 = var0.x >> 7;
 			int var3 = var0.y >> 7;
