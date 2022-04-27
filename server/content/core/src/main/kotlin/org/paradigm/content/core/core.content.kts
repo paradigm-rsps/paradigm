@@ -4,7 +4,9 @@ import org.paradigm.api.type.Varbit
 import org.paradigm.api.updateAppearance
 import org.paradigm.engine.event.impl.LoginEvent
 import org.paradigm.engine.event.impl.MoveGameClickEvent
+import org.paradigm.engine.event.impl.PlayerCheatCommandEvent
 import org.paradigm.engine.model.MovementState
+import org.paradigm.engine.model.Privilege
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.map.Tile
@@ -30,6 +32,13 @@ onEvent<MoveGameClickEvent> {
         }
     }
 }
+
+onEvent<PlayerCheatCommandEvent>()
+    .where { command == "tele" && player.privilege.id > 1 }
+    .then {
+        val targetTile = Tile(args[0].toInt(), args[1].toInt(), if (args.size == 3) args[2].toInt() else 0)
+        player.teleport(targetTile)
+    }
 
 fun Player.teleport(tile: Tile) {
     teleportTile = tile

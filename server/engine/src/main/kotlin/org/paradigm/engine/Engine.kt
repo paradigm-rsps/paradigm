@@ -36,7 +36,7 @@ class Engine {
         running = true
 
         serviceManager.start()
-        world.init()
+        world.load()
         updateTasks.init()
         scriptManager.loadScripts()
         scriptManager.enableScripts()

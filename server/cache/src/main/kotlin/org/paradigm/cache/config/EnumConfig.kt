@@ -7,7 +7,7 @@ import net.runelite.cache.definitions.loaders.EnumLoader
 import org.paradigm.cache.GameCache
 import org.paradigm.common.inject
 
-class EnumConfig(
+class EnumConfig private constructor(
     entries: MutableMap<Int, EnumDefinition> = mutableMapOf()
 ) : Map<Int, EnumDefinition> by entries {
     companion object {

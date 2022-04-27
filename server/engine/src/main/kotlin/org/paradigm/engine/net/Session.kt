@@ -8,7 +8,7 @@ import kotlin.random.nextLong
 
 class Session(val ctx: ChannelHandlerContext) {
 
-    internal lateinit var player: Player
+    lateinit var player: Player
 
     val channel get() = ctx.channel()
 

@@ -15,6 +15,7 @@ class GameCache {
      * Cache Archive Data Models
      */
     lateinit var configs: ConfigArchive private set
+    lateinit var maps: MapArchive private set
 
     fun load(directory: File) {
         store = Store(directory)
@@ -24,6 +25,7 @@ class GameCache {
          * Load Archive Data
          */
         configs = ConfigArchive.load()
+        maps = MapArchive.load()
     }
 
 }
