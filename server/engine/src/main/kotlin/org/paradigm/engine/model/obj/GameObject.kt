@@ -16,7 +16,7 @@ class GameObject(
         rotation: Int
     ) : this(data, tile, (shape shl 2) or rotation)
 
-    val id: Int get() = data.objectID
+    val id: Int get() = data.id
 
     val shape: Int get() = attributes shr 2
 

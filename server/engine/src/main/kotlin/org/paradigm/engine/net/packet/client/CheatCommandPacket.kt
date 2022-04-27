@@ -1,7 +1,7 @@
 package org.paradigm.engine.net.packet.client
 
 import org.paradigm.engine.event.EventBus
-import org.paradigm.engine.event.impl.PlayerCheatCommandEvent
+import org.paradigm.engine.event.impl.CheatCommandEvent
 import org.paradigm.engine.net.Session
 import org.paradigm.engine.net.game.ClientPacket
 import org.paradigm.engine.net.game.Codec
@@ -13,7 +13,7 @@ import org.paradigm.util.buffer.JagByteBuf
 class CheatCommandPacket(val command: String, val args: List<String>) : Packet {
 
     override fun handle(session: Session) {
-        EventBus.publish(PlayerCheatCommandEvent(session.player, command, args))
+        EventBus.publish(CheatCommandEvent(session.player, command, args))
     }
 
     companion object : Codec<CheatCommandPacket> {

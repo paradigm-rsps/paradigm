@@ -17,7 +17,7 @@ class ObjectConfig private constructor(
             val manager = ObjectManager(cache.store)
             manager.load()
             manager.objects.forEach { objDef ->
-                entries[objDef.objectID] = objDef
+                entries[objDef.id] = objDef
             }
 
             return ObjectConfig(entries)

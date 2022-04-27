@@ -15,7 +15,7 @@ class PlayerPathFinder : PathFinder {
     override fun findPath(src: Tile, dest: Tile): List<Tile> {
         val pf = SmartPathFinder(
             defaultFlag = 0,
-            flags = world.chunks.map { it.collision.flags.values.toIntArray() }.toTypedArray()
+            flags = world.collision.flags
         )
         return pf.findPath(src.x, src.y, dest.x, dest.y, src.plane).pathCoords.map {
             Tile(it.x, it.y, src.plane)

@@ -16,7 +16,5 @@ class JS5Encoder : MessageToByteEncoder<JS5Response>() {
             }
             out.writeByte(byte.toInt())
         }
-
-        println("encoded: ${msg.archive}, ${msg.group}")
     }
 }
