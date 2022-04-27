@@ -12,6 +12,7 @@ import org.paradigm.engine.queue.QueueList
 import net.runelite.cache.region.Region
 import org.paradigm.engine.model.obj.GameObject
 import org.rsmod.pathfinder.flag.CollisionFlag
+import org.tinylog.kotlin.Logger
 import java.io.FileNotFoundException
 
 class World {
@@ -30,6 +31,8 @@ class World {
         /*
          * Load World map collision and objects.
          */
+        Logger.info("Loading world map data.")
+
         XteaConfig.regions.forEach { (regionId, keys) ->
             val (map, loc) = cache.maps[regionId] ?: return@forEach
             Region(regionId).loadCollision(map, loc)
