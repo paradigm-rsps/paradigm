@@ -67,7 +67,6 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     }
 
     override suspend fun cycle() {
-        varps.cycle()
         queueCycle()
     }
 

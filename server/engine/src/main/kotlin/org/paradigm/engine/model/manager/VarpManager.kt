@@ -2,45 +2,79 @@ package org.paradigm.engine.model.manager
 
 import org.paradigm.cache.GameCache
 import org.paradigm.common.inject
-import org.paradigm.engine.model.entity.Player
-import org.paradigm.engine.net.packet.server.VarpLargePacket
-import org.paradigm.engine.net.packet.server.VarpSmallPacket
-import kotlin.math.pow
+import org.paradigm.engine.model.entity.LivingEntity
 
-class VarpManager(private val player: Player) {
+class VarpManager(private val entity: LivingEntity) {
 
     private val cache: GameCache by inject()
 
-    val varps = mutableMapOf<Int, Int>()
-    private val changes = mutableMapOf<Int, Int>()
+    private val varps = mutableMapOf<Int, Int>()
 
-    fun updateVarp(id: Int, value: Int) {
-        varps[id] = value
-        changes[id] = value
+    fun getVarp(id: Int): Int {
+        return this[id] ?: 0
     }
 
-    fun updateVarbit(id: Int, value: Int) {
-
+    fun setVarp(id: Int, value: Int) {
+        this[id] = value
     }
 
-    internal fun cycle() {
-        changes.forEach { (id, value) ->
-            if (value <= Byte.MIN_VALUE || value >= Byte.MAX_VALUE) {
-                player.session.write(VarpLargePacket(id, value))
-            } else {
-                player.session.write(VarpSmallPacket(id, value))
-            }
+    fun setVarp(id: Int, flag: Boolean, falseValue: Int = 0, trueValue: Int = 1) {
+        setVarp(id, if (flag) trueValue else falseValue)
+    }
+
+    fun toggleVarp(id: Int, value1: Int = 0, value2: Int = 1) {
+        val newValue = if (getVarp(id) == value1) value2 else value1
+        setVarp(id, newValue)
+    }
+
+    fun getVarbit(id: Int): Int {
+        val def = cache.configs.varbits[id]!!
+        val value = this[id] ?: 0
+        return value.getBitsValue(def.leastSignificantBit, def.mostSignificantBit)
+    }
+
+    fun setVarbit(id: Int, value: Int) {
+        val def = cache.configs.varbits[id]!!
+        val curValue = this[id] ?: 0
+        val newValue = curValue.setBitsValue(def.leastSignificantBit, def.mostSignificantBit, value)
+        this[id] = newValue
+    }
+
+    fun setVarbit(id: Int, flag: Boolean, falseValue: Int = 0, trueValue: Int = 1) {
+        setVarbit(id, if (flag) trueValue else falseValue)
+    }
+
+    fun toggleVarbit(id: Int, value1: Int = 0, value2: Int = 1) {
+        val newValue = if (getVarbit(id) == value1) value2 else value1
+        setVarbit(id, newValue)
+    }
+
+    private operator fun get(key: Int): Int? = varps[key]
+
+    private operator fun set(key: Int, value: Int): Int? {
+        if (value == 0) {
+            return varps.remove(key)
         }
-        changes.clear()
+        return varps.put(key, value)
+    }
+
+    private fun Int.getBitsValue(start: Int, end: Int): Int {
+        val size = BIT_SIZES[end - start]
+        return (this shr start) and size
+    }
+
+    private fun Int.setBitsValue(start: Int, end: Int, value: Int): Int {
+        val size = BIT_SIZES[end - start] shl start
+        return (this and size.inv()) or ((value shl start) and size)
     }
 
     companion object {
-
-        private fun Int.setBits(lsb: Int, msb: Int): Int = this xor ((1 shl (msb + 1)) - 1) xor ((1 shl lsb) - 1)
-
-        @Suppress("INTEGER_OVERFLOW")
-        private fun Int.clearBits(lsb: Int, msb: Int): Int = ((1 shl 4 * 8 - 1) - 1).setBits(lsb, msb) and this
-
-
+        private val BIT_SIZES = IntArray(Int.SIZE_BYTES).apply {
+            var size = 2
+            for (i in indices) {
+                this[i] = size - 1
+                size += size
+            }
+        }
     }
 }
