@@ -1,45 +1,37 @@
 package org.paradigm.content.core
 
-import org.paradigm.api.move
-import org.paradigm.api.teleport
+import org.paradigm.api.event.onEvent
+import org.paradigm.api.event.unregisterEvents
+import org.paradigm.api.moduleManager
 import org.paradigm.api.toggleRun
 import org.paradigm.api.updateAppearance
-import org.paradigm.common.inject
-import org.paradigm.content.ContentModuleManager
-import org.paradigm.content.core.api.on_command
-import org.paradigm.content.core.api.on_login
-import org.paradigm.content.core.api.on_move_click
+import org.paradigm.engine.event.impl.CheatCommandEvent
+import org.paradigm.engine.event.impl.LoginEvent
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.model.ui.GameInterface
+import org.tinylog.kotlin.Logger
 
-private val moduleManager: ContentModuleManager by inject()
+onDisable { unregisterEvents() }
 
-on_login { player ->
+onEvent<LoginEvent> {
+    player.ui.openTopInterface(player.displayMode.interfaceId)
+    GameInterface.values().filter { it.interfaceId != -1 }.forEach { gameInterface ->
+        player.ui.openInterface(gameInterface)
+    }
     player.updateAppearance()
-    player.openGameFrame()
     player.toggleRun()
 }
 
-on_move_click { player, dest, clickType ->
-    when (clickType) {
-        0 -> player.move(dest)
-        else -> {
-            if (player.privilege.id >= 2) player.teleport(dest) else return@on_move_click
-        }
-    }
-}
-
-on_command { player, command, args ->
-    if (player.privilege.id < 2) return@on_command
+onEvent<CheatCommandEvent> {
+    if (player.privilege.id == 0) return@onEvent
     when (command) {
-        "reload" -> moduleManager.reloadModule(args.firstOrNull() ?: "")
-        else -> return@on_command
+        "reload" -> reloadCommand(args[0])
+        else -> return@onEvent
     }
 }
 
-fun Player.openGameFrame() {
-    ui.openTopInterface(displayMode.interfaceId)
-    GameInterface.values().filter { it.interfaceId != -1 }.forEach {
-        ui.openInterface(it)
-    }
+fun reloadCommand(module: String) {
+    Logger.info("Reloading module: $module.")
+    moduleManager.reloadModule(module)
+    Logger.info("Successfully reloaded module: $module.")
 }

@@ -35,6 +35,11 @@ subprojects {
 
         register<Copy>("assembleModule") {
             group = "paradigm"
+            doFirst {
+                rootProject.projectDir.resolve("data/modules/${subproject.name}.jar").also {
+                    if (it.exists()) it.deleteRecursively()
+                }
+            }
             from(named("jar"))
             into(rootProject.projectDir.resolve("data/modules/"))
         }
