@@ -21,8 +21,8 @@ class Engine {
     private val engineCoroutine: EngineCoroutineScope by inject()
     private val networkServer: NetworkServer by inject()
     private val serviceManager: ServiceManager by inject()
-    private val world: World by inject()
     private val moduleManager: ContentModuleManager by inject()
+    private val world: World by inject()
 
     private val updateTasks = SyncTaskList()
     private var running = false
@@ -35,10 +35,11 @@ class Engine {
 
         running = true
 
+        moduleManager.loadModules()
+        moduleManager.enableModules()
         serviceManager.start()
         world.load()
         updateTasks.init()
-        moduleManager.loadModuleDirectory()
         networkServer.start()
         engineCoroutine.start()
     }
