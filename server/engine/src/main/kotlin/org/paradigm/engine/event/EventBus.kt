@@ -5,6 +5,7 @@ import org.paradigm.engine.event.action.EventListenerBuilder
 import kotlin.reflect.KClass
 
 object EventBus {
+
     val events = mutableMapOf<KClass<out Event>, MutableList<EventListener<*>>>()
 
     @Suppress("UNCHECKED_CAST")
@@ -19,5 +20,14 @@ object EventBus {
 
     inline fun <reified T : Event> subscribe(): EventListenerBuilder<T> =
         EventListenerBuilder(events.computeIfAbsent(T::class) { mutableListOf() })
+
+    @Suppress("UNCHECKED_CAST")
+    fun unsubscribe(listener: EventListener<out Event>) {
+        events.values.forEach { it.remove(listener) }
+    }
+
+    fun unsubscribe(listeners: List<EventListener<out Event>>) {
+        events.values.forEach { it.removeAll(listeners) }
+    }
 
 }

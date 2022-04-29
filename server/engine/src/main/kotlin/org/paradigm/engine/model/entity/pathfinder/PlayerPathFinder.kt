@@ -12,14 +12,14 @@ class PlayerPathFinder : PathFinder {
 
     private val world: World by inject()
 
-    override fun findPath(src: Tile, dest: Tile): List<Tile> {
+    override fun findPath(src: Tile, dest: Tile): MutableList<Tile> {
         val pf = SmartPathFinder(
             defaultFlag = 0,
             flags = world.collision.flags
         )
         return pf.findPath(src.x, src.y, dest.x, dest.y, src.plane).pathCoords.map {
             Tile(it.x, it.y, src.plane)
-        }.toList()
+        }.toMutableList()
     }
 
 }

@@ -14,18 +14,16 @@ class ContentModule(val name: String, val classloader: ContentModuleClassLoader)
 
     fun enable() {
         if (enabled) throw IllegalStateException("Content module '$name' is already enabled.")
-        enabled = true
-
         loadContentScripts()
         scripts.values.forEach { it.enableBlock() }
+        enabled = true
     }
 
     fun disable() {
         if (!enabled) throw IllegalStateException("Content module '$name' is already disabled.")
-        enabled = false
-
         scripts.values.forEach { it.disableBlock() }
         scripts.clear()
+        enabled = false
     }
 
     private fun loadContentScripts() {

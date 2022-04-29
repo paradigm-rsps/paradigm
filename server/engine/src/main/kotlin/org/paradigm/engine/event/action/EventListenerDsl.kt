@@ -6,15 +6,19 @@ import org.paradigm.engine.event.Event
 private annotation class EventListenerBuilderDsl
 
 @EventListenerBuilderDsl
-class EventListenerBuilder<T : Event>(private val events: MutableList<EventListener<*>>) {
+class EventListenerBuilder<T : Event>(private val listeners: MutableList<EventListener<*>>) {
     private var condition: (T).() -> Boolean = { true }
+
+    lateinit var listener: EventListener<T> private set
 
     fun where(predicate: (T).() -> Boolean): EventListenerBuilder<T> {
         this.condition = predicate
         return this
     }
 
-    fun then(action: (T).() -> Unit) {
-        events.add(EventListener(condition, action))
+    fun then(action: (T).() -> Unit): EventListenerBuilder<T> {
+        listener = EventListener(condition, action)
+        listeners.add(listener)
+        return this
     }
 }

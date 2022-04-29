@@ -30,16 +30,12 @@ subprojects {
     }
 
     tasks {
-        val jarModule = register<Jar>("jarModule") {
+        named<Jar>("jar") {
             println("Compiling jar for module: '${subproject.name}'.")
             archiveBaseName.set(subproject.name)
             archiveVersion.set("")
             archiveClassifier.set("")
             destinationDirectory.set(rootProject.projectDir.resolve("data/modules/"))
-        }
-
-        compileKotlin {
-            finalizedBy(jarModule)
         }
     }
 }

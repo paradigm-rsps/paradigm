@@ -1,5 +1,6 @@
 package org.paradigm.content
 
+import org.paradigm.content.annotation.ContentScriptDsl
 import org.paradigm.content.annotation.Import
 import java.io.File
 import java.net.JarURLConnection
@@ -9,15 +10,9 @@ import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.FileBasedScriptSource
 import kotlin.script.experimental.host.FileScriptSource
-import kotlin.script.experimental.host.ScriptingHostConfiguration
-import kotlin.script.experimental.jvm.compilationCache
 import kotlin.script.experimental.jvm.dependenciesFromClassContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvm.mainArguments
-import kotlin.script.experimental.jvmhost.CompiledScriptJarsCache
-
-const val COMPILED_SCRIPTS_CACHE_DIR_ENV_VAR = "KOTLIN_SIMPLE_MAIN_KTS_COMPILED_SCRIPTS_CACHE_DIR"
-const val COMPILED_SCRIPTS_CACHE_DIR_PROPERTY = "kotlin.content.main.kts.compiled.scripts.cache.dir"
 
 @Suppress("unused")
 @KotlinScript(
@@ -25,14 +20,16 @@ const val COMPILED_SCRIPTS_CACHE_DIR_PROPERTY = "kotlin.content.main.kts.compile
     compilationConfiguration = ContentScriptCompilerDefinition::class,
     evaluationConfiguration = ContentScriptEvaluatorDefinition::class
 )
-abstract class ContentScript(val args: Array<String>) {
+open class ContentScript {
     internal var enableBlock: () -> Unit = { }
     internal var disableBlock: () -> Unit = { }
 
+    @ContentScriptDsl
     fun onEnable(block: () -> Unit) {
         this.enableBlock = block
     }
 
+    @ContentScriptDsl
     fun onDisable(block: () -> Unit) {
         this.disableBlock = block
     }
@@ -40,7 +37,6 @@ abstract class ContentScript(val args: Array<String>) {
 
 object ContentScriptCompilerDefinition : ScriptCompilationConfiguration({
     defaultImports(Import::class)
-    implicitReceivers(String::class)
     jvm {
         dependenciesFromClassContext(ContentScriptCompilerDefinition::class, wholeClasspath = true)
     }
@@ -54,7 +50,6 @@ object ContentScriptCompilerDefinition : ScriptCompilationConfiguration({
 
 object ContentScriptEvaluatorDefinition : ScriptEvaluationConfiguration({
     scriptsInstancesSharing(true)
-    implicitReceivers("")
     refineConfigurationBeforeEvaluate(::configureConstructorArgsFromMainArgs)
 })
 

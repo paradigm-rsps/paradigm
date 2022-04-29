@@ -5,4 +5,5 @@ dependencies {
     implementation(project(":server:cache"))
     implementation(project(":server:engine"))
     implementation(project(":server:config"))
+    implementation(project(":server:content"))
 }
