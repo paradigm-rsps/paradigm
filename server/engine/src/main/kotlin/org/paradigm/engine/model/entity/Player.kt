@@ -26,7 +26,6 @@ class Player internal constructor(val session: Session) : LivingEntity() {
     val gpi = GpiManager(this)
     val scene = SceneManager(this)
     val ui = InterfaceManager(this)
-    val varps = VarpManager(this)
 
     override val size: Int = 1
 

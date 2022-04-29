@@ -10,6 +10,8 @@ class VarpManager(private val entity: LivingEntity) {
 
     private val varps = mutableMapOf<Int, Int>()
 
+    fun toMap() = varps.toMap()
+
     fun getVarp(id: Int): Int {
         return this[id] ?: 0
     }
