@@ -2,6 +2,7 @@ package org.paradigm.engine
 
 import org.koin.dsl.module
 import org.paradigm.cache.GameCache
+import org.paradigm.content.ContentModuleManager
 import org.paradigm.engine.model.world.World
 import org.paradigm.engine.net.NetworkServer
 import org.paradigm.engine.net.game.GamePackets
@@ -20,4 +21,5 @@ val ENGINE_MODULE = module {
     single { HttpServer() }
     single { WorldList() }
     single { GameCache() }
+    single { ContentModuleManager() }
 }

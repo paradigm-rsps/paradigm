@@ -49,7 +49,8 @@ object Launcher {
             "data/configs/",
             "data/logs/",
             "data/players/",
-            "data/rsa/"
+            "data/rsa/",
+            "data/modules/"
         ).map { File(it) }.forEach { dir ->
             if(!dir.exists()) {
                 Logger.info("Creating required directory: ${dir.path}.")

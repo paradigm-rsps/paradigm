@@ -40,6 +40,7 @@ object Setup {
             "data/logs/",
             "data/rsa/",
             "data/players/",
+            "data/modules/"
         ).map { File(it) }
 
         /*

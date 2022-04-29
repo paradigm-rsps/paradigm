@@ -696,18 +696,18 @@ public class class132 extends class128 {
 				if (var14 == 3) {
 					NodeDeque var33 = Client.groundItems[class160.Client_plane][var24][var12];
 					if (var33 != null) {
-						for (TileItem var32 = (TileItem)var33.first(); var32 != null; var32 = (TileItem)var33.next()) {
-							ItemComposition var36 = class67.ItemDefinition_get(var32.id);
-							if (Client.isItemSelected == 1) {
-								SecureRandomFuture.insertMenuItemNoShift("Use", Client.selectedItemName + " " + "->" + " " + ChatChannel.colorStartTag(16748608) + var36.name, 16, var32.id, var24, var12);
-							} else if (Client.isSpellSelected) {
-								if ((class154.selectedSpellFlags & 1) == 1) {
-									SecureRandomFuture.insertMenuItemNoShift(Client.selectedSpellActionName, Client.selectedSpellName + " " + "->" + " " + ChatChannel.colorStartTag(16748608) + var36.name, 17, var32.id, var24, var12);
-								}
-							} else {
-								String[] var28 = var36.groundActions;
+                        for (TileItem tileItem = (TileItem) var33.first(); tileItem != null; tileItem = (TileItem) var33.next()) {
+                            ItemComposition var36 = class67.ItemDefinition_get(tileItem.id);
+                            if (Client.isItemSelected == 1) {
+                                SecureRandomFuture.insertMenuItemNoShift("Use", Client.selectedItemName + " " + "->" + " " + ChatChannel.colorStartTag(16748608) + var36.name, 16, tileItem.id, var24, var12);
+                            } else if (Client.isSpellSelected) {
+                                if ((class154.selectedSpellFlags & 1) == 1) {
+                                    SecureRandomFuture.insertMenuItemNoShift(Client.selectedSpellActionName, Client.selectedSpellName + " " + "->" + " " + ChatChannel.colorStartTag(16748608) + var36.name, 17, tileItem.id, var24, var12);
+                                }
+                            } else {
+                                String[] var28 = var36.groundActions;
 
-								for (int var29 = 4; var29 >= 0; --var29) {
+                                for (int var29 = 4; var29 >= 0; --var29) {
 									if (var28 != null && var28[var29] != null) {
 										byte var21 = 0;
 										if (var29 == 0) {
@@ -730,13 +730,13 @@ public class class132 extends class128 {
 											var21 = 22;
 										}
 
-										SecureRandomFuture.insertMenuItemNoShift(var28[var29], ChatChannel.colorStartTag(16748608) + var36.name, var21, var32.id, var24, var12);
+                                        SecureRandomFuture.insertMenuItemNoShift(var28[var29], ChatChannel.colorStartTag(16748608) + var36.name, var21, tileItem.id, var24, var12);
 									} else if (var29 == 2) {
-										SecureRandomFuture.insertMenuItemNoShift("Take", ChatChannel.colorStartTag(16748608) + var36.name, 20, var32.id, var24, var12);
+                                        SecureRandomFuture.insertMenuItemNoShift("Take", ChatChannel.colorStartTag(16748608) + var36.name, 20, tileItem.id, var24, var12);
 									}
 								}
 
-								SecureRandomFuture.insertMenuItemNoShift("Examine", ChatChannel.colorStartTag(16748608) + var36.name, 1004, var32.id, var24, var12);
+                                SecureRandomFuture.insertMenuItemNoShift("Examine", ChatChannel.colorStartTag(16748608) + var36.name, 1004, tileItem.id, var24, var12);
 							}
 						}
 					}
