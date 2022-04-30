@@ -10,4 +10,5 @@ dependencies {
     implementation("io.netty:netty-all:_")
     implementation("io.github.classgraph:classgraph:_")
     implementation("com.github.paradigm-rsps:pathfinder:_")
+    implementation("org.json:json:_")
 }

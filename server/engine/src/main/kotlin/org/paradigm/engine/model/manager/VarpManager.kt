@@ -9,8 +9,7 @@ class VarpManager(private val entity: LivingEntity) {
     private val cache: GameCache by inject()
 
     private val varps = mutableMapOf<Int, Int>()
-
-    fun toMap() = varps.toMap()
+    internal val changed = hashSetOf<Int>()
 
     fun getVarp(id: Int): Int {
         return this[id] ?: 0
@@ -31,15 +30,15 @@ class VarpManager(private val entity: LivingEntity) {
 
     fun getVarbit(id: Int): Int {
         val def = cache.configs.varbits[id]!!
-        val value = this[id] ?: 0
+        val value = this[def.index] ?: 0
         return value.getBitsValue(def.leastSignificantBit, def.mostSignificantBit)
     }
 
     fun setVarbit(id: Int, value: Int) {
         val def = cache.configs.varbits[id]!!
-        val curValue = this[id] ?: 0
+        val curValue = this[def.index] ?: 0
         val newValue = curValue.setBitsValue(def.leastSignificantBit, def.mostSignificantBit, value)
-        this[id] = newValue
+        this[def.index] = newValue
     }
 
     fun setVarbit(id: Int, flag: Boolean, falseValue: Int = 0, trueValue: Int = 1) {
@@ -54,6 +53,7 @@ class VarpManager(private val entity: LivingEntity) {
     private operator fun get(key: Int): Int? = varps[key]
 
     private operator fun set(key: Int, value: Int): Int? {
+        if ((varps[key] ?: -1) != value) changed.add(key)
         if (value == 0) {
             return varps.remove(key)
         }

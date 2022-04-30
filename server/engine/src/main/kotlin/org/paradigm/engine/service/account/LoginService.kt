@@ -1,4 +1,4 @@
-package org.paradigm.engine.service
+package org.paradigm.engine.service.account
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 import org.paradigm.common.inject
@@ -7,12 +7,14 @@ import org.paradigm.engine.event.impl.LoginEvent
 import org.paradigm.engine.model.world.World
 import org.paradigm.engine.model.entity.Player
 import org.paradigm.engine.net.Session
+import org.paradigm.engine.net.StatusResponse
 import org.paradigm.engine.net.game.GamePacketDecoder
 import org.paradigm.engine.net.game.GamePacketEncoder
 import org.paradigm.engine.net.game.GamePacketHandler
 import org.paradigm.engine.net.login.LoginRequest
 import org.paradigm.engine.net.login.LoginResponse
-import org.paradigm.util.SHA256
+import org.paradigm.engine.service.Service
+import org.paradigm.engine.serializer.PlayerSerializer
 import org.tinylog.kotlin.Logger
 import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingQueue
@@ -20,6 +22,7 @@ import java.util.concurrent.LinkedBlockingQueue
 class LoginService : Service {
 
     private val world: World by inject()
+    private val playerSerializer: PlayerSerializer by inject()
 
     private val executor = Executors.newFixedThreadPool(
         LOGIN_THREADS, ThreadFactoryBuilder()
@@ -48,22 +51,27 @@ class LoginService : Service {
         while(true) {
             val request = queue.take()
 
-            /*
-             * Process login request.
-             */
+            val session = Session(request.ctx)
+            val player = playerSerializer.loadPlayer(session, request.username, request.password ?: "")
 
             /*
-             * Successful login.
+             * If the player is null, this indicates that the serialization / authentication
+             * to get the player object failed.
              */
-            Player(Session(request.ctx)).login(request)
+            if (player == null) {
+                session.writeAndFlush(StatusResponse.INVALID_CREDENTIALS)
+                continue
+            }
+
+            /*
+             * The login was successfully. Hand off to login the player into
+             * the world.
+             */
+            player.login(request)
         }
     }
 
     private fun Player.login(request: LoginRequest) {
-        this.username = request.username
-        this.passwordHash = request.password?.let { SHA256.hash("salt" + request.password) } ?: ""
-        this.displayName = request.username
-
         session.seed = request.seed
         session.xteas = request.xteas
         session.reconnectXteas = request.reconnectXteas

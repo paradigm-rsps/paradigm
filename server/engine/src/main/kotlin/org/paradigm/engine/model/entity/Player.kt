@@ -1,5 +1,6 @@
 package org.paradigm.engine.model.entity
 
+import org.paradigm.common.inject
 import org.paradigm.config.ServerConfig
 import org.paradigm.engine.event.EventBus
 import org.paradigm.engine.event.impl.LogoutEvent
@@ -11,13 +12,15 @@ import org.paradigm.engine.model.entity.update.PlayerUpdateFlag
 import org.paradigm.engine.model.manager.InterfaceManager
 import org.paradigm.engine.model.map.Tile
 import org.paradigm.engine.model.entity.pathfinder.PlayerPathFinder
-import org.paradigm.engine.model.manager.VarpManager
 import org.paradigm.engine.model.ui.DisplayMode
 import org.paradigm.engine.net.Session
 import org.paradigm.engine.net.packet.server.RunClientScriptPacket
+import org.paradigm.engine.serializer.PlayerSerializer
 import org.tinylog.kotlin.Logger
 
 class Player internal constructor(val session: Session) : LivingEntity() {
+
+    private val playerSerializer: PlayerSerializer by inject()
 
     init {
         session.player = this
@@ -61,6 +64,7 @@ class Player internal constructor(val session: Session) : LivingEntity() {
 
     fun logout() {
         Logger.info("[$username] has disconnected from the server.")
+        playerSerializer.savePlayer(this)
         world.players.removePlayer(this)
         EventBus.publish(LogoutEvent(this))
     }
