@@ -65,8 +65,8 @@ public class UserComparator7 extends AbstractUserComparator {
                 Statics1.friendsChat.sort();
             }
 
-            for (int var0 = 0; var0 < Players.localPlayerCount; ++var0) {
-                Player var1 = Client.players[Players.localPlayerIndexes[var0]];
+            for (int var0 = 0; var0 < Players.gpiLocalPlayerCount; ++var0) {
+                Player var1 = Client.gpiLocalPlayers[Players.gpiLocalPlayerIndexes[var0]];
                 var1.clearIsInFriendsChat();
             }
 

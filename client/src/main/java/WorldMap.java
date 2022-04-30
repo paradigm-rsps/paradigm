@@ -454,14 +454,14 @@ public class WorldMap {
 			return true;
 		} else if (this.sprite.subWidth == var1 && this.sprite.subHeight == var2) {
 			if (this.worldMapManager.pixelsPerTile != this.cachedPixelsPerTile) {
-				return true;
-			} else if (this.field4520 != Client.field764) {
-				return true;
-			} else if (var3 <= 0 && var4 <= 0) {
-				return var3 + var1 < var5 || var2 + var4 < var6;
-			} else {
-				return true;
-			}
+                return true;
+            } else if (this.field4520 != Client.prevCycle) {
+                return true;
+            } else if (var3 <= 0 && var4 <= 0) {
+                return var3 + var1 < var5 || var2 + var4 < var6;
+            } else {
+                return true;
+            }
 		} else {
 			return true;
 		}
@@ -489,9 +489,9 @@ public class WorldMap {
 				this.minCachedTileX = this.getDisplayX() - var5 / 2 - var7;
 				this.minCachedTileY = this.getDisplayY() - var6 / 2 - var7;
 				this.cachedPixelsPerTile = this.worldMapManager.pixelsPerTile;
-				class340.field4109.method6082(this.minCachedTileX, this.minCachedTileY, this.sprite, (float)this.cachedPixelsPerTile / var10);
-				this.field4520 = Client.field764;
-				var13 = var1 - (var7 + var11 - this.minCachedTileX) * this.worldMapManager.pixelsPerTile;
+                class340.field4109.method6082(this.minCachedTileX, this.minCachedTileY, this.sprite, (float) this.cachedPixelsPerTile / var10);
+                this.field4520 = Client.prevCycle;
+                var13 = var1 - (var7 + var11 - this.minCachedTileX) * this.worldMapManager.pixelsPerTile;
 				var14 = var2 - this.worldMapManager.pixelsPerTile * (var7 - (var12 - this.minCachedTileY));
 			}
 

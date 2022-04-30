@@ -13,8 +13,8 @@ import java.util.concurrent.Future;
 
 public final class Client extends GameEngine implements Usernamed, OAuthApi {
 	static ClanSettings[] currentClanSettings;
-	public static int field764;
-	static boolean field731;
+    public static int prevCycle;
+    static boolean field731;
 	static int viewportOffsetX;
 	static int viewportOffsetY;
 	static int destinationX;
@@ -193,9 +193,9 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 	static boolean field601;
 	static int itemDragDuration;
 	static int field603;
-	static boolean showLoadingMessages;
-	static Player[] players;
-	static int localPlayerIndex;
+    static boolean showLoadingMessages;
+    static Player[] gpiLocalPlayers;
+    static int localPlayerIndex;
 	static int field607;
 	static long field608;
 	static boolean renderSelf;
@@ -424,9 +424,9 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 		field601 = false;
 		itemDragDuration = 0;
 		field603 = 0;
-		showLoadingMessages = true;
-		players = new Player[2048];
-		localPlayerIndex = -1;
+        showLoadingMessages = true;
+        gpiLocalPlayers = new Player[2048];
+        localPlayerIndex = -1;
 		field607 = 0;
 		field608 = -1L;
 		renderSelf = true;
@@ -582,9 +582,9 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 		field738 = -1;
 		platformInfoProvider = new DesktopPlatformInfoProvider();
 		grandExchangeOffers = new GrandExchangeOffer[8];
-		GrandExchangeEvents_worldComparator = new GrandExchangeOfferOwnWorldComparator();
-		field764 = -1;
-		archiveLoaders = new ArrayList(10);
+        GrandExchangeEvents_worldComparator = new GrandExchangeOfferOwnWorldComparator();
+        prevCycle = -1;
+        archiveLoaders = new ArrayList(10);
 		archiveLoadersDone = 0;
 		field767 = 0;
 		field477 = new ApproximateRouteStrategy();
@@ -1650,7 +1650,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 							destinationX = 0;
 
 							for (var13 = 0; var13 < 2048; ++var13) {
-								players[var13] = null;
+                                gpiLocalPlayers[var13] = null;
 							}
 
 							class19.localPlayer = null;
@@ -2024,27 +2024,27 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 								WorldMapSection2.method4561(ArchiveLoader.archive6, currentTrackGroupId, 0, Interpreter.clientPreferences.method2288(), false);
 							}
 
-							field731 = false;
-						}
+                            field731 = false;
+                        }
 
-						++packetWriter.field1326;
-						if (packetWriter.field1326 > 750) {
-							class9.method64();
-							return;
-						}
+                        ++packetWriter.field1326;
+                        if (packetWriter.field1326 > 750) {
+                            class9.method64();
+                            return;
+                        }
 
-						var1 = Players.localPlayerCount;
-						int[] var33 = Players.localPlayerIndexes;
+                        var1 = Players.gpiLocalPlayerCount;
+                        int[] var33 = Players.gpiLocalPlayerIndexes;
 
-						for (var3 = 0; var3 < var1; ++var3) {
-							Player var42 = players[var33[var3]];
-							if (var42 != null) {
-								BuddyRankComparator.updateActorSequence(var42, 1);
-							}
-						}
+                        for (var3 = 0; var3 < var1; ++var3) {
+                            Player var42 = gpiLocalPlayers[var33[var3]];
+                            if (var42 != null) {
+                                BuddyRankComparator.updateActorSequence(var42, 1);
+                            }
+                        }
 
-						for (var1 = 0; var1 < npcCount; ++var1) {
-							var15 = npcIndices[var1];
+                        for (var1 = 0; var1 < npcCount; ++var1) {
+                            var15 = npcIndices[var1];
 							NPC var25 = npcs[var15];
 							if (var25 != null) {
 								BuddyRankComparator.updateActorSequence(var25, var25.definition.size);
@@ -2734,8 +2734,8 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 				}
 
 				if (ServerPacket.UPDATE_PLAYERS == packetWriter.serverPacket) {
-					class83.updatePlayers(packetBuf, packetWriter.serverPacketLength);
-					class4.method19();
+                    class83.syncPlayers(packetBuf, packetWriter.serverPacketLength);
+                    class4.method19();
 					packetWriter.serverPacket = null;
 					return true;
 				}
@@ -3545,19 +3545,19 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 				}
 
 				if (ServerPacket.field3098 == packetWriter.serverPacket) {
-					for (interfaceType = 0; interfaceType < players.length; ++interfaceType) {
-						if (players[interfaceType] != null) {
-							players[interfaceType].sequence = -1;
-						}
-					}
+                    for (interfaceType = 0; interfaceType < gpiLocalPlayers.length; ++interfaceType) {
+                        if (gpiLocalPlayers[interfaceType] != null) {
+                            gpiLocalPlayers[interfaceType].sequence = -1;
+                        }
+                    }
 
-					for (interfaceType = 0; interfaceType < npcs.length; ++interfaceType) {
-						if (npcs[interfaceType] != null) {
-							npcs[interfaceType].sequence = -1;
-						}
-					}
+                    for (interfaceType = 0; interfaceType < npcs.length; ++interfaceType) {
+                        if (npcs[interfaceType] != null) {
+                            npcs[interfaceType].sequence = -1;
+                        }
+                    }
 
-					packetWriter.serverPacket = null;
+                    packetWriter.serverPacket = null;
 					return true;
 				}
 
@@ -4116,7 +4116,7 @@ public final class Client extends GameEngine implements Usernamed, OAuthApi {
 					if (interfaceType == localPlayerIndex) {
 						var77 = class19.localPlayer;
 					} else {
-						var77 = players[interfaceType];
+                        var77 = gpiLocalPlayers[interfaceType];
 					}
 
 					if (var77 != null) {

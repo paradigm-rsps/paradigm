@@ -331,7 +331,7 @@ public class SoundCache {
 			} else {
                 Player targetPlayer;
                 if (actionOpcode == 14) {
-                    targetPlayer = Client.players[menuIndex];
+                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                     if (targetPlayer != null) {
                         Client.mouseCrossX = mouseX;
                         Client.mouseCrossY = mouseY;
@@ -348,7 +348,7 @@ public class SoundCache {
                         Client.packetWriter.addNode(var9);
                     }
                 } else if (actionOpcode == 15) {
-                    targetPlayer = Client.players[menuIndex];
+                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                     if (targetPlayer != null) {
                         Client.mouseCrossX = mouseX;
                         Client.mouseCrossY = mouseY;
@@ -668,7 +668,7 @@ public class SoundCache {
                                     class12.field64 = HorizontalAlignment.getWidget(y);
                                     Client.field741 = x;
                                 } else if (actionOpcode == 44) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -682,7 +682,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 45) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -696,7 +696,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 46) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -710,7 +710,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 47) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -724,7 +724,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 48) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -738,7 +738,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 49) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -752,7 +752,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 50) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;
@@ -766,7 +766,7 @@ public class SoundCache {
                                         Client.packetWriter.addNode(var9);
                                     }
                                 } else if (actionOpcode == 51) {
-                                    targetPlayer = Client.players[menuIndex];
+                                    targetPlayer = Client.gpiLocalPlayers[menuIndex];
                                     if (targetPlayer != null) {
                                         Client.mouseCrossX = mouseX;
                                         Client.mouseCrossY = mouseY;

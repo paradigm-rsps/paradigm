@@ -171,21 +171,21 @@ public final class NPC extends Actor {
 	}
 
 	static final void drawEntities(int var0, int var1, int var2, int var3) {
-		++Client.viewportDrawCount;
-		class144.method3014();
-		VertexNormal.method4498();
-		if (Client.combatTargetPlayerIndex >= 0 && Client.players[Client.combatTargetPlayerIndex] != null) {
-			class166.addPlayerToScene(Client.players[Client.combatTargetPlayerIndex], false);
-		}
+        ++Client.viewportDrawCount;
+        class144.method3014();
+        VertexNormal.method4498();
+        if (Client.combatTargetPlayerIndex >= 0 && Client.gpiLocalPlayers[Client.combatTargetPlayerIndex] != null) {
+            class166.addPlayerToScene(Client.gpiLocalPlayers[Client.combatTargetPlayerIndex], false);
+        }
 
-		ItemContainer.addNpcsToScene(true);
-		ItemComposition.method3751();
-		ItemContainer.addNpcsToScene(false);
+        ItemContainer.addNpcsToScene(true);
+        ItemComposition.method3751();
+        ItemContainer.addNpcsToScene(false);
 
-		int var6;
-		for (Projectile var4 = (Projectile)Client.projectiles.last(); var4 != null; var4 = (Projectile)Client.projectiles.previous()) {
-			if (var4.plane == class160.Client_plane && Client.cycle <= var4.cycleEnd) {
-				if (Client.cycle >= var4.cycleStart) {
+        int var6;
+        for (Projectile var4 = (Projectile) Client.projectiles.last(); var4 != null; var4 = (Projectile) Client.projectiles.previous()) {
+            if (var4.plane == class160.Client_plane && Client.cycle <= var4.cycleEnd) {
+                if (Client.cycle >= var4.cycleStart) {
 					if (var4.targetIndex > 0) {
 						NPC var18 = Client.npcs[var4.targetIndex - 1];
 						if (var18 != null && var18.x >= 0 && var18.x < 13312 && var18.y >= 0 && var18.y < 13312) {
@@ -199,7 +199,7 @@ public final class NPC extends Actor {
 						if (var6 == Client.localPlayerIndex) {
 							var20 = class19.localPlayer;
 						} else {
-							var20 = Client.players[var6];
+                            var20 = Client.gpiLocalPlayers[var6];
 						}
 
 						if (var20 != null && var20.x >= 0 && var20.x < 13312 && var20.y >= 0 && var20.y < 13312) {

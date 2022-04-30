@@ -16,7 +16,7 @@ public class Strings {
 	static final void readPlayerGpi(PacketBuffer var0) {
 		var0.toBitMode();
 		int var1 = Client.localPlayerIndex;
-		Player var2 = class19.localPlayer = Client.players[var1] = new Player();
+        Player var2 = class19.localPlayer = Client.gpiLocalPlayers[var1] = new Player();
         var2.index = var1;
         int var3 = var0.readBits(30);
         byte var4 = (byte) (var3 >> 28);
@@ -31,10 +31,10 @@ public class Strings {
             var2.read(Players.cached_appearances[var1]);
         }
 
-        Players.localPlayerCount = 0;
-        Players.localPlayerIndexes[++Players.localPlayerCount - 1] = var1;
-        Players.skipFlags[var1] = 0;
-        Players.externalPlayerCount = 0;
+        Players.gpiLocalPlayerCount = 0;
+        Players.gpiLocalPlayerIndexes[++Players.gpiLocalPlayerCount - 1] = var1;
+        Players.gpiSkipFlags[var1] = 0;
+        Players.gpiExternalPlayerCount = 0;
 
         for (int var7 = 1; var7 < 2048; ++var7) {
             if (var7 != var1) {
@@ -45,8 +45,8 @@ public class Strings {
                 Players.Players_regions[var7] = (var10 << 14) + var11 + (var9 << 28);
                 Players.Players_orientations[var7] = 0;
                 Players.Players_targetIndices[var7] = -1;
-                Players.externalPlayerIndexes[++Players.externalPlayerCount - 1] = var7;
-                Players.skipFlags[var7] = 0;
+                Players.gpiExternalPlayerIndexes[++Players.gpiExternalPlayerCount - 1] = var7;
+                Players.gpiSkipFlags[var7] = 0;
             }
 		}
 
@@ -58,8 +58,8 @@ public class Strings {
 	}
 
 	static final void method5795() {
-        for (int var0 = 0; var0 < Players.localPlayerCount; ++var0) {
-            Player var1 = Client.players[Players.localPlayerIndexes[var0]];
+        for (int var0 = 0; var0 < Players.gpiLocalPlayerCount; ++var0) {
+            Player var1 = Client.gpiLocalPlayers[Players.gpiLocalPlayerIndexes[var0]];
             var1.clearIsFriend();
         }
 

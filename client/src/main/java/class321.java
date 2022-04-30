@@ -118,7 +118,7 @@ public class class321 {
 			}
 
 			for (var7 = 0; var7 < 2048; ++var7) {
-				Player var22 = Client.players[var7];
+				Player var22 = Client.gpiLocalPlayers[var7];
 				if (var22 != null) {
 					for (var9 = 0; var9 < 10; ++var9) {
 						var10000 = var22.pathX;

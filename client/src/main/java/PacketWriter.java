@@ -134,7 +134,7 @@ public class PacketWriter {
 		Client.playerAttackOption = AttackOption.AttackOption_hidden;
 		Client.npcAttackOption = AttackOption.AttackOption_hidden;
 		Client.npcCount = 0;
-		Players.localPlayerCount = 0;
+        Players.gpiLocalPlayerCount = 0;
 
 		int var0;
 		for (var0 = 0; var0 < 2048; ++var0) {
@@ -143,7 +143,7 @@ public class PacketWriter {
 		}
 
 		for (var0 = 0; var0 < 2048; ++var0) {
-			Client.players[var0] = null;
+            Client.gpiLocalPlayers[var0] = null;
 		}
 
 		for (var0 = 0; var0 < 32768; ++var0) {

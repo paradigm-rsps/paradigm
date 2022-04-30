@@ -1,31 +1,31 @@
 public class Players {
-    static byte[] skipFlags;
+    static byte[] gpiSkipFlags;
     static class193[] movementTypes;
     static Buffer[] cached_appearances;
-    static int localPlayerCount;
-    static int[] localPlayerIndexes;
-    static int externalPlayerCount;
-    static int[] externalPlayerIndexes;
+    static int gpiLocalPlayerCount;
+    static int[] gpiLocalPlayerIndexes;
+    static int gpiExternalPlayerCount;
+    static int[] gpiExternalPlayerIndexes;
     static int[] Players_regions;
     static int[] Players_orientations;
     static int[] Players_targetIndices;
-    static int Players_pendingUpdateCount;
-    static int[] Players_pendingUpdateIndices;
+    static int changedPlayerUpdatesCount;
+    static int[] changedPlayerUpdates;
     static Buffer field1299;
 
     static {
-        skipFlags = new byte[2048];
+        gpiSkipFlags = new byte[2048];
         movementTypes = new class193[2048];
         cached_appearances = new Buffer[2048];
-        localPlayerCount = 0;
-        localPlayerIndexes = new int[2048];
-        externalPlayerCount = 0;
-        externalPlayerIndexes = new int[2048];
+        gpiLocalPlayerCount = 0;
+        gpiLocalPlayerIndexes = new int[2048];
+        gpiExternalPlayerCount = 0;
+        gpiExternalPlayerIndexes = new int[2048];
         Players_regions = new int[2048];
         Players_orientations = new int[2048];
         Players_targetIndices = new int[2048];
-        Players_pendingUpdateCount = 0;
-        Players_pendingUpdateIndices = new int[2048];
+        changedPlayerUpdatesCount = 0;
+        changedPlayerUpdates = new int[2048];
         field1299 = new Buffer(new byte[5000]);
     }
 

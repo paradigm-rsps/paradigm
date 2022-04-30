@@ -24,29 +24,29 @@ public class UserComparator8 extends AbstractUserComparator {
 		return this.compareBuddy((Buddy) var1, (Buddy) var2);
 	}
 
-	static final void updatePlayers(PacketBuffer buf) {
+	static final void updateGpi(PacketBuffer buf) {
 		int skipCount = 0;
 		buf.toBitMode();
 
 		byte[] skipFlags;
-		int i;
+		int index;
 		int shouldUpdate;
 		int playerIndex;
-		for (i = 0; i < Players.localPlayerCount; ++i) {
-			playerIndex = Players.localPlayerIndexes[i];
-			if ((Players.skipFlags[playerIndex] & 1) == 0) {
+		for (index = 0; index < Players.gpiLocalPlayerCount; ++index) {
+			playerIndex = Players.gpiLocalPlayerIndexes[index];
+			if ((Players.gpiSkipFlags[playerIndex] & 1) == 0) {
 				if (skipCount > 0) {
 					--skipCount;
-					skipFlags = Players.skipFlags;
+					skipFlags = Players.gpiSkipFlags;
 					skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 				} else {
 					shouldUpdate = buf.readBits(1);
 					if (shouldUpdate == 0) {
 						skipCount = NPCComposition.readSkipCount(buf);
-						skipFlags = Players.skipFlags;
+						skipFlags = Players.gpiSkipFlags;
 						skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 					} else {
-						WorldMapLabelSize.updateLocalPlayer(buf, playerIndex);
+						WorldMapLabelSize.readLocalPlayerGpiUpdates(buf, playerIndex);
 					}
 				}
 			}
@@ -58,21 +58,21 @@ public class UserComparator8 extends AbstractUserComparator {
 		} else {
 			buf.toBitMode();
 
-			for (i = 0; i < Players.localPlayerCount; ++i) {
-				playerIndex = Players.localPlayerIndexes[i];
-				if ((Players.skipFlags[playerIndex] & 1) != 0) {
+			for (index = 0; index < Players.gpiLocalPlayerCount; ++index) {
+				playerIndex = Players.gpiLocalPlayerIndexes[index];
+				if ((Players.gpiSkipFlags[playerIndex] & 1) != 0) {
 					if (skipCount > 0) {
 						--skipCount;
-						skipFlags = Players.skipFlags;
+						skipFlags = Players.gpiSkipFlags;
 						skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 					} else {
 						shouldUpdate = buf.readBits(1);
 						if (shouldUpdate == 0) {
 							skipCount = NPCComposition.readSkipCount(buf);
-							skipFlags = Players.skipFlags;
+							skipFlags = Players.gpiSkipFlags;
 							skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 						} else {
-							WorldMapLabelSize.updateLocalPlayer(buf, playerIndex);
+							WorldMapLabelSize.readLocalPlayerGpiUpdates(buf, playerIndex);
 						}
 					}
 				}
@@ -84,21 +84,21 @@ public class UserComparator8 extends AbstractUserComparator {
 			} else {
 				buf.toBitMode();
 
-				for (i = 0; i < Players.externalPlayerCount; ++i) {
-					playerIndex = Players.externalPlayerIndexes[i];
-					if ((Players.skipFlags[playerIndex] & 1) != 0) {
+				for (index = 0; index < Players.gpiExternalPlayerCount; ++index) {
+					playerIndex = Players.gpiExternalPlayerIndexes[index];
+					if ((Players.gpiSkipFlags[playerIndex] & 1) != 0) {
 						if (skipCount > 0) {
 							--skipCount;
-							skipFlags = Players.skipFlags;
+							skipFlags = Players.gpiSkipFlags;
 							skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 						} else {
 							shouldUpdate = buf.readBits(1);
 							if (shouldUpdate == 0) {
 								skipCount = NPCComposition.readSkipCount(buf);
-								skipFlags = Players.skipFlags;
+								skipFlags = Players.gpiSkipFlags;
 								skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
-							} else if (class9.updateExternalPlayer(buf, playerIndex)) {
-								skipFlags = Players.skipFlags;
+							} else if (class9.readExternalPlayerGpiUpdates(buf, playerIndex)) {
+								skipFlags = Players.gpiSkipFlags;
 								skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 							}
 						}
@@ -111,21 +111,21 @@ public class UserComparator8 extends AbstractUserComparator {
 				} else {
 					buf.toBitMode();
 
-					for (i = 0; i < Players.externalPlayerCount; ++i) {
-						playerIndex = Players.externalPlayerIndexes[i];
-						if ((Players.skipFlags[playerIndex] & 1) == 0) {
+					for (index = 0; index < Players.gpiExternalPlayerCount; ++index) {
+						playerIndex = Players.gpiExternalPlayerIndexes[index];
+						if ((Players.gpiSkipFlags[playerIndex] & 1) == 0) {
 							if (skipCount > 0) {
 								--skipCount;
-								skipFlags = Players.skipFlags;
+								skipFlags = Players.gpiSkipFlags;
 								skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 							} else {
 								shouldUpdate = buf.readBits(1);
 								if (shouldUpdate == 0) {
 									skipCount = NPCComposition.readSkipCount(buf);
-									skipFlags = Players.skipFlags;
+									skipFlags = Players.gpiSkipFlags;
 									skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
-								} else if (class9.updateExternalPlayer(buf, playerIndex)) {
-									skipFlags = Players.skipFlags;
+								} else if (class9.readExternalPlayerGpiUpdates(buf, playerIndex)) {
+									skipFlags = Players.gpiSkipFlags;
 									skipFlags[playerIndex] = (byte) (skipFlags[playerIndex] | 2);
 								}
 							}
@@ -136,17 +136,17 @@ public class UserComparator8 extends AbstractUserComparator {
 					if (skipCount != 0) {
 						throw new RuntimeException();
 					} else {
-						Players.localPlayerCount = 0;
-						Players.externalPlayerCount = 0;
+						Players.gpiLocalPlayerCount = 0;
+						Players.gpiExternalPlayerCount = 0;
 
-						for (i = 1; i < 2048; ++i) {
-							skipFlags = Players.skipFlags;
-							skipFlags[i] = (byte) (skipFlags[i] >> 1);
-							Player var3 = Client.players[i];
-							if (var3 != null) {
-								Players.localPlayerIndexes[++Players.localPlayerCount - 1] = i;
+						for (index = 1; index < 2048; ++index) {
+							skipFlags = Players.gpiSkipFlags;
+							skipFlags[index] = (byte) (skipFlags[index] >> 1);
+							Player player = Client.gpiLocalPlayers[index];
+							if (player != null) {
+								Players.gpiLocalPlayerIndexes[++Players.gpiLocalPlayerCount - 1] = index;
 							} else {
-								Players.externalPlayerIndexes[++Players.externalPlayerCount - 1] = i;
+								Players.gpiExternalPlayerIndexes[++Players.gpiExternalPlayerCount - 1] = index;
 							}
 						}
 

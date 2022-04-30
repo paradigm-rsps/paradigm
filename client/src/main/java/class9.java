@@ -60,30 +60,30 @@ public class class9 implements MouseWheel {
 		}
 	}
 
-	static boolean updateExternalPlayer(PacketBuffer var0, int var1) {
-		int var2 = var0.readBits(2);
-		int var3;
-		int var4;
-		int var7;
-		int var8;
-		int var9;
-		int var10;
-		if (var2 == 0) {
-			if (var0.readBits(1) != 0) {
-				updateExternalPlayer(var0, var1);
+	static boolean readExternalPlayerGpiUpdates(PacketBuffer var0, int var1) {
+        int var2 = var0.readBits(2);
+        int var3;
+        int var4;
+        int var7;
+        int var8;
+        int var9;
+        int var10;
+        if (var2 == 0) {
+            if (var0.readBits(1) != 0) {
+                readExternalPlayerGpiUpdates(var0, var1);
 			}
 
 			var3 = var0.readBits(13);
 			var4 = var0.readBits(13);
 			boolean var12 = var0.readBits(1) == 1;
 			if (var12) {
-				Players.Players_pendingUpdateIndices[++Players.Players_pendingUpdateCount - 1] = var1;
+                Players.changedPlayerUpdates[++Players.changedPlayerUpdatesCount - 1] = var1;
 			}
 
-			if (Client.players[var1] != null) {
-				throw new RuntimeException();
-			} else {
-                Player var11 = Client.players[var1] = new Player();
+            if (Client.gpiLocalPlayers[var1] != null) {
+                throw new RuntimeException();
+            } else {
+                Player var11 = Client.gpiLocalPlayers[var1] = new Player();
                 var11.index = var1;
                 if (Players.cached_appearances[var1] != null) {
                     var11.read(Players.cached_appearances[var1]);

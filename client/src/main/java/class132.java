@@ -647,11 +647,11 @@ public class class132 extends class128 {
                             }
                         }
 
-                        var26 = Players.localPlayerCount;
-                        var35 = Players.localPlayerIndexes;
+                        var26 = Players.gpiLocalPlayerCount;
+                        var35 = Players.gpiLocalPlayerIndexes;
 
                         for (var34 = 0; var34 < var26; ++var34) {
-                            var20 = Client.players[var35[var34]];
+                            var20 = Client.gpiLocalPlayers[var35[var34]];
                             if (var20 != null && var30.x == var20.x && var20.y == var30.y) {
                                 WorldMapSprite.addPlayerToMenu(var20, var35[var34], var24, var12);
                             }
@@ -662,7 +662,7 @@ public class class132 extends class128 {
 				}
 
 				if (var14 == 0) {
-					Player var31 = Client.players[var25];
+                    Player var31 = Client.gpiLocalPlayers[var25];
 					if (var31 == null) {
 						continue;
 					}
@@ -675,11 +675,11 @@ public class class132 extends class128 {
                             }
                         }
 
-                        var26 = Players.localPlayerCount;
-                        var35 = Players.localPlayerIndexes;
+                        var26 = Players.gpiLocalPlayerCount;
+                        var35 = Players.gpiLocalPlayerIndexes;
 
                         for (var34 = 0; var34 < var26; ++var34) {
-                            var20 = Client.players[var35[var34]];
+                            var20 = Client.gpiLocalPlayers[var35[var34]];
                             if (var20 != null && var20 != var31 && var20.x == var31.x && var20.y == var31.y) {
                                 WorldMapSprite.addPlayerToMenu(var20, var35[var34], var24, var12);
                             }
@@ -746,8 +746,8 @@ public class class132 extends class128 {
 
 		if (-1L != var4) {
 			var8 = (int)(var4 >>> 0 & 127L);
-			int var10 = PcmPlayer.method771(var4);
-			Player var11 = Client.players[Client.combatTargetPlayerIndex];
+            int var10 = PcmPlayer.method771(var4);
+            Player var11 = Client.gpiLocalPlayers[Client.combatTargetPlayerIndex];
 			WorldMapSprite.addPlayerToMenu(var11, Client.combatTargetPlayerIndex, var8, var10);
 		}
 

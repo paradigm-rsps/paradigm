@@ -81,14 +81,14 @@ public class InterfaceParent extends Node {
         boolean var4 = false;
         int var5 = -1;
         int var6 = -1;
-        int var7 = Players.localPlayerCount;
-        int[] var8 = Players.localPlayerIndexes;
+        int var7 = Players.gpiLocalPlayerCount;
+        int[] var8 = Players.gpiLocalPlayerIndexes;
 
         int var9;
         for (var9 = 0; var9 < var7 + Client.npcCount; ++var9) {
             Object var20;
             if (var9 < var7) {
-                var20 = Client.players[var8[var9]];
+                var20 = Client.gpiLocalPlayers[var8[var9]];
                 if (var8[var9] == Client.combatTargetPlayerIndex) {
                     var4 = true;
                     var5 = var9;
@@ -111,7 +111,7 @@ public class InterfaceParent extends Node {
 		}
 
 		if (var4) {
-			class116.drawActor2d(Client.players[Client.combatTargetPlayerIndex], var5, var0, var1, var2, var3);
+            class116.drawActor2d(Client.gpiLocalPlayers[Client.combatTargetPlayerIndex], var5, var0, var1, var2, var3);
 		}
 
 		for (var9 = 0; var9 < Client.overheadTextCount; ++var9) {

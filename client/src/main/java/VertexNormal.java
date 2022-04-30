@@ -33,18 +33,18 @@ public class VertexNormal {
 	}
 
 	static void method4497(int var0, String var1) {
-		int var2 = Players.localPlayerCount;
-		int[] var3 = Players.localPlayerIndexes;
-		boolean var4 = false;
-		Username var5 = new Username(var1, class83.loginType);
+        int var2 = Players.gpiLocalPlayerCount;
+        int[] var3 = Players.gpiLocalPlayerIndexes;
+        boolean var4 = false;
+        Username var5 = new Username(var1, class83.loginType);
 
-		for (int var6 = 0; var6 < var2; ++var6) {
-			Player var7 = Client.players[var3[var6]];
-			if (var7 != null && var7 != class19.localPlayer && var7.username != null && var7.username.equals(var5)) {
-				PacketBufferNode var8;
-				if (var0 == 1) {
-					var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2913, Client.packetWriter.isaacCipher);
-					var8.packetBuffer.writeShortLE(var3[var6]);
+        for (int var6 = 0; var6 < var2; ++var6) {
+            Player var7 = Client.gpiLocalPlayers[var3[var6]];
+            if (var7 != null && var7 != class19.localPlayer && var7.username != null && var7.username.equals(var5)) {
+                PacketBufferNode var8;
+                if (var0 == 1) {
+                    var8 = ItemContainer.getPacketBufferNode(ClientPacket.field2913, Client.packetWriter.isaacCipher);
+                    var8.packetBuffer.writeShortLE(var3[var6]);
                     var8.packetBuffer.method7786(0);
 					Client.packetWriter.addNode(var8);
 				} else if (var0 == 4) {

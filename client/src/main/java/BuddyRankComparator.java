@@ -213,7 +213,7 @@ public class BuddyRankComparator extends AbstractUserComparator {
 				if (var0.targetIndex < 32768) {
 					var13 = Client.npcs[var0.targetIndex];
 				} else if (var0.targetIndex >= 32768) {
-					var13 = Client.players[var0.targetIndex - 32768];
+					var13 = Client.gpiLocalPlayers[var0.targetIndex - 32768];
 				}
 
 				if (var13 != null) {

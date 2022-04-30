@@ -36,17 +36,17 @@ public class WorldMapLabelSize {
 		return null;
 	}
 
-	static void updateLocalPlayer(PacketBuffer var0, int var1) {
-        boolean var2 = var0.readBits(1) == 1;
-        if (var2) {
-            Players.Players_pendingUpdateIndices[++Players.Players_pendingUpdateCount - 1] = var1;
-        }
+	static void readLocalPlayerGpiUpdates(PacketBuffer var0, int var1) {
+		boolean var2 = var0.readBits(1) == 1;
+		if (var2) {
+			Players.changedPlayerUpdates[++Players.changedPlayerUpdatesCount - 1] = var1;
+		}
 
-        int var3 = var0.readBits(2);
-        Player var4 = Client.players[var1];
-        if (var3 == 0) {
-            if (var2) {
-                var4.field1109 = false;
+		int var3 = var0.readBits(2);
+		Player var4 = Client.gpiLocalPlayers[var1];
+		if (var3 == 0) {
+			if (var2) {
+				var4.field1109 = false;
 			} else if (Client.localPlayerIndex == var1) {
 				throw new RuntimeException();
 			} else {
@@ -58,9 +58,9 @@ public class WorldMapLabelSize {
 				}
 
 				Players.Players_targetIndices[var1] = var4.targetIndex;
-				Client.players[var1] = null;
+				Client.gpiLocalPlayers[var1] = null;
 				if (var0.readBits(1) != 0) {
-					class9.updateExternalPlayer(var0, var1);
+					class9.readExternalPlayerGpiUpdates(var0, var1);
 				}
 
 			}
@@ -460,28 +460,28 @@ public class WorldMapLabelSize {
 						NPCComposition var18 = var9.definition;
 						if (var18 != null && var18.transforms != null) {
 							var18 = var18.transform();
-                        }
+						}
 
-                        if (var18 != null && var18.drawMapDot && var18.isInteractable) {
-                            var11 = var9.x / 32 - class19.localPlayer.x / 32;
-                            var12 = var9.y / 32 - class19.localPlayer.y / 32;
-                            Messages.drawSpriteOnMinimap(var1, var2, var11, var12, class142.mapDotSprites[1], var4);
-                        }
-                    }
-                }
+						if (var18 != null && var18.drawMapDot && var18.isInteractable) {
+							var11 = var9.x / 32 - class19.localPlayer.x / 32;
+							var12 = var9.y / 32 - class19.localPlayer.y / 32;
+							Messages.drawSpriteOnMinimap(var1, var2, var11, var12, class142.mapDotSprites[1], var4);
+						}
+					}
+				}
 
-                var8 = Players.localPlayerCount;
-                int[] var17 = Players.localPlayerIndexes;
+				var8 = Players.gpiLocalPlayerCount;
+				int[] var17 = Players.gpiLocalPlayerIndexes;
 
-                for (var10 = 0; var10 < var8; ++var10) {
-                    Player var15 = Client.players[var17[var10]];
-                    if (var15 != null && var15.isVisible() && !var15.isHidden && var15 != class19.localPlayer) {
-                        var12 = var15.x / 32 - class19.localPlayer.x / 32;
-                        int var13 = var15.y / 32 - class19.localPlayer.y / 32;
-                        if (var15.isFriend()) {
-                            Messages.drawSpriteOnMinimap(var1, var2, var12, var13, class142.mapDotSprites[3], var4);
-                        } else if (class19.localPlayer.team != 0 && var15.team != 0 && var15.team == class19.localPlayer.team) {
-                            Messages.drawSpriteOnMinimap(var1, var2, var12, var13, class142.mapDotSprites[4], var4);
+				for (var10 = 0; var10 < var8; ++var10) {
+					Player var15 = Client.gpiLocalPlayers[var17[var10]];
+					if (var15 != null && var15.isVisible() && !var15.isHidden && var15 != class19.localPlayer) {
+						var12 = var15.x / 32 - class19.localPlayer.x / 32;
+						int var13 = var15.y / 32 - class19.localPlayer.y / 32;
+						if (var15.isFriend()) {
+							Messages.drawSpriteOnMinimap(var1, var2, var12, var13, class142.mapDotSprites[3], var4);
+						} else if (class19.localPlayer.team != 0 && var15.team != 0 && var15.team == class19.localPlayer.team) {
+							Messages.drawSpriteOnMinimap(var1, var2, var12, var13, class142.mapDotSprites[4], var4);
 						} else if (var15.isFriendsChatMember()) {
 							Messages.drawSpriteOnMinimap(var1, var2, var12, var13, class142.mapDotSprites[5], var4);
 						} else if (var15.isClanMember()) {
@@ -508,8 +508,8 @@ public class WorldMapLabelSize {
 						NetFileRequest.worldToMinimap(var1, var2, var10, var11, class17.mapMarkerSprites[1], var4);
 					}
 
-					if (Client.hintArrowType == 10 && Client.hintArrowPlayerIndex >= 0 && Client.hintArrowPlayerIndex < Client.players.length) {
-						Player var20 = Client.players[Client.hintArrowPlayerIndex];
+					if (Client.hintArrowType == 10 && Client.hintArrowPlayerIndex >= 0 && Client.hintArrowPlayerIndex < Client.gpiLocalPlayers.length) {
+						Player var20 = Client.gpiLocalPlayers[Client.hintArrowPlayerIndex];
 						if (var20 != null) {
 							var11 = var20.x / 32 - class19.localPlayer.x / 32;
 							var12 = var20.y / 32 - class19.localPlayer.y / 32;

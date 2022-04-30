@@ -54,8 +54,8 @@ public enum class116 implements MouseWheel {
                 }
             }
 
-            int var75 = Players.localPlayerCount;
-            int[] var7 = Players.localPlayerIndexes;
+            int var75 = Players.gpiLocalPlayerCount;
+            int[] var7 = Players.gpiLocalPlayerIndexes;
             byte var8 = 0;
             if (var1 < var75 && var0.playerCycle == Client.cycle && ItemComposition.method3706((Player) var0)) {
                 Player var9 = (Player) var0;

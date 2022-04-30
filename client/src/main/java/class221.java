@@ -199,7 +199,7 @@ public class class221 {
 					if (var3 == Client.localPlayerIndex) {
 						var17 = class19.localPlayer;
 					} else {
-						var17 = Client.players[var3];
+						var17 = Client.gpiLocalPlayers[var3];
 					}
 
 					if (var17 != null) {

@@ -585,12 +585,12 @@ public class ItemComposition extends DualNode {
 	}
 
 	static void method3751() {
-        int var0 = Players.localPlayerCount;
-        int[] var1 = Players.localPlayerIndexes;
+        int var0 = Players.gpiLocalPlayerCount;
+        int[] var1 = Players.gpiLocalPlayerIndexes;
 
         for (int var2 = 0; var2 < var0; ++var2) {
             if (var1[var2] != Client.combatTargetPlayerIndex && var1[var2] != Client.localPlayerIndex) {
-                class166.addPlayerToScene(Client.players[var1[var2]], true);
+                class166.addPlayerToScene(Client.gpiLocalPlayers[var1[var2]], true);
             }
         }
 

@@ -48,11 +48,11 @@ public class VarpDefinition extends DualNode {
 	}
 
 	static final void method3345() {
-		int[] var0 = Players.localPlayerIndexes;
+        int[] var0 = Players.gpiLocalPlayerIndexes;
 
-		int var1;
-        for (var1 = 0; var1 < Players.localPlayerCount; ++var1) {
-            Player var4 = Client.players[var0[var1]];
+        int var1;
+        for (var1 = 0; var1 < Players.gpiLocalPlayerCount; ++var1) {
+            Player var4 = Client.gpiLocalPlayers[var0[var1]];
             if (var4 != null && var4.overheadTextCyclesRemaining > 0) {
                 --var4.overheadTextCyclesRemaining;
                 if (var4.overheadTextCyclesRemaining == 0) {
@@ -61,8 +61,8 @@ public class VarpDefinition extends DualNode {
             }
         }
 
-		for (var1 = 0; var1 < Client.npcCount; ++var1) {
-			int var2 = Client.npcIndices[var1];
+        for (var1 = 0; var1 < Client.npcCount; ++var1) {
+            int var2 = Client.npcIndices[var1];
 			NPC var3 = Client.npcs[var2];
 			if (var3 != null && var3.overheadTextCyclesRemaining > 0) {
 				--var3.overheadTextCyclesRemaining;
