@@ -47,6 +47,7 @@ class JsonPlayerSerializer : PlayerSerializer {
 
         val player = Player(session)
         player.username = username.sanitize()
+        player.displayName = username.sanitize()
         player.passwordHash = SHA256.hash(password)
 
         /*

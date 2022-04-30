@@ -47,7 +47,8 @@ class PlayerUpdateFlag(
                 appBuf.writeShort(animation)
             }
 
-            val displayName = if (player.privilege.id > 0) "<img=${player.privilege.id}>" else "" + player.displayName
+            val displayName =
+                (if (player.privilege.id > 0) "<img=${player.privilege.id - 2}>" else "") + player.displayName
             appBuf.writeString(displayName)
             appBuf.writeByte(player.combatLevel)
             appBuf.writeShort(0)
